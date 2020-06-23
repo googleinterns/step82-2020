@@ -27,7 +27,7 @@ While in your preferred terminal;
 Start by cloning the repository to your local machine
 
 ```bash
-git clone https://github.com/alisa-lin/clink.git
+git clone https://github.com/googleinterns/step82-2020.git
 
 cd clink
 ```
@@ -35,7 +35,7 @@ cd clink
 Make and activate a python virtual environment using `virtualenv`
 
 ```bash
-virtualenv venv (this did not work for me but pyhton3 -m venv venv did)
+virtualenv venv (alternatively: pyhton3 -m venv venv)
 
 source venv/bin/activate
 ```
@@ -66,7 +66,7 @@ visit http://127.0.0.1:5000/ to view your application.
 
 ## Built With
 
-- [Flask](http://flask.palletsprojects.com/en/1.1.x/) -A python web framework
+- [Flask](http://flask.palletsprojects.com/en/1.1.x/) - A python web framework
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
 
 ## Authors
