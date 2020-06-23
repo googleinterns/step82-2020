@@ -35,7 +35,7 @@ cd clink
 Make and activate a python virtual environment using `virtualenv`
 
 ```bash
-virtualenv venv (this didn't work for me but pyhton3 -m venv venv did)
+virtualenv venv (this did not work for me but pyhton3 -m venv venv did)
 
 source venv/bin/activate
 ```
