@@ -3,8 +3,8 @@ import {Switch, Route} from 'react-router-dom';
 import LoginPage from './components/Auth/LoginPage';
 import SignUpPage from './components/Auth/SignUpPage';
 import Dashboard from './components/Dashboard';
+import Home from './components/Home';
 import Users from './components/Users';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -20,6 +20,9 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/">
+            <Home />
           </Route>
           <Route path="/users">
             <Users />
