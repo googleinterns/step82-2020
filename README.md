@@ -27,15 +27,15 @@ While in your preferred terminal;
 Start by cloning the repository to your local machine
 
 ```bash
-git clone https://github.com/learningdollars/sushan-reactapp-flask.git
+git clone https://github.com/alisa-lin/clink.git
 
-cd sushan-reactapp-flask/
+cd clink
 ```
 
 Make and activate a python virtual environment using `virtualenv`
 
 ```bash
-virtualenv venv
+virtualenv venv (this didn't work for me but pyhton3 -m venv venv did)
 
 source venv/bin/activate
 ```
