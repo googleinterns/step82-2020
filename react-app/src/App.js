@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import LoginPage from './components/Auth/LoginPage';
 import SignUpPage from './components/Auth/SignUpPage';
 import Dashboard from './components/Dashboard';
@@ -8,6 +8,7 @@ import Users from './components/Users';
 import './App.css';
 
 function App() {
+  
   return (
     <Router>
       <div>
