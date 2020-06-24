@@ -59,7 +59,9 @@ yarn install
 You can start a local server by running
 
 ```bash
-cd flask-server
+cd react-app
+npm run build
+cd ../flask-server
 python3 main.py
 ```
 visit http://127.0.0.1:5000/ to view your application.
