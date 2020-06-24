@@ -29,7 +29,7 @@ Start by cloning the repository to your local machine
 ```bash
 git clone https://github.com/googleinterns/step82-2020.git
 
-cd clink
+cd step82-2020
 ```
 
 Make and activate a python virtual environment using `virtualenv`
