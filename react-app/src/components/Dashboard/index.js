@@ -83,7 +83,7 @@ const Dashboard = () => {
                 Clink 15
                 </Menu.Item>
                 <Menu.Item key="16">
-                nav 16
+                Clink 16
                 </Menu.Item>
                 <Menu.Item key="17">
                 Clink 17
@@ -94,7 +94,7 @@ const Dashboard = () => {
             </Menu>
             </Sider>
         </div>
-        <Layout className="site-layout" style={{ marginLeft: 200 }}>
+        <Layout className="site-layout" style={{ marginLeft: 50, marginRight: 50 }}>
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
