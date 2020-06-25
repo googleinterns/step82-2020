@@ -10,16 +10,19 @@ const Dashboard = () => {
     return (
 
     <Layout>
-        <div>
+        <div>           
             <Sider
             style={{               
                 height: '17vh',
                 position: 'relative',
                 left: 0,
+                maxWidth: '250px',
+                minWidth: '250px',
+                width: '250px'
             }}
             >
-            <div className="logo" />
             <Menu theme="dark" mode="inline">
+            <div className="logo" />
                 <Menu.Item key="new" icon={<PlusOutlined />}>
                 New
                 </Menu.Item>
@@ -31,6 +34,9 @@ const Dashboard = () => {
                 height: '83vh',
                 position: 'fixed',
                 left: 0,
+                maxWidth: '250px',
+                minWidth: '250px',
+                width: '250px'                
             }}
             >
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['all']}>
@@ -94,9 +100,9 @@ const Dashboard = () => {
             </Menu>
             </Sider>
         </div>
-        <Layout className="site-layout" style={{ marginLeft: 50, marginRight: 50 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Layout className="site-layout">
+        <Header style={{ position: 'relative', height: '159px' }} />         
+        <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
             <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
             
             </div>
