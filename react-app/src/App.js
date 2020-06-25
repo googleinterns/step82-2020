@@ -4,6 +4,7 @@ import LoginPage from './components/Auth/LoginPage';
 import SignUpPage from './components/Auth/SignUpPage';
 import Dashboard from './components/Dashboard';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 import Users from './components/Users';
 import './App.css';
 
@@ -13,21 +14,12 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/sign-up">
-            <SignUpPage />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/sign-up" component={SignUpPage} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/users" component={Users} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </Router>
