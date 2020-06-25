@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
-import PlusOutlined from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -13,89 +12,84 @@ const Dashboard = () => {
     <Layout>
         <div>
             <Sider
-            style={{
-                overflow: 'auto',
-                height: '30vh',
+            style={{               
+                height: '17vh',
                 position: 'relative',
                 left: 0,
             }}
             >
             <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-                <Menu.Item key="1" icon={<PlusOutlined />}>
-                nav 1
-                </Menu.Item>
-                <Menu.Item key="2">
-                nav 2
-                </Menu.Item>
-                <Menu.Item key="3">
-                nav 3
+            <Menu theme="dark" mode="inline">
+                <Menu.Item key="new" icon={<PlusOutlined />}>
+                New
                 </Menu.Item>
             </Menu>
             </Sider>
             <Sider
             style={{
                 overflow: 'auto',
-                height: '70vh',
+                height: '83vh',
                 position: 'fixed',
                 left: 0,
             }}
             >
-            <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-                <Menu.Item key="1" icon={<PlusOutlined />}>
-                nav 1
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['all']}>
+                <Menu.Item key="all">
+                All
+                </Menu.Item>
+                <Menu.Item key="1">
+                Clink 1
                 </Menu.Item>
                 <Menu.Item key="2">
-                nav 2
+                Clink 2
                 </Menu.Item>
                 <Menu.Item key="3">
-                nav 3
+                Clink 3
                 </Menu.Item>
                 <Menu.Item key="4">
-                nav 3
+                Clink 4
                 </Menu.Item>
                 <Menu.Item key="5">
-                nav 3
+                Clink 5
                 </Menu.Item>
                 <Menu.Item key="6">
-                nav 3
+                Clink 6
                 </Menu.Item>
                 <Menu.Item key="7">
-                nav 3
+                Clink 7
                 </Menu.Item>
                 <Menu.Item key="8">
-                nav 3
+                Clink 8
                 </Menu.Item>
                 <Menu.Item key="9">
-                nav 3
+                Clink 9
                 </Menu.Item>
                 <Menu.Item key="10">
-                nav 3
+                Clink 10
                 </Menu.Item>
                 <Menu.Item key="11">
-                nav 3
+                Clink 11
                 </Menu.Item>
                 <Menu.Item key="12">
-                nav 3
+                Clink 12
                 </Menu.Item>
                 <Menu.Item key="13">
-                nav 3
+                Clink 13
                 </Menu.Item>
                 <Menu.Item key="14">
-                nav 3
+                Clink 14
                 </Menu.Item>
                 <Menu.Item key="15">
-                nav 3
+                Clink 15
                 </Menu.Item>
                 <Menu.Item key="16">
-                nav 3
+                nav 16
                 </Menu.Item>
                 <Menu.Item key="17">
-                nav 3
+                Clink 17
                 </Menu.Item>
                 <Menu.Item key="18">
-                nav 3
+                Clink 18
                 </Menu.Item>
             </Menu>
             </Sider>
