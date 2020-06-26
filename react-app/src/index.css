@@ -23,6 +23,19 @@ code {
   height: 85vh;
 }
 
+.home-body {
+  padding-left: 100px;
+}
+
+.home-title {
+  padding: 80px 0px 50px;
+  font-size: 100px;
+}
+
+.home-btn {
+  margin-right: 30px;
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
