@@ -7,7 +7,7 @@ const { Header } = Layout;
 
 const Topbar = () => {
   return (
-    <Header style={{ position: 'relative', height: '153px' }} />
+    <Header className="topbar" />
   )
 }
 
