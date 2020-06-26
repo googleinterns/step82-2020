@@ -23,7 +23,7 @@ code {
   height: 85vh;
 }
 
-.topbar {
+.topbar-wrapper {
   position: relative;
   height: 153px;
 }
@@ -33,6 +33,20 @@ code {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
 }
+
+.top-search {
+  width: 80%;
+}
+
+.top-options {
+  padding: 0px;
+  width: 5%;
+  margin: 15px;
+  float: right;
+  height: 35px;
+  align-items: center;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }
