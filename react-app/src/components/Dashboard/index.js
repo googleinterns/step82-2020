@@ -4,8 +4,8 @@ import '../../index.css';
 import { Layout, Menu } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-
 const { Header, Content, Footer, Sider } = Layout;
+
 const Dashboard = () => {
   return (
 
@@ -17,7 +17,7 @@ const Dashboard = () => {
           width: '250px',
           height: '100vh',
           position: 'fixed',
-          left: 0
+          left: '0px',
         }}
       >
         <Menu theme="dark" mode="inline">
@@ -89,7 +89,7 @@ const Dashboard = () => {
       <Layout className="site-layout" style={{ marginLeft: '200px' }}>
         <Header style={{ position: 'relative', height: '153px' }} />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+          <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
 
           </div>
         </Content>
