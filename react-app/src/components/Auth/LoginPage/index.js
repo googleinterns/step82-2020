@@ -10,9 +10,10 @@ const LoginPage = () => {
   };
 
   return (
+
     <Form
       name="normal_login"
-      className="login-form"
+      className="center login-form"
       initialValues={{
         remember: true,
       }}
@@ -29,6 +30,7 @@ const LoginPage = () => {
       >
         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
       </Form.Item>
+
       <Form.Item
         name="password"
         rules={[
@@ -44,6 +46,7 @@ const LoginPage = () => {
           placeholder="Password"
         />
       </Form.Item>
+      
       <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>

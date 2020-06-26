@@ -1,45 +1,7 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import '../../../index.css';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Checkbox,
-  Button
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+import { Form, Input, Checkbox, Button } from 'antd';
 
 const SignUpPage = () => {
 
@@ -52,7 +14,7 @@ const SignUpPage = () => {
   return (
 
     <Form
-      {...formItemLayout}
+      className="center"
       form={form}
       name="register"
       onFinish={onFinish}
@@ -60,7 +22,6 @@ const SignUpPage = () => {
     >
       <Form.Item
         name="email"
-        label="E-mail"
         rules={[
           {
             type: 'email',
@@ -72,12 +33,11 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="E-mail"/>
       </Form.Item>
 
       <Form.Item
         name="password"
-        label="Password"
         rules={[
           {
             required: true,
@@ -86,12 +46,11 @@ const SignUpPage = () => {
         ]}
         hasFeedback
       >
-        <Input.Password />
+        <Input.Password placeholder="Password"/>
       </Form.Item>
 
       <Form.Item
         name="confirm"
-        label="Confirm Password"
         dependencies={['password']}
         hasFeedback
         rules={[
@@ -110,19 +69,11 @@ const SignUpPage = () => {
           }),
         ]}
       >
-        <Input.Password />
+        <Input.Password placeholder="Confirm Password"/>
       </Form.Item>
 
       <Form.Item
         name="username"
-        label={
-          <span>
-            Username
-            <Tooltip title="What do you want others to call you?">
-              <QuestionCircleOutlined />
-            </Tooltip>
-          </span>
-        }
         rules={[
           {
             required: true,
@@ -131,7 +82,7 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="Username"/>
       </Form.Item>
 
       <Form.Item
@@ -143,13 +94,12 @@ const SignUpPage = () => {
               value ? Promise.resolve() : Promise.reject('Should accept agreement'),
           },
         ]}
-        {...tailFormItemLayout}
       >
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
+      <Form.Item>
         <Button type="primary" htmlType="submit">
           Register
         </Button>

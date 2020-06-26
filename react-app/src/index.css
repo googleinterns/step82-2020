@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.center {
+  display: table;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
