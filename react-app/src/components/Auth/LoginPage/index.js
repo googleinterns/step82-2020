@@ -46,7 +46,7 @@ const LoginPage = () => {
           placeholder="Password"
         />
       </Form.Item>
-      
+
       <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
@@ -59,9 +59,9 @@ const LoginPage = () => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in 
+          Log in
         </Button>
-          {" "} Or <a href="/sign-up">register now!</a>
+        {" "} Or <a href="/sign-up">register now!</a>
       </Form.Item>
     </Form>
   );

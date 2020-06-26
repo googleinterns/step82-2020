@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import '../../../index.css'; 
+import '../../../index.css';
 import { Form, Input, Checkbox, Button } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 const SignUpPage = () => {
 
@@ -34,7 +34,7 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-mail"/>
+        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-mail" />
       </Form.Item>
 
       <Form.Item
@@ -47,7 +47,7 @@ const SignUpPage = () => {
         ]}
         hasFeedback
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
+        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
       </Form.Item>
 
       <Form.Item
@@ -70,7 +70,7 @@ const SignUpPage = () => {
           }),
         ]}
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirm Password"/>
+        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirm Password" />
       </Form.Item>
 
       <Form.Item
@@ -83,7 +83,7 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
       </Form.Item>
 
       <Form.Item
