@@ -8,23 +8,14 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
   return (
-    <Sider
-      style={{
-        maxWidth: '250px',
-        minWidth: '250px',
-        width: '250px',
-        height: '100vh',
-        position: 'fixed',
-        left: '0px',
-      }}
-    >
+    <Sider className = "sidebar">
       <Menu theme="dark" mode="inline">
         <div className="logo" />
         <Menu.Item key="new" icon={<PlusOutlined />}>
           New
       </Menu.Item>
       </Menu>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['all']} style={{ overflow: 'auto', height: '85vh' }}>
+      <Menu className = "sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
         <Menu.Item key="all">
           All
         </Menu.Item>
