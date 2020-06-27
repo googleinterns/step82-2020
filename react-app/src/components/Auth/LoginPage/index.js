@@ -62,7 +62,7 @@ const LoginPage = () => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        {" "} Or <a href="/sign-up">register now!</a>
+          Or <a href="/sign-up">register now!</a>
       </Form.Item>
     </Form>
   );
