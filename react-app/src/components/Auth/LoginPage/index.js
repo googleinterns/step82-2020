@@ -11,7 +11,6 @@ const LoginPage = () => {
   };
 
   return (
-
     <Form
       name="normal_login"
       initialValues={{
