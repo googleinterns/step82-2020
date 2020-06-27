@@ -29,7 +29,7 @@ const LoginPage = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input autocomplete="username" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
       </Form.Item>
 
       <Form.Item
@@ -41,11 +41,7 @@ const LoginPage = () => {
           },
         ]}
       >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
+        <Input.Password autocomplete="current-password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
       </Form.Item>
 
       <Form.Item>

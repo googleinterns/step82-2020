@@ -38,6 +38,19 @@ const SignUpPage = () => {
       </Form.Item>
 
       <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your username!',
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input autocomplete="username" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+      </Form.Item>
+
+      <Form.Item
         name="password"
         rules={[
           {
@@ -47,7 +60,7 @@ const SignUpPage = () => {
         ]}
         hasFeedback
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
+        <Input.Password autocomplete="new-password" prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
       </Form.Item>
 
       <Form.Item
@@ -70,20 +83,7 @@ const SignUpPage = () => {
           }),
         ]}
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirm Password" />
-      </Form.Item>
-
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input.Password autocomplete="new-password" prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirm Password" />
       </Form.Item>
 
       <Form.Item
