@@ -14,7 +14,6 @@ const LoginPage = () => {
 
     <Form
       name="normal_login"
-      className="center login-form"
       initialValues={{
         remember: true,
       }}
@@ -58,7 +57,6 @@ const LoginPage = () => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-          Or <a href="/sign-up">register now!</a>
       </Form.Item>
     </Form>
   );

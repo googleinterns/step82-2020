@@ -15,7 +15,6 @@ const SignUpPage = () => {
   return (
 
     <Form
-      className="center"
       form={form}
       name="register"
       onFinish={onFinish}
@@ -101,7 +100,7 @@ const SignUpPage = () => {
         </Checkbox>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button className="signup-form-button" type="primary" htmlType="submit">
           Register
         </Button>
       </Form.Item>
