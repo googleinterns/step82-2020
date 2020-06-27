@@ -13,7 +13,6 @@ const SignUpPage = () => {
   };
 
   return (
-
     <Form
       form={form}
       name="register"
