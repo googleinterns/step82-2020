@@ -64,7 +64,7 @@ npm run start
 ```
 
 ```bash
-cd ../flask-server
+cd flask-server
 python3 main.py
 ```
 
@@ -76,9 +76,6 @@ You can start a local server by opening two terminals and running
 ```bash
 cd react-app
 npm run build
-```
-
-```bash
 cd ../flask-server
 python3 main.py
 ```
