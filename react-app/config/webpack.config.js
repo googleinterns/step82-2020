@@ -525,10 +525,10 @@ module.exports = function(webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
-            filename: "../../templates/index.html",
           },
           isEnvProduction
             ? {
+                filename: "../../templates/index.html",
                 minify: {
                   removeComments: true,
                   collapseWhitespace: true,
