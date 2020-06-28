@@ -528,7 +528,6 @@ module.exports = function(webpackEnv) {
           },
           isEnvProduction
             ? {
-                filename: "../../templates/index.html",
                 minify: {
                   removeComments: true,
                   collapseWhitespace: true,
