@@ -15,7 +15,7 @@ const SignUpPage = () => {
   return (
 
     <Form
-      className="center"
+      className="center signup-form"
       form={form}
       name="register"
       onFinish={onFinish}
