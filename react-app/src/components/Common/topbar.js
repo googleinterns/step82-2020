@@ -16,8 +16,8 @@ const Topbar = () => {
           onSearch={value => console.log(value)}
           className="top-search"
         />
-        <UserOutlined className="top-options" />
-        <Button className="top-options" type="primary">Log out</Button>
+        <UserOutlined className="top-icon"/>
+        <Button className="top-btn" type="primary">Log out</Button>
       </Menu>
       <Menu theme="dark" mode="inline">
         <h1>TITLE</h1>
