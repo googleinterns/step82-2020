@@ -12,6 +12,12 @@ code {
     monospace;
 }
 
+.new-button {
+  height: 40px!important;
+  width: 100%;
+  text-align-last: left;
+}
+
 .sidebar {
   height: 100vh;
   position: fixed;
