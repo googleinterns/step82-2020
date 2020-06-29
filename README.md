@@ -56,7 +56,22 @@ yarn install
 
 ## Serving the application
 
-You can start a local server by running
+You can start a local server by opening two terminals and running
+
+```bash
+cd react-app
+npm run start
+```
+
+```bash
+cd flask-server
+python3 main.py
+```
+
+visit http://127.0.0.1:3000/ to view your application.
+
+## Build the application for production
+You can start a local server by opening two terminals and running
 
 ```bash
 cd react-app
