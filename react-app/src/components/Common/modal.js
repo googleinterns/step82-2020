@@ -1,17 +1,20 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Button } from 'antd';
 
 class ModalWindow extends React.Component {
-
-  state = {
-    loading: false,
-    visible: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = { loading: false, visible: false };
+  }
+  // state = {
+  //   loading: false,
+  //   visible: false,
+  // };
 
   showModal = () => {
+    console.log('showing modal!')
     this.setState({
       visible: true,
     });
@@ -32,9 +35,7 @@ class ModalWindow extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={this.showModal}>
-          New
-        </Button>
+        {this.props.render(this)}
         <Modal
           visible={visible}
           title="Title"
@@ -49,9 +50,6 @@ class ModalWindow extends React.Component {
             </Button>,
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Modal>

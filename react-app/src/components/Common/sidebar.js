@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
 import ModalWindow from './modal';
+import OpenModal from './openModal';
 
 const { Sider } = Layout;
 
@@ -11,7 +12,7 @@ const Sidebar = () => {
     <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
         <div className="logo" />
-        <ModalWindow />
+        <ModalWindow render={modal => (<OpenModal modal={modal} />)} />
       </Menu>
       <Menu className = "sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
         <Menu.Item key="all">
