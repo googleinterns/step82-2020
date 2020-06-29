@@ -15,10 +15,9 @@ const Dashboard = () => {
       <Layout className="site-layout" style={{ marginLeft: '200px' }}>
       <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
-
-          </div>
+          <div className="site-layout-background" style={{ padding: '24px' }}>
           <Card />
+          </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>
       </Layout>
