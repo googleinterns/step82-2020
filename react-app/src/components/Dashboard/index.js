@@ -4,6 +4,7 @@ import '../../index.css';
 import { Layout } from 'antd';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
+import Card from '../Common/card';
 
 const { Content, Footer } = Layout;
 
@@ -17,6 +18,7 @@ const Dashboard = () => {
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
 
           </div>
+          <Card />
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>
       </Layout>
