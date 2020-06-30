@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Form, Input, Checkbox, Button } from 'antd';
@@ -9,7 +10,20 @@ const SignUpPage = () => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    console.log('Received values of form: ', values);
+    axios.post('/create-user', {
+      email: values.email,
+      username: values.username,
+      password: values.password
+    }, {
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
   };
 
   return (
@@ -32,7 +46,7 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-mail" />
+        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
 
       <Form.Item
