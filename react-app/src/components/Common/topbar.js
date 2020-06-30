@@ -17,7 +17,7 @@ const Topbar = () => {
           className="top-search"
         />
         <UserOutlined className="top-icon"/>
-        <Button className="top-btn" type="primary">Log out</Button>
+        <Button className="top-button" type="primary">Log Out</Button>
       </Menu>
       <Menu theme="dark" mode="inline">
         <h1>TITLE</h1>

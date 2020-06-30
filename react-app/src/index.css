@@ -25,7 +25,7 @@ code {
 
 .topbar-wrapper {
   position: relative;
-  height: 153px;
+  height: 153px!important;
 }
 
 .logo {
@@ -35,10 +35,10 @@ code {
 }
 
 .top-search {
-  width: 80%;
+  width: 80%!important;
 }
 
-.top-btn {
+.top-button {
   padding: 0px;
   margin: 15px;
   float: right;
