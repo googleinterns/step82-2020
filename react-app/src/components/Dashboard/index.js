@@ -11,7 +11,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <Sidebar />
-      <Layout className="site-layout" style={{ marginLeft: '200px' }}>
+      <Layout className="site-layout">
       <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
