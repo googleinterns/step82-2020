@@ -32,7 +32,7 @@ const SignUpPage = () => {
           },
         ]}
       >
-        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-mail" />
+        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
 
       <Form.Item
