@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+// import { signup} from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Form, Input, Checkbox, Button } from 'antd';
@@ -10,20 +10,7 @@ const SignUpPage = () => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    axios.post('/create-user', {
-      email: values.email,
-      username: values.username,
-      password: values.password
-    }, {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+    // signup(values.email, values.username, values.password)
   };
 
   return (

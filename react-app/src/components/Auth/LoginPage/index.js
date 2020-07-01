@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import { login } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Form, Input, Button, Checkbox } from 'antd';
@@ -8,19 +8,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginPage = () => {
   
   const onFinish = values => {
-    axios.post('/login', {
-      username: values.username,
-      password: values.password
-    }, {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+    login(values.username, values.password)
   };
 
   return (
