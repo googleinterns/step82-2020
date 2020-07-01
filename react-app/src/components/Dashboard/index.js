@@ -18,6 +18,10 @@ const Dashboard = () => {
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
           <div className="site-layout-background" style={{ padding: '24px' }}>
           <Card />
+          <br />
+          <Card />
+          <br />
+          <Card />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>

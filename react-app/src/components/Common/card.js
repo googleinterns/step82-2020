@@ -9,15 +9,9 @@ const Card = () => {
   const [activeKey, setActiveKey] = useState('');
 
   return(
-    <Collapse accordion bordered={false} activeKey={activeKey}>
-      <Panel showArrow={false} header={<div onMouseEnter={() => setActiveKey('1')}>This is panel header 1</div>} key="1">
-        <p>Card 1 info</p>
-      </Panel>
-      <Panel showArrow={false} header={<div onMouseEnter={() => setActiveKey('2')}>This is panel header 1</div>} key="2">
-        <p>Card 2 info</p>
-      </Panel>
-      <Panel showArrow={false} header={<div onMouseEnter={() => setActiveKey('3')}>This is panel header 1</div>} key="3">
-        <p>Card 3 info</p>
+    <Collapse accordion className="card" bordered={false} activeKey={activeKey}>
+      <Panel style={{ border: '0px'}} showArrow={false} header={<div onMouseEnter={() => setActiveKey('1')} onMouseLeave={() => setActiveKey('0')}>This is a card header</div>} key="1">
+        <p>Card info</p>
       </Panel>
     </Collapse>
   )
