@@ -1,4 +1,5 @@
 import datetime
+import jwt
 
 from flask import Flask, render_template, jsonify, request
 from flask_bcrypt import Bcrypt
@@ -55,7 +56,7 @@ def fetch_users(limit):
 
 @app.route('/create-user', methods=['POST'])
 def create_user():
-    return store_user(request.json['email'], request.json['username'], request.json['password'])
+    store_user(request.json['email'], request.json['username'], request.json['password'])
 
 @app.route('/fetch-users', methods=['GET'])
 def show_users():
@@ -64,6 +65,81 @@ def show_users():
     for user in users:
         array.append([user['email'], user['username'], user['password_hash']])
     return jsonify(array)
+
+# check user login data
+@app.route('/login', methods=['POST'])
+def check_user():
+    return login_user('username', 'password')
+
+
+def login_user(username, password):
+    try: 
+        user = datastore_client.query(kind='user').add_filter('username', '=', username)
+        if user and check_password(user['password_hash'], password):
+            auth_token=encode_auth_token(username)
+            if auth_token:
+                    response_object = {
+                        'status': 'success',
+                        'message': 'Successfully logged in.',
+                        'Authorization': auth_token.decode()
+                    }
+                    return response_object, 200
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': 'Username or password does not match.'
+            }
+            return response_object, 401
+
+    except Exception as e:
+        print(e)
+        response_object = {
+            'status': 'fail',
+            'message': 'Try again'
+        }
+        return response_object, 500
+          
+def check_password(password_hash, password):
+    return bcrypt.check_password_hash(password_hash, password)
+
+@staticmethod
+def encode_auth_token(username):
+    """
+    Generates the Auth Token
+    :return: string
+    """
+    try:
+        payload = {
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
+            'iat': datetime.datetime.utcnow(),
+            'sub': username
+        }
+        return jwt.encode(
+            payload,
+            key,
+            algorithm='HS256'
+        )
+    except Exception as e:
+        return e    
+
+@staticmethod
+def decode_auth_token(auth_token):
+    """
+    Decodes the auth token
+    :param auth_token:
+    :return: integer|string
+    """
+    try:
+        payload = jwt.decode(auth_token, key)
+        is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
+        if is_blacklisted_token:
+            return 'Token blacklisted. Please log in again.'
+        else:
+            return payload['sub']
+    except jwt.ExpiredSignatureError:
+        return 'Signature expired. Please log in again.'
+    except jwt.InvalidTokenError:
+        return 'Invalid token. Please log in again.'
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
