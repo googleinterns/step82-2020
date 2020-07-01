@@ -25,8 +25,18 @@ def fetch_times(limit):
 
     return times
 
+
+@app.route('/time', methods=['GET'])
+def show_time():
+    store_time(datetime.datetime.now())
+    times = fetch_times(10)
+    array = []
+    for time in times:
+        array.append(time['timestamp'])
+    return jsonify(array)    
+
 # create_user & fetch_users
-def create_user(email, username, password):
+def store_user(email, username, password):
     entity = datastore.Entity(key=datastore_client.key('user'))
     entity.update({
         'email': email,
@@ -35,32 +45,24 @@ def create_user(email, username, password):
     })
 
     datastore_client.put(entity)
-    return entity
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
+
     users = query.fetch(limit=limit)
+    
     return users
 
 @app.route('/create-user', methods=['POST'])
-def create_a_user():
-    return create_user(request.json['email'], request.json['username'], request.json['password'])
+def create_user():
+    return store_user(request.json['email'], request.json['username'], request.json['password'])
 
-@app.route('/fetch-users')
+@app.route('/fetch-users', methods=['GET'])
 def show_users():
     users = fetch_users(10)
     array = []
     for user in users:
-        array.append({user['email'], user['username'], user['password_hash']})
-    return jsonify(array)
-
-@app.route('/time')
-def show_time():
-    store_time(datetime.datetime.now())
-    times = fetch_times(10)
-    array = []
-    for time in times:
-        array.append(time['timestamp'])
+        array.append([user['email'], user['username'], user['password_hash']])
     return jsonify(array)
 
 @app.route('/', defaults={'path': ''})
