@@ -10,10 +10,10 @@ const Home = () => {
       <h1 className="home-title">Clink</h1>
       <p>Organize and share links now!</p>
       <Link to="/login">
-        <Button className="home-btn" type="primary" size={"large"} >Log In</Button>
+        <Button className="home-button" type="primary" size={"large"} >Log In</Button>
       </Link>
       <Link to="/sign-up">
-        <Button className="home-btn" type="primary" size={"large"}>Sign Up</Button>
+        <Button className="home-button" type="primary" size={"large"}>Sign Up</Button>
       </Link>
     </body>
   );
