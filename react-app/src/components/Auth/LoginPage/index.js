@@ -11,12 +11,7 @@ const LoginPage = () => {
     axios.post('/login', {
       username: values.username,
       password: values.password
-    }, {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then((response) => {
+    }).then((response) => {
       console.log(response);
     }, (error) => {
       console.log(error);

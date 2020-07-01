@@ -72,7 +72,7 @@ def show_users():
 # check user login data
 @app.route('/login', methods=['POST'])
 def check_user():
-    return login_user(request.json['username'], request.json['password'])
+    return login_user(request.json['username'], request.json['password']) # remove return statement
 
 def login_user(username, password):
     try: 

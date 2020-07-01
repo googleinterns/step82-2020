@@ -14,12 +14,7 @@ const SignUpPage = () => {
       email: values.email,
       username: values.username,
       password: values.password
-    }, {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then((response) => {
+    }).then((response) => {
       console.log(response);
     }, (error) => {
       console.log(error);
