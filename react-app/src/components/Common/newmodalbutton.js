@@ -10,7 +10,7 @@ class NewModalButton extends React.Component {
     console.log(modal)
     return (
       <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={modal.showModal}>
-      open modal!</Button>
+      New</Button>
     );
   }
 }

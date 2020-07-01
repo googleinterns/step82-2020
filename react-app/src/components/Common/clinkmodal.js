@@ -28,21 +28,13 @@ class ModalWindow extends React.Component {
   onFinish = values => {
     console.log('Success:', values);
     this.setState({ loading: true });
-      setTimeout(() => {
-        this.setState({ loading: false, visible: false });
-      }, 3000);
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
   };
 
   onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
-  };
-
-  handleOk = () => {
-    // something here needs to handle if form was submitted successfully or not
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
   };
 
   handleCancel = () => {
@@ -57,13 +49,12 @@ class ModalWindow extends React.Component {
         <Modal
           visible={visible}
           title="Clink"
-          onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Cancel
             </Button>,
-            <Button form="clink" htmlType="submit" key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+            <Button form="clink" htmlType="submit" key="submit" type="primary" loading={loading} >
               Submit
             </Button>,
           ]}
