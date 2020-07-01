@@ -76,9 +76,8 @@ def check_user():
 
 def login_user(username, password):
     try: 
-        query = datastore_client.query(kind='user').add_filter('username', '=', username) # clean up code
-        user = list(query.fetch())
-        if user and check_password((user[0])['password_hash'], password):
+        user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
+        if user and check_password(user['password_hash'], password):
             auth_token=encode_auth_token(username)
             if auth_token:
                     response_object = {
