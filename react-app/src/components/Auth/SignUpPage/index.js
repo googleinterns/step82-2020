@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import 'antd/dist/antd.css';
 import '../../../index.css';
-import { Form, Input, Checkbox, But } from 'antd';
+import { Form, Input, Checkbox, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 const SignUpPage = () => {
