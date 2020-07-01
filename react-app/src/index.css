@@ -18,6 +18,34 @@ code {
   text-align-last: left;
 }
 
+.login-form-forgot {
+  float: right;
+}
+
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.signup-form-button {
+  width: 100%;
+}
+
+.center-tabs {
+  min-width: 320px;
+  max-width: 320px;
+  width: 320px;
+  height: 397.6px;
+  display: table;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .sidebar {
   height: 100vh;
   position: fixed;
@@ -40,3 +68,4 @@ code {
   [data-theme="dark"] .site-layout .site-layout-background {
     background: #141414;
   }
+  
