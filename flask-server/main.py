@@ -84,7 +84,7 @@ def login_user(username, password):
                     response_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode();
+                        'Authorization': auth_token.decode()
                     }
                     return response_object, 200
         else:
