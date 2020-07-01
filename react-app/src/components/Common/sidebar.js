@@ -2,8 +2,8 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
-import ModalWindow from './modal';
-import OpenModal from './openModal';
+import ClinkModal from './clinkmodal';
+import NewModalButton from './newmodalbutton';
 
 const { Sider } = Layout;
 
@@ -12,7 +12,7 @@ const Sidebar = () => {
     <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
         <div className="logo" />
-        <ModalWindow render={modal => (<OpenModal modal={modal} />)} />
+        <ClinkModal render={modal => (<NewModalButton modal={modal} />)} />
       </Menu>
       <Menu className = "sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
         <Menu.Item key="all">

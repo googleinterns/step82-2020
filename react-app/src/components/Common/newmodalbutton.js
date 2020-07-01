@@ -4,7 +4,7 @@ import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
-class OpenModal extends React.Component {
+class NewModalButton extends React.Component {
   render() {
     const modal = this.props.modal;
     console.log(modal)
@@ -15,4 +15,4 @@ class OpenModal extends React.Component {
   }
 }
 
-export default OpenModal;
+export default NewModalButton;
