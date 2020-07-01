@@ -69,19 +69,19 @@ def show_users():
 # check user login data
 @app.route('/login', methods=['POST'])
 def check_user():
-    return login_user('username', 'password')
-
+    return login_user('postman', 'mailing-info')
 
 def login_user(username, password):
     try: 
-        user = datastore_client.query(kind='user').add_filter('username', '=', username)
-        if user and check_password(user['password_hash'], password):
+        query = datastore_client.query(kind='user').add_filter('username', '=', username) # clean up code
+        user = list(query.fetch())
+        if user and check_password((user[0])['password_hash'], password):
             auth_token=encode_auth_token(username)
             if auth_token:
                     response_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
+                        'Authorization': decode_auth_token(auth_token)
                     }
                     return response_object, 200
         else:
@@ -102,7 +102,6 @@ def login_user(username, password):
 def check_password(password_hash, password):
     return bcrypt.check_password_hash(password_hash, password)
 
-@staticmethod
 def encode_auth_token(username):
     """
     Generates the Auth Token
@@ -116,13 +115,12 @@ def encode_auth_token(username):
         }
         return jwt.encode(
             payload,
-            key,
+            key, # key is properly defined
             algorithm='HS256'
         )
     except Exception as e:
         return e    
 
-@staticmethod
 def decode_auth_token(auth_token):
     """
     Decodes the auth token
@@ -130,12 +128,7 @@ def decode_auth_token(auth_token):
     :return: integer|string
     """
     try:
-        payload = jwt.decode(auth_token, key)
-        is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
-        if is_blacklisted_token:
-            return 'Token blacklisted. Please log in again.'
-        else:
-            return payload['sub']
+        payload = jwt.decode(auth_token, 'key') # key isn't properly defined
     except jwt.ExpiredSignatureError:
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
