@@ -9,6 +9,7 @@ import Card from '../Common/card';
 const { Content, Footer } = Layout;
 
 const Dashboard = () => {
+  
   return (
     <Layout>
       <Sidebar />
