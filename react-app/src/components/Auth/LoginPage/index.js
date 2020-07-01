@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Form, Input, Button, Checkbox } from 'antd';
@@ -7,7 +8,19 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginPage = () => {
   
   const onFinish = values => {
-    console.log('Received values of form: ', values);
+    axios.post('/login', {
+      username: values.username,
+      password: values.password
+    }, {
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
   };
 
   return (

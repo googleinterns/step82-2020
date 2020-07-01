@@ -1,5 +1,6 @@
 import datetime
 import jwt
+import os
 
 from flask import Flask, render_template, jsonify, request
 from flask_bcrypt import Bcrypt
@@ -8,6 +9,7 @@ from google.cloud import datastore
 datastore_client = datastore.Client()
 app = Flask(__name__, template_folder='static/react')
 bcrypt = Bcrypt()
+SECRET_KEY = os.getenv('SECRET_KEY', 'zrRjR8zj00RIxf-8_Z6iiJow7uDuk9023hr0i')
 
 def store_time(dt):
     entity = datastore.Entity(key=datastore_client.key('visit'))
@@ -69,7 +71,7 @@ def show_users():
 # check user login data
 @app.route('/login', methods=['POST'])
 def check_user():
-    return login_user('postman', 'mailing-info')
+    return login_user(request.json['username'], request.json['password'])
 
 def login_user(username, password):
     try: 
@@ -115,7 +117,7 @@ def encode_auth_token(username):
         }
         return jwt.encode(
             payload,
-            key, # key is properly defined
+            SECRET_KEY, # key is properly defined
             algorithm='HS256'
         )
     except Exception as e:
@@ -128,7 +130,8 @@ def decode_auth_token(auth_token):
     :return: integer|string
     """
     try:
-        payload = jwt.decode(auth_token, 'key') # key isn't properly defined
+        payload = jwt.decode(auth_token, SECRET_KEY) # key isn't properly defined
+        return payload['sub']
     except jwt.ExpiredSignatureError:
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
