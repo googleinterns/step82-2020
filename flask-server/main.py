@@ -71,12 +71,14 @@ def login_user():
         }
         return response_object, 500
 
+# password
 def password(password):
     return bcrypt.generate_password_hash(password).decode('utf-8')        
           
 def check_password(password_hash, password):
     return bcrypt.check_password_hash(password_hash, password)
 
+# jwt token
 def encode_auth_token(username):
     """
     Generates the Auth Token
@@ -109,7 +111,8 @@ def decode_auth_token(auth_token):
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
-
+        
+# routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
