@@ -19,7 +19,7 @@ def store_user():
     entity.update({
         'email': request.json['email'],
         'username': request.json['username'],
-        'password_hash': bcrypt.generate_password_hash(request.json['password']).decode('utf-8'),
+        'password_hash': password(request.json['password']),
         'registered_on': datetime.datetime.now()
     })
 
@@ -70,6 +70,9 @@ def login_user():
             'message': 'Try again'
         }
         return response_object, 500
+
+def password(password):
+    return bcrypt.generate_password_hash(password).decode('utf-8')        
           
 def check_password(password_hash, password):
     return bcrypt.check_password_hash(password_hash, password)
