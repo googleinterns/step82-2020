@@ -1,5 +1,5 @@
 import React from 'react';
-// import { signup} from '../../../features/users';
+// import { signup } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Form, Input, Checkbox, Button } from 'antd';
@@ -10,7 +10,8 @@ const SignUpPage = () => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    // signup(values.email, values.username, values.password)
+    console.log(values)
+    // signup(values)
   };
 
   return (

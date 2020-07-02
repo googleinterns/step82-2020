@@ -4,15 +4,15 @@ const BASE_URL = 'http://localhost:3000/apis';
 const LOGIN_URL = `${BASE_URL}/login`;
 const SIGNUP_URL = `${BASE_URL}/create-user`;
 
-const signup = (eMail, userName, passWord) => axios.post(SIGNUP_URL, {
-  email: eMail,
-  username: userName,
-  password: passWord
+const signup = (values) => axios.post(SIGNUP_URL, {
+  email: values.email,
+  username: values.username,
+  password: values.password
 });
 
-const login = (userName, passWord) => axios.post(LOGIN_URL, {
-  username: userName,
-  password: passWord
+const login = (values) => axios.post(LOGIN_URL, {
+  username: values.username,
+  password: values.password
 });
 
 export default {

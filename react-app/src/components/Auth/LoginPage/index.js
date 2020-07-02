@@ -8,7 +8,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginPage = () => {
   
   const onFinish = values => {
-    login(values.username, values.password)
+    console.log(values)
+    login(values)
   };
 
   return (

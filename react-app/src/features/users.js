@@ -45,10 +45,10 @@ export const {
   getCurrentUser, loginStart, loginSucceeded, loginFailed, logout,
 } = usersSlice.actions;
 
-export const login = (username, password) => async dispatch => {
+export const login = (values) => async dispatch => {
   try {
     dispatch(loginStart())
-    const response = await apis.login(username, password)
+    const response = await apis.login(values)
     dispatch(loginSucceeded(response))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
