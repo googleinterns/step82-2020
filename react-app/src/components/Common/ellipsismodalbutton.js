@@ -9,8 +9,7 @@ class EllipsisModalButton extends React.Component {
     const modal = this.props.modal;
     console.log(modal)
     return (
-      <Button className="new-button" type="primary" icon={<EllipsisOutlined />} onClick={modal.showModal}>
-      open modal!</Button>
+      <Button className="new-button" type="primary" icon={<EllipsisOutlined />} onClick={modal.showModal} />
     );
   }
 }

@@ -12,7 +12,7 @@ const layout = {
   },
 };
 
-class ClinkModal extends React.Component {
+class BookmarkModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, visible: false };
@@ -45,7 +45,7 @@ class ClinkModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        {this.props.render(this)}
+        {/* {this.props.render(this)} */}
         <Modal
           visible={visible}
           title="Clink"
@@ -87,4 +87,4 @@ class ClinkModal extends React.Component {
   }
 }
 
-export default ClinkModal
+export default BookmarkModal

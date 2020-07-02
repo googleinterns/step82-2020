@@ -3,27 +3,16 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { Modal, Button, Form, Input } from 'antd';
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
+// const layout = {
+//   labelCol: {
+//     span: 8,
+//   },
+//   wrapperCol: {
+//     span: 16,
+//   },
+// };
 
-class ClinkModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { loading: false, visible: false };
-  }
-
-  showModal = () => {
-    console.log('showing modal!')
-    this.setState({
-      visible: true,
-    });
-  };
+class NewClink extends React.Component {
 
   onFinish = values => {
     console.log('Success:', values);
@@ -37,28 +26,8 @@ class ClinkModal extends React.Component {
     console.log('Failed:', errorInfo);
   };
 
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
   render() {
-    const { visible, loading } = this.state;
     return (
-      <div>
-        {this.props.render(this)}
-        <Modal
-          visible={visible}
-          title="Clink"
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Cancel
-            </Button>,
-            <Button form="clink" htmlType="submit" key="submit" type="primary" loading={loading} >
-              Submit
-            </Button>,
-          ]}
-        >
           <Form
             {...layout}
             name="clink"
@@ -81,10 +50,8 @@ class ClinkModal extends React.Component {
               <Input />
             </Form.Item>
           </Form>
-        </Modal>
-      </div>
     );
   }
 }
 
-export default ClinkModal
+export default NewClink
