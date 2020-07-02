@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    axios.post('/create-user', {
+    axios.post('/sign-up', {
       email: values.email,
       username: values.username,
       password: values.password
