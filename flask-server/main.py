@@ -12,78 +12,51 @@ bcrypt = Bcrypt()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-def store_time(dt):
-    entity = datastore.Entity(key=datastore_client.key('visit'))
-    entity.update({
-        'timestamp': dt
-    })
-
-    datastore_client.put(entity)
-
-
-def fetch_times(limit):
-    query = datastore_client.query(kind='visit')
-    query.order = ['-timestamp']
-
-    times = query.fetch(limit=limit)
-
-    return times
-
-
-@app.route('/time', methods=['GET'])
-def show_time():
-    store_time(datetime.datetime.now())
-    times = fetch_times(10)
-    array = []
-    for time in times:
-        array.append(time['timestamp'])
-    return jsonify(array)    
-
-# create_user & fetch_users
-def store_user(email, username, password):
+# sign-up api
+@app.route('/sign-up', methods=['POST'])
+def store_user():
     entity = datastore.Entity(key=datastore_client.key('user'))
     entity.update({
-        'email': email,
-        'username': username,
-        'password_hash': bcrypt.generate_password_hash(password).decode('utf-8')
+        'email': request.json['email'],
+        'username': request.json['username'],
+        'password_hash': password(request.json['password']),
+        'registered_on': datetime.datetime.now()
     })
 
     datastore_client.put(entity)
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
+    query.order = ['registered_on']
 
     users = query.fetch(limit=limit)
     
     return users
-
-@app.route('/create-user', methods=['POST'])
-def create_user():
-    store_user(request.json['email'], request.json['username'], request.json['password'])
 
 @app.route('/fetch-users', methods=['GET'])
 def show_users():
     users = fetch_users(10)
     array = []
     for user in users:
-        array.append([user['email'], user['username'], user['password_hash']])
+        array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
     return jsonify(array)
 
-# check user login data
+# login api
 @app.route('/login', methods=['POST'])
-def check_user():
-    return login_user(request.json['username'], request.json['password']) # remove return statement
-    
-def login_user(username, password):
+def login_user():
+    username = request.json['username']
+    password = request.json['password']
     try: 
-        user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
+        query = datastore_client.query(kind='user').add_filter('username', '=', username)
+        query.order = ['username', 'registered_on']
+        user = list(query.fetch(limit=1))[0]
         if user and check_password(user['password_hash'], password):
             auth_token=encode_auth_token(username)
             if auth_token:
                     response_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
+                        'Authorization': auth_token.decode() 
                     }
                     return response_object, 200
         else:
@@ -100,10 +73,15 @@ def login_user(username, password):
             'message': 'Try again'
         }
         return response_object, 500
+
+# password
+def password(password):
+    return bcrypt.generate_password_hash(password).decode('utf-8')        
           
 def check_password(password_hash, password):
     return bcrypt.check_password_hash(password_hash, password)
 
+# jwt token
 def encode_auth_token(username):
     """
     Generates the Auth Token
@@ -136,7 +114,8 @@ def decode_auth_token(auth_token):
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
-
+        
+# routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
