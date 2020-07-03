@@ -27,6 +27,7 @@ def store_user():
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
+    query.order = ['registered_on']
 
     users = query.fetch(limit=limit)
     
