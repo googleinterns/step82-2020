@@ -46,7 +46,9 @@ def login_user():
     username = request.json['username']
     password = request.json['password']
     try: 
-        user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0] # sort by registeration date
+        query = datastore_client.query(kind='user').add_filter('username', '=', username)
+        query.order = ['registered_on']
+        user = list(query.fetch())[0]
         if user and check_password(user['password_hash'], password):
             auth_token=encode_auth_token(username)
             if auth_token:
