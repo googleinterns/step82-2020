@@ -13,7 +13,7 @@ bcrypt = Bcrypt()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # sign-up api
-@app.route('/sign-up', methods=['POST'])
+@app.route('/apis/sign-up', methods=['POST'])
 def store_user():
     entity = datastore.Entity(key=datastore_client.key('user'))
     entity.update({
@@ -42,7 +42,7 @@ def show_users():
     return jsonify(array)
 
 # login api
-@app.route('/login', methods=['POST'])
+@app.route('/apis/login', methods=['POST'])
 def login_user():
     username = request.json['username']
     password = request.json['password']

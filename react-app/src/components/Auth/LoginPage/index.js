@@ -9,7 +9,7 @@ const LoginPage = () => {
   
   const onFinish = values => {
     console.log(values)
-    login(values)
+    login(values.username, values.password)
   };
 
   return (
@@ -63,4 +63,4 @@ const LoginPage = () => {
   );
 }
 
-export default LoginPage;
+export default {LoginPage, LoginForm};
