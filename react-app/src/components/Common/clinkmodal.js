@@ -47,20 +47,19 @@ class ClinkModal extends React.Component {
         {this.props.render(this)}
         <Modal
           visible={visible}
-          title="Clink"
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Cancel
             </Button>,
-            <Button form="clink" htmlType="submit" key="submit" type="primary" loading={loading} >
+            <Button form="edit-clink" htmlType="submit" key="submit" type="primary" loading={loading} >
               Submit
             </Button>,
           ]}
         >
           <Form
             {...layout}
-            name="clink"
+            name="edit-clink"
             initialValues={{
               remember: false,
             }}
@@ -68,8 +67,8 @@ class ClinkModal extends React.Component {
             onFinishFailed={this.onFinishFailed}
           >
             <Form.Item
-              label="Clink Title"
-              name="clink title"
+              label="Title"
+              name="title"
               rules={[
                 {
                   required: true,

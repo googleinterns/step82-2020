@@ -44,23 +44,22 @@ class BookmarkModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        {/* {this.props.render(this)} */}
+        {this.props.render(this)}
         <Modal
           visible={visible}
-          title="Clink"
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Cancel
             </Button>,
-            <Button form="clink" htmlType="submit" key="submit" type="primary" loading={loading} >
+            <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={loading} >
               Submit
             </Button>,
           ]}
         >
           <Form
             {...layout}
-            name="clink"
+            name="edit-bookmark"
             initialValues={{
               remember: false,
             }}
@@ -68,12 +67,33 @@ class BookmarkModal extends React.Component {
             onFinishFailed={this.onFinishFailed}
           >
             <Form.Item
-              label="Clink Title"
-              name="clink title"
+              label="Link"
+              name="link"
               rules={[
                 {
-                  required: true,
-                  message: 'Please input a title for your clink!',
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Title"
+              name="title"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[
+                {
+                  required: false,
                 },
               ]}
             >
