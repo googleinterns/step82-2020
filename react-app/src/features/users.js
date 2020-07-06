@@ -46,15 +46,12 @@ export const {
 } = usersSlice.actions;
 
 export const login = (username, password) => async dispatch => {
-  console.log("logging in...")
   try {
     dispatch(loginStart())
     const response = await apis.login(username, password)
-    console.log(response)
     dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
-    console.log(err)
   }
 }
 

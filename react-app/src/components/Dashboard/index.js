@@ -14,16 +14,16 @@ const Dashboard = () => {
 
   const dispatch = useDispatch()
 
-  const user = useSelector(state => state.users.currentUser)
-  const userFetched = useSelector(state => state.users.isCurrentUserFetched)
-
   useEffect(() => {
     dispatch(getCurrentUser())
   }, []);
 
+  const user = useSelector(state => state.users.currentUser)
+  const userFetched = useSelector(state => state.users.isCurrentUserFetched)
+
   console.log(user)
   console.log(userFetched)
-  
+
   const history = useHistory()
 
   if(!userFetched) return <div/>
