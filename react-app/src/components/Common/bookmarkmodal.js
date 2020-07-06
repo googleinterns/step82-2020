@@ -4,12 +4,7 @@ import '../../index.css';
 import { Modal, Button, Form, Input } from 'antd';
 
 const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
+  layout: 'vertical'
 };
 
 class BookmarkModal extends React.Component {

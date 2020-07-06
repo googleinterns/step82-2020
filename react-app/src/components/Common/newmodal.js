@@ -7,12 +7,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 
 const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
+  layout: 'vertical'
 };
 
 class NewModal extends React.Component {
