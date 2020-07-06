@@ -7,6 +7,7 @@ import '../../index.css';
 import { Layout } from 'antd';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
+import Card from '../Common/card';
 
 const { Content, Footer } = Layout;
 
@@ -38,8 +39,12 @@ const Dashboard = () => {
       <Layout className="site-layout">
       <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
-
+          <div className="site-layout-background" style={{ padding: '24px' }}>
+          <Card />
+          <br />
+          <Card />
+          <br />
+          <Card />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>
