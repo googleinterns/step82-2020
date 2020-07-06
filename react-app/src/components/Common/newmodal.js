@@ -127,7 +127,7 @@ class NewModal extends React.Component {
                     },
                   ]}
                 >
-                  <Select defaultValue="All">
+                  <Select mode="multiple" defaultValue="All">
                     <Option value="All">All</Option>
                   </Select>
                 </Form.Item>
