@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'
+import { getCurrentUser } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout } from 'antd';
@@ -8,6 +11,24 @@ import Topbar from '../Common/topbar';
 const { Content, Footer } = Layout;
 
 const Dashboard = () => {
+
+  const dispatch = useDispatch()
+
+  const user = useSelector(state => state.users.currentUser)
+  const userFetched = useSelector(state => state.users.isCurrentUserFetched)
+
+  useEffect(() => {
+    dispatch(getCurrentUser())
+  }, []);
+
+  console.log(user)
+  console.log(userFetched)
+
+  if(!userFetched) return <div/>
+
+  if(!user && userFetched) {
+    history.push("/get-started")
+  }
   
   return (
     <Layout>

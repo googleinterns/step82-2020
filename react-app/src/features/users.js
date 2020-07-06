@@ -14,11 +14,11 @@ const usersSlice = createSlice({
     getCurrentUser(state) {
       const currentUser = localStorage.getItem('currentUser');
       state.isCurrentUserFetched = true;
-      try {
-        state.currentUser = JSON.parse(currentUser);
-      } catch (e) {
-        console.error(e);
-      }
+      // try {
+      state.currentUser = currentUser && JSON.parse(currentUser);
+      // } catch (e) {
+      //   console.error(e);
+      // }
     },
     loginStart(state, _action) {
       state.isLoggingIn = true;
@@ -51,7 +51,7 @@ export const login = (username, password) => async dispatch => {
     dispatch(loginStart())
     const response = await apis.login(username, password)
     console.log(response)
-    dispatch(loginSucceeded(response))
+    dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
     console.log(err)

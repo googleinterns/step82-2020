@@ -3,11 +3,13 @@ import jwt
 import os
 
 from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from google.cloud import datastore
 
 datastore_client = datastore.Client()
 app = Flask(__name__, template_folder='static/react')
+CORS(app)
 bcrypt = Bcrypt()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
