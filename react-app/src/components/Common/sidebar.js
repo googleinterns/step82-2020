@@ -8,14 +8,14 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
   return (
-    <Sider className = "sidebar">
+    <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
         <div className="logo" />
         <Menu.Item key="new" icon={<PlusOutlined />}>
           New
       </Menu.Item>
       </Menu>
-      <Menu className = "sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
+      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
         <Menu.Item key="all">
           All
         </Menu.Item>
