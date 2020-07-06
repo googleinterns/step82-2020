@@ -58,4 +58,13 @@ export const login = (username, password) => async dispatch => {
   }
 }
 
+export const logOut = (username, password) => async dispatch => {
+  console.log("logging out...")
+  try {
+    dispatch(logout())
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export default usersSlice.reducer;
