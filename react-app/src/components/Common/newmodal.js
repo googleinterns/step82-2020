@@ -2,8 +2,6 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
-// import ClinkModal from './clinkmodal';
-// import BookmarkModal from './bookmarkmodal';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -24,7 +22,6 @@ class NewModal extends React.Component {
   }
 
   showModal = () => {
-    console.log('showing modal!')
     this.setState({
       visible: true,
     });
@@ -47,7 +44,6 @@ class NewModal extends React.Component {
   };
 
   switchForm = () => {
-    console.log('switching form');
     if (this.state.form==='bookmark') {
       this.setState({ form: 'clink' });
     } else {
@@ -57,7 +53,6 @@ class NewModal extends React.Component {
 
   render() {
     const { loading, visible, form } = this.state;
-    console.log(form)
     return (
       <div>
         {this.props.render(this)}

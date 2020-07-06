@@ -19,7 +19,6 @@ class ClinkModal extends React.Component {
   }
 
   showModal = () => {
-    console.log('showing modal!')
     this.setState({
       visible: true,
     });

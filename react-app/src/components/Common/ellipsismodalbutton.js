@@ -7,7 +7,6 @@ import { Button } from 'antd';
 class EllipsisModalButton extends React.Component {
   render() {
     const modal = this.props.modal;
-    console.log(modal)
     return (
       <Button className="new-button" type="primary" icon={<EllipsisOutlined />} onClick={modal.showModal} />
     );

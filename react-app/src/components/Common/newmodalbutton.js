@@ -7,7 +7,6 @@ import { Button } from 'antd';
 class NewModalButton extends React.Component {
   render() {
     const modal = this.props.modal;
-    console.log(modal)
     return (
       <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={modal.showModal}>
       New</Button>
