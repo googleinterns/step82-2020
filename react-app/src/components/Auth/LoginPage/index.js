@@ -63,4 +63,4 @@ const LoginPage = () => {
   );
 }
 
-export default {LoginPage, LoginForm};
+export default LoginPage;
