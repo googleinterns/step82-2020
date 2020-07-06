@@ -23,6 +23,8 @@ const Dashboard = () => {
 
   console.log(user)
   console.log(userFetched)
+  
+  const history = useHistory()
 
   if(!userFetched) return <div/>
 
