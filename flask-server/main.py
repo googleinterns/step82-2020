@@ -29,14 +29,23 @@ def store_user():
     usernameResult = list(usernameQuery.fetch())
 
     if emailResult and usernameResult:
-        print("both username and email already exists")
-        return
+        response_object = {
+            'status': 'fail',
+            'message': 'Both username and email already exists.'
+        }
+        return response_object, 401
     elif emailResult:
-        print("email already exists")
-        return
+        response_object = {
+            'status': 'fail',
+            'message': 'Email already exists.'
+        }
+        return response_object, 401
     elif usernameResult:
-        print("username already exists")
-        return
+        response_object = {
+            'status': 'fail',
+            'message': 'Username already exists.'
+        }
+        return response_object, 401
     else:
         entity = datastore.Entity(key=datastore_client.key('user'))
         entity.update({
@@ -45,8 +54,14 @@ def store_user():
             'password_hash': password(request.json['password']),
             'registered_on': datetime.datetime.now()
         })
-
+    
         datastore_client.put(entity)
+
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully signed up.'
+        }
+        return response_object, 200
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
@@ -93,7 +108,7 @@ def login_user():
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Try again'
+            'message': 'Try again.'
         }
         return response_object, 500
 

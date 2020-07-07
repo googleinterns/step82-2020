@@ -67,7 +67,7 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(signUpStart())
-    apis.signUp(email, username, password) //await
+    await apis.signUp(email, username, password) 
     callbackSucceed()
     dispatch(signUpSucceeded())
   } catch (err) {
