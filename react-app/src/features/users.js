@@ -14,11 +14,7 @@ const usersSlice = createSlice({
     getCurrentUser(state) {
       const currentUser = localStorage.getItem('currentUser');
       state.isCurrentUserFetched = true;
-      // try {
       state.currentUser = currentUser && JSON.parse(currentUser);
-      // } catch (e) {
-      //   console.error(e);
-      // }
     },
     signUpStart(state, _action) {
       state.isSigningUp = true;
