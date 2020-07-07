@@ -72,7 +72,8 @@ export const signUp = (email, username, password, callbackSucceed, callbackFaile
     dispatch(signUpSucceeded())
   } catch (err) {
     dispatch(signUpFailed(err.toString()))
-    callbackFailed(err.toString())
+    console.log(err.response)
+    callbackFailed(err.response.data.message)
   }
 }
 
