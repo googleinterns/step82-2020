@@ -11,8 +11,8 @@ const LoginPage = () => {
 
   const dispatch = useDispatch()
 
-  var isLoggingIn = useSelector((state) => state.users.isLoggingIn)
-  var loginError = useSelector((state) => state.users.loginError)
+  const isLoggingIn = useSelector((state) => state.users.isLoggingIn)
+  const loginError = useSelector((state) => state.users.loginError)
 
   const history = useHistory()
 
