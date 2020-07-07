@@ -1,6 +1,7 @@
 import datetime
 import jwt
 import os
+import json
 
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
@@ -17,15 +18,36 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # sign-up api
 @app.route('/apis/sign-up', methods=['POST'])
 def store_user():
-    entity = datastore.Entity(key=datastore_client.key('user'))
-    entity.update({
-        'email': request.json['email'],
-        'username': request.json['username'],
-        'password_hash': password(request.json['password']),
-        'registered_on': datetime.datetime.now()
-    })
+    email = request.json['email']
+    username = request.json['username']
 
-    datastore_client.put(entity)
+    emailQuery = datastore_client.query(kind='user')
+    emailQuery.add_filter('email', '=', email)
+    emailResult = list(emailQuery.fetch())
+
+    usernameQuery = datastore_client.query(kind='user')
+    usernameQuery.add_filter('username', '=', username)
+    usernameResult = list(usernameQuery.fetch())
+
+    if emailResult and usernameResult:
+        print("both username and email already exists")
+        return
+    elif emailResult:
+        print("email already exists")
+        return
+    elif usernameResult:
+        print("username already exists")
+        return
+    else:
+        entity = datastore.Entity(key=datastore_client.key('user'))
+        entity.update({
+            'email': email,
+            'username': username,
+            'password_hash': password(request.json['password']),
+            'registered_on': datetime.datetime.now()
+        })
+
+        datastore_client.put(entity)
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
