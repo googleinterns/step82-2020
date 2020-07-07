@@ -30,8 +30,7 @@ const SignUpPage = () => {
   };
 
   const onFinish = (values) => {
-    dispatch(signUp(values.email, values.username, values.password))
-    if (!isSigningUp) signingUp()
+    dispatch(signUp(values.email, values.username, values.password, signingUp))
   };
 
   return (

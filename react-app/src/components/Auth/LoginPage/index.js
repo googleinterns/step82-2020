@@ -14,26 +14,26 @@ const LoginPage = () => {
   const isLoggingIn = useSelector((state) => state.users.isLoggingIn)
   const loginError = useSelector((state) => state.users.loginError)
 
+  const key = "loginFeedBack"
+
   const history = useHistory()
 
-  const loggingIn = () => {
-    const key = "loginFeedBack"
-    message.loading({ content: 'Logging in...', key })
-    if (loginError) {
-      setTimeout(() => {
-        message.error({ content: loginError, key, duration: 2 });
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        message.success({ content: 'Successfully Logged In', key, duration: 2 });
-      }, 500)
-      history.push("/dashboard")
-    }
-  };
+  const logInSucceedCallback = () => {
+    setTimeout(() => {
+      message.success({ content: 'Successfully Logged In', key, duration: 2 });
+    }, 1000)
+    history.push("/dashboard")
+  }
+
+  const logInFailedCallback = (loginError) => {
+    setTimeout(() => {
+      message.error({ content: loginError, key, duration: 2 });
+    }, 1000)
+  }
 
   const onFinish = (values) => {
-    dispatch(login(values.username, values.password))
-    if(!isLoggingIn) loggingIn()
+    message.loading({ content: 'Logging in...', key })
+    dispatch(login(values.username, values.password, logInSucceedCallback, logInFailedCallback))
   };
 
   return (

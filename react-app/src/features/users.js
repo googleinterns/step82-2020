@@ -52,20 +52,22 @@ export const {
   getCurrentUser, signUpStart, signUpSucceeded, signUpFailed, loginStart, loginSucceeded, loginFailed, logout,
 } = usersSlice.actions;
 
-export const login = (username, password) => async dispatch => {
+export const login = (username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(loginStart())
     const response = await apis.login(username, password)
+    callbackSucceed()
     dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
+    callbackFailed(err.toString())
   }
 }
 
 export const signUp = (email, username, password) => async dispatch => {
   try {
     dispatch(signUpStart())
-    apis.signUp(email, username, password)
+    await apis.signUp(email, username, password)
     dispatch(signUpSucceeded())
   } catch (err) {
     dispatch(signUpFailed(err.toString()))
