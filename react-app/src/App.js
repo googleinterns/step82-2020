@@ -13,7 +13,7 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route exact path="/get-started" component={GetStartedPage} />
+          <Route exact path="/get-started/:form" component={GetStartedPage} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={Users} />
