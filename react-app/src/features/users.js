@@ -20,6 +20,17 @@ const usersSlice = createSlice({
       //   console.error(e);
       // }
     },
+    signUpStart(state, _action) {
+      state.isSigningUp = true;
+      delete state.signUpError;
+    },
+    signUpSucceeded(state) {
+      state.isSigningUp = false;
+    },
+    signUpFailed(state) {
+      state.isSigningUp = false;
+      state.signUpError = 'Username or Email is Already Taken';
+    },
     loginStart(state, _action) {
       state.isLoggingIn = true;
       delete state.loginError;
@@ -42,7 +53,7 @@ const usersSlice = createSlice({
 });
 
 export const {
-  getCurrentUser, loginStart, loginSucceeded, loginFailed, logout,
+  getCurrentUser, signUpStart, signUpSucceeded, signUpFailed, loginStart, loginSucceeded, loginFailed, logout,
 } = usersSlice.actions;
 
 export const login = (username, password) => async dispatch => {
@@ -52,6 +63,16 @@ export const login = (username, password) => async dispatch => {
     dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
+  }
+}
+
+export const signUp = (email, username, password) => async dispatch => {
+  try {
+    dispatch(signUpStart())
+    apis.signUp(email, username, password)
+    dispatch(signUpSucceeded())
+  } catch (err) {
+    dispatch(signUpFailed(err.toString()))
   }
 }
 

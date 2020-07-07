@@ -1,18 +1,39 @@
 import React from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { login } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { message, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const LoginPage = () => {
 
   const dispatch = useDispatch()
-  
-  const onFinish = values => {
-    console.log(values)
+
+  var isLoggingIn = useSelector((state) => state.users.isLoggingIn)
+  var loginError = useSelector((state) => state.users.loginError)
+
+  const history = useHistory()
+
+  const loggingIn = () => {
+    const key = "loginFeedBack"
+    message.loading({ content: 'Logging in...', key })
+    if (loginError) {
+      setTimeout(() => {
+        message.error({ content: loginError, key, duration: 2 });
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        message.success({ content: 'Successfully Logged In', key, duration: 2 });
+      }, 500)
+      history.push("/dashboard")
+    }
+  };
+
+  const onFinish = (values) => {
     dispatch(login(values.username, values.password))
+    if(!isLoggingIn) loggingIn()
   };
 
   return (
@@ -28,11 +49,15 @@ const LoginPage = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: "Please input your Username!",
           },
         ]}
       >
-        <Input autocomplete="username" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input
+          autocomplete="username"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+        />
       </Form.Item>
 
       <Form.Item
@@ -40,11 +65,16 @@ const LoginPage = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: "Please input your Password!",
           },
         ]}
       >
-        <Input.Password autocomplete="current-password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input.Password
+          autocomplete="current-password"
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item>
@@ -58,12 +88,16 @@ const LoginPage = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button className="login-form-button" type="primary" htmlType="submit" >
+        <Button
+          className="login-form-button"
+          type="primary"
+          htmlType="submit"
+        >
           Log in
         </Button>
       </Form.Item>
     </Form>
-  );
-}
+  )
+};
 
 export default LoginPage;
