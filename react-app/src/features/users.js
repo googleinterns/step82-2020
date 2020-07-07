@@ -58,10 +58,14 @@ export const login = (username, password) => async dispatch => {
   }
 }
 
-export const logOut = (username, password) => async dispatch => {
+
+
+export const logOut = (user) => async dispatch => {
   console.log("logging out...")
   try {
     dispatch(logout())
+    const response = await apis.logout(user)
+    console.log(response)
   } catch (err) {
     console.log(err)
   }

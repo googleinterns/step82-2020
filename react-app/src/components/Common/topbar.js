@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { useDispatch } from 'react-redux'
 import { Layout, Input, Button} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logOut } from '../../features/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '../../features/users';
+
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -13,10 +15,16 @@ const Topbar = () => {
 
   const dispatch = useDispatch()
 
+  const user = useSelector(state => state.users.currentUser)
+  useEffect(() => {
+    dispatch(getCurrentUser())
+  }, []);
+
+  console.log("user: " + user)
   const logout = values => {
     console.log('logout clicked')
     console.log(values)
-    dispatch(logOut(values.username, values.password))
+    dispatch(logOut(user))
   };
 
   return (

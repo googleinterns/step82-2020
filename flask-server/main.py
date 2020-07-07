@@ -78,21 +78,22 @@ def login_user():
 
 # logout api
 @app.route('/apis/logout', methods=['POST'])
-def logout_user(data):
-    if data:
-        auth_token = data.split(" ")[1]
+def logout_user():
+    user = request.json['user']
+    if user:
+        auth_token = user.get('Authorization')
     else:
         auth_token = ''
     if auth_token:
-        resp = datastore_client.decode_auth_token(auth_token)
-        if not isinstance(resp, str):
+        resp = decode_auth_token(auth_token)
+        if isinstance(resp, str):
             return save_token(token=auth_token)
         else:
-                response_object = {
-                    'status': 'fail',
-                    'message': resp
-                }
-                return response_object, 401
+            response_object = {
+                'status': 'fail',
+                'message': resp
+            }
+            return response_object, 401
     else:
         response_object = {
             'status': 'fail',
@@ -101,6 +102,7 @@ def logout_user(data):
         return response_object, 403
 
 def save_token(token):
+    #add blacklist token later
     #blacklist_token = BlacklistToken(token=token)
     try:
         #db.session.add(blacklist_token)

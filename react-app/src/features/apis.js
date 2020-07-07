@@ -16,7 +16,9 @@ const login = (username, password) => axios.post(LOGIN_URL, {
   password: password
 });
 
-const logout = () => axios.post(LOGOUT_URL, {});
+const logout = (currentUser) => axios.post(LOGOUT_URL, {
+  user: currentUser
+});
 
 export default {
   login, signup, logout
