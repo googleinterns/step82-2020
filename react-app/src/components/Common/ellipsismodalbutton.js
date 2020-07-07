@@ -4,6 +4,7 @@ import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
+// interactions with bookmarks
 class EllipsisModalButton extends React.Component {
   render() {
     const modal = this.props.modal;

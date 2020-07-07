@@ -41,7 +41,7 @@ class ShareModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        {this.props.render(this)}
+        {/* {this.props.render(this)} */}
         <Modal
           visible={visible}
           onCancel={this.handleCancel}
