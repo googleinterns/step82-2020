@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Tabs } from 'antd';
@@ -13,8 +14,10 @@ function callback(key) {
 
 const GetStartedPage = () => {
 
+  const defaultKey = useSelector((state) => state.home.buttonType)
+
   return (
-    <Tabs className="center-tabs" defaultActiveKey="login" onChange={callback}>
+    <Tabs className="center-tabs" defaultActiveKey={defaultKey} onChange={callback}>
       <TabPane tab="Login" key="login">
         <LoginPage />
       </TabPane>
