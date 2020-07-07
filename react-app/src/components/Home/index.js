@@ -9,10 +9,10 @@ const Home = () => {
     <body className="home-body">
       <h1 className="home-title">Clink</h1>
       <p>Organize and share links now!</p>
-      <Link to="/login">
+      <Link to="/get-started">
         <Button className="home-button" type="primary" size={"large"} >Log In</Button>
       </Link>
-      <Link to="/sign-up">
+      <Link to="/get-started">
         <Button className="home-button" type="primary" size={"large"}>Sign Up</Button>
       </Link>
     </body>
