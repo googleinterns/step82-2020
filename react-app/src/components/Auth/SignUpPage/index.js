@@ -16,7 +16,7 @@ const SignUpPage = () => {
 
   const signUpSucceedCallback = () => {
     setTimeout(() => {
-      message.success({ content: 'Successfully Signed Up', key, duration: 2 });
+      message.success({ content: 'Successfully signed up.', key, duration: 2 });
     }, 1000)
   }
 

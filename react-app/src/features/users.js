@@ -25,7 +25,7 @@ const usersSlice = createSlice({
     },
     signUpFailed(state) {
       state.isSigningUp = false;
-      state.signUpError = 'Username or Email is Already Taken';
+      state.signUpError = 'Username or email is already taken.';
     },
     loginStart(state, _action) {
       state.isLoggingIn = true;
@@ -39,7 +39,7 @@ const usersSlice = createSlice({
     },
     loginFailed(state) {
       state.isLoggingIn = false;
-      state.loginError = 'Login Failed';
+      state.loginError = 'Login failed.';
     },
     logout(state) {
       localStorage.removeItem('currentUser');
@@ -60,7 +60,7 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
     dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
-    callbackFailed('Login Failed')
+    callbackFailed('Login failed.')
   }
 }
 
