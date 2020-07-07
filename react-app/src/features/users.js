@@ -60,7 +60,7 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
     dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.toString()))
-    callbackFailed('Login failed.')
+    callbackFailed(err.response.data.message)
   }
 }
 
