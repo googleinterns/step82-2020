@@ -64,13 +64,15 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
   }
 }
 
-export const signUp = (email, username, password) => async dispatch => {
+export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(signUpStart())
-    await apis.signUp(email, username, password)
+    apis.signUp(email, username, password) //await
+    callbackSucceed()
     dispatch(signUpSucceeded())
   } catch (err) {
     dispatch(signUpFailed(err.toString()))
+    callbackFailed(err.toString())
   }
 }
 

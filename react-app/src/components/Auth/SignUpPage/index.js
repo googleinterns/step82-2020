@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signUp } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
@@ -12,25 +12,23 @@ const SignUpPage = () => {
 
   const dispatch = useDispatch()
 
-  const isSigningUp = useSelector((state) => state.users.isSigningUp)
-  const signUpError = useSelector((state) => state.users.signUpError)
+  const key = "signUpFeedBack"
 
-  const signingUp = () => {
-    const key = "signUpFeedBack"
-    message.loading({ content: 'Signing up...', key })
-    if (signUpError) {
-      setTimeout(() => {
-        message.error({ content: signUpError, key, duration: 2 });
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        message.success({ content: 'Successfully Signed Up', key, duration: 2 });
-      }, 1000)
-    }
-  };
+  const signUpSucceedCallback = () => {
+    setTimeout(() => {
+      message.success({ content: 'Successfully Signed Up', key, duration: 2 });
+    }, 1000)
+  }
+
+  const signUpFailedCallback = (signUpError) => {
+    setTimeout(() => {
+      message.error({ content: signUpError, key, duration: 2 });
+    }, 1000)
+  }
 
   const onFinish = (values) => {
-    dispatch(signUp(values.email, values.username, values.password, signingUp))
+    message.loading({ content: 'Signing up...', key })
+    dispatch(signUp(values.email, values.username, values.password, signUpSucceedCallback, signUpFailedCallback))
   };
 
   return (

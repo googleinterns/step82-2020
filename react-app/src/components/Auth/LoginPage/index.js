@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from '../../../features/users';
 import 'antd/dist/antd.css';
@@ -10,9 +10,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginPage = () => {
 
   const dispatch = useDispatch()
-
-  const isLoggingIn = useSelector((state) => state.users.isLoggingIn)
-  const loginError = useSelector((state) => state.users.loginError)
 
   const key = "loginFeedBack"
 
