@@ -57,11 +57,46 @@ code {
   height: 84vh;
 }
 
+.topbar-wrapper {
+  position: relative;
+  height: 153px!important;
+}
+
+.card {
+  border-radius: 10px !important;
+  background-color: pink !important;
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
 }
+
+.top-search {
+  width: 80%!important;
+}
+
+.top-button {
+  padding: 0px;
+  margin: 15px;
+  float: right;
+  height: 35px;
+  padding: 0 5px;
+  align-items: center;
+}
+
+.top-icon {
+  padding: 0px;
+  margin: 15px;
+  float: right;
+  height: 35px;
+  padding: 5px 5px 0px;
+  font-size: 25px;
+  align-items: center;
+  color: white !important;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }
