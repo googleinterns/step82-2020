@@ -1,7 +1,6 @@
 import datetime
 import jwt
 import os
-import json
 
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
