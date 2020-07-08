@@ -31,19 +31,19 @@ def store_user():
     if emailResult and usernameResult:
         response_object = {
             'status': 'fail',
-            'message': 'Both username and email already exists.'
+            'message': 'Both username and email are already registered.'
         }
         return response_object, 401
     elif emailResult:
         response_object = {
             'status': 'fail',
-            'message': 'Email already exists.'
+            'message': 'Email already has a registered account.'
         }
         return response_object, 401
     elif usernameResult:
         response_object = {
             'status': 'fail',
-            'message': 'Username already exists.'
+            'message': 'Username is already registered.'
         }
         return response_object, 401
     else:
