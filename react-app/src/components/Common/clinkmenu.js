@@ -71,7 +71,7 @@ class ClinkMenu extends React.Component {
     return (
       <>
         <Dropdown overlay={menu} trigger={['click']}>
-          <Button icon={<EllipsisOutlined />} className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+          <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
         </Dropdown>
         <Modal visible={editVisible} onCancel={this.handleCancel}
           footer={[

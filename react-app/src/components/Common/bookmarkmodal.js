@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
+import { EllipsisOutlined } from '@ant-design/icons';
 import { Modal, Button, Form, Input } from 'antd';
 
 const layout = {
@@ -39,7 +40,7 @@ class BookmarkModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        {this.props.render(this)}
+        <Button className="new-button" type="link" icon={<EllipsisOutlined />} onClick={this.showModal} />
         <Modal
           visible={visible}
           onCancel={this.handleCancel}
