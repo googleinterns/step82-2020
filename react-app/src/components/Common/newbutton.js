@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
+import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
@@ -10,7 +11,7 @@ const layout = {
   layout: 'vertical'
 };
 
-class NewModal extends React.Component {
+class NewButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, visible: false, form: 'bookmark' };
@@ -49,8 +50,9 @@ class NewModal extends React.Component {
   render() {
     const { loading, visible, form } = this.state;
     return (
-      <div>
-        {this.props.render(this)}
+      <>
+        <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={this.showModal}>
+      New</Button>
         <Modal 
         visible={visible}
         onCancel={this.handleCancel}
@@ -149,9 +151,9 @@ class NewModal extends React.Component {
             </TabPane>
           </Tabs>
         </Modal>
-      </div>
+      </>
     );
   }
 }
 
-export default NewModal;
+export default NewButton;
