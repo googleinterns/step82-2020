@@ -40,7 +40,7 @@ class BookmarkModal extends React.Component {
     const { visible, loading } = this.state;
     return (
       <div>
-        <Button className="new-button" type="link" icon={<EllipsisOutlined />} onClick={this.showModal} />
+        <Button className="ellipsis-card-button" type="link" icon={<EllipsisOutlined />} onClick={this.showModal} />
         <Modal
           visible={visible}
           onCancel={this.handleCancel}

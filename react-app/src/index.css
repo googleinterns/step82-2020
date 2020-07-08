@@ -18,6 +18,14 @@ code {
   text-align-last: left;
 }
 
+.card-header {
+  display: inline-flex;
+}
+
+.ellipsis-card-button {
+  left: 350px;
+}
+
 .login-form-forgot {
   float: right;
 }

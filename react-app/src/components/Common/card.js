@@ -11,7 +11,7 @@ const Card = () => {
 
   return(
     <Collapse accordion className="card" bordered={false} activeKey={activeKey}>
-      <Panel style={{ border: '0px'}} showArrow={false} header={<div onMouseEnter={() => setActiveKey('1')} onMouseLeave={() => setActiveKey('0')}>This is a card header <BookmarkModal /></div>} key="1">
+      <Panel style={{ border: '0px'}} showArrow={false} header={<div className="card-header" onMouseEnter={() => setActiveKey('1')} onMouseLeave={() => setActiveKey('0')}>This is a card header <BookmarkModal /></div>} key="1">
         <p>Card info</p>
       </Panel>
     </Collapse>
