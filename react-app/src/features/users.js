@@ -58,8 +58,6 @@ export const login = (username, password) => async dispatch => {
   }
 }
 
-
-
 export const logOut = (user) => async dispatch => {
   console.log("logging out...")
   try {

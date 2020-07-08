@@ -101,12 +101,15 @@ def logout_user():
         }
         return response_object, 403
 
+# add token to denylist
 def save_token(token):
-    #add blacklist token later
-    #blacklist_token = BlacklistToken(token=token)
     try:
-        #db.session.add(blacklist_token)
-        #db.session.commit()
+        deny_token = datastore.Entity(key=datastore_client.key('denylist_token'))
+        deny_token.update({
+            'jwt': str(token)
+        })
+        datastore_client.put(deny_token)
+
         response_object = {
             'status': 'success',
             'message': 'Successfully logged out.'
@@ -118,6 +121,11 @@ def save_token(token):
             'message': e
         }
         return response_object, 200
+
+def check_denylist(token):
+    token_query = datastore_client.query(kind='denylist_token')
+    token_query.add_filter('jwt', '=', str(token))
+    return list(token_query.fetch())
 
 # password
 def password(password):
@@ -154,7 +162,10 @@ def decode_auth_token(auth_token):
     """
     try:
         payload = jwt.decode(auth_token, SECRET_KEY)
-        return payload['sub']
+        if check_denylist(auth_token):
+            return 'Token denylisted. Please log in again'
+        else:
+            return payload['sub']
     except jwt.ExpiredSignatureError:
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
