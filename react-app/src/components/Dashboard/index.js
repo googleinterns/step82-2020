@@ -17,6 +17,7 @@ const Dashboard = () => {
 
   const user = useSelector(state => state.users.currentUser)
   const userFetched = useSelector(state => state.users.isCurrentUserFetched)
+  //const token = useSelector(state => state.users.currentToken)
 
   useEffect(() => {
     dispatch(getCurrentUser())
@@ -24,6 +25,7 @@ const Dashboard = () => {
 
   console.log(user)
   console.log(userFetched)
+  //console.log("token: " + token)
   
   const history = useHistory()
 

@@ -4,6 +4,7 @@ const BASE_URL = 'http://localhost:5000/apis';
 const LOGIN_URL = `${BASE_URL}/login`;
 const SIGNUP_URL = `${BASE_URL}/sign-up`;
 const LOGOUT_URL = `${BASE_URL}/logout`;
+const GET_CURR_USER_URL = `${BASE_URL}/get-curr-user`;
 
 const signup = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -20,6 +21,10 @@ const logout = (currentUser) => axios.post(LOGOUT_URL, {
   user: currentUser
 });
 
+const checkUser = () => axios.get(GET_CURR_USER_URL)//, //{
+  //headers: {'Authorization': `${}`}
+//})
+
 export default {
-  login, signup, logout
+  login, signup, logout, checkUser
 }
