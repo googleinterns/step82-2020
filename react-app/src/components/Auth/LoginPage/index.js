@@ -19,7 +19,9 @@ const LoginPage = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully logged in.', key, duration: 2 });
     }, 1000)
+    console.log(history)
     history.push("/dashboard")
+    console.log(history)
   }
 
   const logInFailedCallback = (loginError) => {

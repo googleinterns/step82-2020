@@ -31,7 +31,9 @@ const Dashboard = () => {
   )
 
   if (!currentUser && isCurrentUserFetched) {
+    console.log(history)
     history.push("/get-started")
+    console.log(history)
   }
 
   return (
