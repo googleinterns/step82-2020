@@ -88,4 +88,4 @@ visit http://127.0.0.1:5000/ to view your application.
 
 ## Authors
 
-See also the list of [contributors](https://github.com/learningdollars/sushan-reactapp-flask/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/googleinterns/step82-2020/graphs/contributors) who participated in this project.
