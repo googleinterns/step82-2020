@@ -15,13 +15,13 @@ const usersSlice = createSlice({
     getCurrentUserStart(state) {
       state.isFetchingUser = true;
     },
-    getCurrentUserSucceeded(state, action){
+    getCurrentUserSucceeded(state, action) {
       state.isFetchingUser = false;
       state.isCurrentUserFetched = true;
       state.currentUser = action.payload;
       delete state.authorizationError;
     },
-    getCurrentUserFailed(state, action){
+    getCurrentUserFailed(state, action) {
       state.isFetchingUser = false;
       state.isCurrentUserFetched = false;
       state.authorizationError = action.payload;
@@ -41,11 +41,10 @@ const usersSlice = createSlice({
     loginStart(state, _action) {
       state.isLoggingIn = true;
       delete state.loginError;
+      delete state.authorizationError;
     },
     loginSucceeded(state, action) {
       localStorage.setItem('currentToken', action.payload);
-
-      state.currentUser = action.payload;
       state.isLoggingIn = false;
     },
     loginFailed(state, action) {
@@ -60,9 +59,9 @@ const usersSlice = createSlice({
 });
 
 export const {
-  getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed, 
-  signUpStart, signUpSucceeded, signUpFailed, 
-  loginStart, loginSucceeded, loginFailed, 
+  getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
+  signUpStart, signUpSucceeded, signUpFailed,
+  loginStart, loginSucceeded, loginFailed,
   logout,
 } = usersSlice.actions;
 
@@ -81,21 +80,32 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(signUpStart())
-    await apis.signUp(email, username, password) 
+    await apis.signUp(email, username, password)
     dispatch(signUpSucceeded())
     callbackSucceed()
   } catch (err) {
+    console.log(err)
     dispatch(signUpFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
   }
 }
 
+export const logOut = (user) => async dispatch => {
+  try {
+    dispatch(logout())
+    const response = await apis.logout(user)
+    console.log(response)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const checkUser = () => async dispatch => {
-  try{
+  try {
     dispatch(getCurrentUserStart())
-    // const response = await apis.checkUser(localStorage.getItem('currentToken'))
-    dispatch(getCurrentUserSucceeded(localStorage.getItem('currentToken')))
-  } catch(err){
+    const response = await apis.checkuser(localStorage.getItem('currentToken'))
+    dispatch(getCurrentUserSucceeded(response.data.message))
+  } catch (err) {
     dispatch(getCurrentUserFailed(err.response.data.message))
     console.log(err.response)
   }

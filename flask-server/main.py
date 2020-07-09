@@ -54,7 +54,7 @@ def store_user():
             'password_hash': password(request.json['password']),
             'registered_on': datetime.datetime.now()
         })
-    
+
         datastore_client.put(entity)
 
         response_object = {
@@ -68,7 +68,7 @@ def fetch_users(limit):
     query.order = ['registered_on']
 
     users = query.fetch(limit=limit)
-    
+
     return users
 
 @app.route('/fetch-users', methods=['GET'])
@@ -113,9 +113,49 @@ def login_user():
 # password
 def password(password):
     return bcrypt.generate_password_hash(password).decode('utf-8')        
-          
+
 def check_password(password_hash, password):
     return bcrypt.check_password_hash(password_hash, password)
+
+# logout api
+@app.route('/apis/logout', methods=['POST'])
+def logout_user():
+    auth_token = request.json['Authorization']
+    if auth_token:
+        resp = decode_auth_token(auth_token)
+        if is_valid_instance(resp):
+            return save_token(token=auth_token)
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': resp
+            }
+            return response_object, 401
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return response_object, 403
+
+# get current user api
+@app.route('/apis/get-curr-user', methods=['GET'])
+def get_curr_user():
+    token = request.headers.get('Authorization')    
+    resp = decode_auth_token(token)
+    if not is_valid_instance(resp):
+        response_object = {
+            'status': 'fail',
+            'message': resp
+        }
+        return response_object, 401
+    
+    response_object = {
+            'status': 'success',
+            'message': resp,
+            'Authorization': ]
+    }
+    return response_object, 200
 
 # jwt token
 def encode_auth_token(username):
@@ -137,6 +177,7 @@ def encode_auth_token(username):
     except Exception as e:
         return e    
 
+
 def decode_auth_token(auth_token):
     """
     Decodes the auth token
@@ -145,12 +186,49 @@ def decode_auth_token(auth_token):
     """
     try:
         payload = jwt.decode(auth_token, SECRET_KEY)
-        return payload['sub']
+        if check_denylist(auth_token):
+            return 'Token denylisted. Please log in again.'
+        else:
+            return payload['sub']
     except jwt.ExpiredSignatureError:
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
-        
+
+
+def is_valid_instance(resp):
+    if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
+        return False
+    return True
+
+# denylist
+def save_token(token):
+    try:
+        deny_token = datastore.Entity(key=datastore_client.key('denylist_token'))
+        deny_token.update({
+            'jwt': token
+        })
+        datastore_client.put(deny_token)
+
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully logged out.'
+        }
+        return response_object, 200
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': e
+        }
+        return response_object, 200
+
+def check_denylist(token):
+    token_query = list(datastore_client.query(kind='denylist_token').add_filter('jwt', '=', token).fetch())
+    if token_query:
+        return True
+    else:
+        return False
+
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

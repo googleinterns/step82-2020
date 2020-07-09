@@ -19,6 +19,7 @@ const Dashboard = () => {
     dispatch(checkUser())
   }, []);
 
+  const currentToken = localStorage.getItem('currentToken')
   const currentUser = useSelector(state => state.users.currentUser)
   const isFetchingUser = useSelector(state => state.users.isFetchingUser)
   // const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
@@ -32,7 +33,7 @@ const Dashboard = () => {
     </div>
   )
 
-  if (!currentUser || authorizationError && !isFetchingUser) {
+  if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
     console.log(history)
     history.push("/get-started")
     console.log(history)
