@@ -73,7 +73,8 @@ def fetch_users(limit):
 
 @app.route('/fetch-users', methods=['GET'])
 def show_users():
-    users = fetch_users(10)
+    limit = int(request.headers.get('limit'))    
+    users = fetch_users(limit)
     array = []
     for user in users:
         array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
@@ -153,7 +154,7 @@ def get_curr_user():
     response_object = {
             'status': 'success',
             'message': resp,
-            'Authorization': ]
+            'Authorization': token
     }
     return response_object, 200
 
