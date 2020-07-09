@@ -10,11 +10,19 @@ const Card = () => {
   const [activeKey, setActiveKey] = useState('');
 
   return(
-    <Collapse accordion className="card" bordered={false} activeKey={activeKey}>
-      <Panel style={{ border: '0px'}} showArrow={false} header={<div className="card-header" onMouseEnter={() => setActiveKey('1')} onMouseLeave={() => setActiveKey('0')}>This is a card header <BookmarkMenu /></div>} key="1">
+    <div onMouseEnter={() => {
+      setActiveKey('1')
+    }
+    } onMouseLeave={() => {
+      setActiveKey('0')
+    }
+    }> 
+    <Collapse accordion activeKey={activeKey} className="card" bordered={false}>
+      <Panel style={{ border: '0px'}} showArrow={false} header={<div className="card-header">This is a card header <BookmarkMenu /></div>} key="1">
         <p>Card info</p>
       </Panel>
     </Collapse>
+    </div>
   )
 }
 

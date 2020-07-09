@@ -8,9 +8,7 @@ const { Header } = Layout;
 
 const Topbar = () => {
   return (
-    <Header style={{ position: 'relative', height: '153px' }} >
-      <ClinkMenu />
-    </Header>
+    <Header style={{ position: 'relative', height: '153px' }} />
   )
 }
 
