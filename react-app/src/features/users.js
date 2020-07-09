@@ -65,10 +65,10 @@ export const {
   logout,
 } = usersSlice.actions;
 
-export const login = (username, password, callbackSucceed, callbackFailed) => async dispatch => {
+export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(loginStart())
-    const response = await apis.login(username, password)
+    const response = await apis.login(username, password, remember)
     dispatch(loginSucceeded(response.data.Authorization))
     callbackSucceed()
   } catch (err) {

@@ -32,7 +32,7 @@ const LoginPage = () => {
 
   const onFinish = (values) => {
     message.loading({ content: 'Logging in...', key })
-    dispatch(login(values.username, values.password, logInSucceedCallback, logInFailedCallback))
+    dispatch(login(values.username, values.password, values.remember, logInSucceedCallback, logInFailedCallback))
   };
 
   return (
