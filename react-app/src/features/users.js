@@ -80,7 +80,7 @@ export const login = (username, password, callbackSucceed, callbackFailed) => as
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(signUpStart())
-    await apis.signUp(email, username, password)
+    await apis.signup(email, username, password)
     dispatch(signUpSucceeded())
     callbackSucceed()
   } catch (err) {
@@ -104,10 +104,11 @@ export const checkUser = () => async dispatch => {
   try {
     dispatch(getCurrentUserStart())
     const response = await apis.checkuser(localStorage.getItem('currentToken'))
+    console.log(response)
     dispatch(getCurrentUserSucceeded(response.data.message))
   } catch (err) {
-    dispatch(getCurrentUserFailed(err.response.data.message))
     console.log(err.response)
+    dispatch(getCurrentUserFailed(err.response.data.message))
   }
 }
 
