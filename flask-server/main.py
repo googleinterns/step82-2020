@@ -123,7 +123,15 @@ def save_token(token):
         return response_object, 200
 
 @app.route('/apis/get-curr-user', methods=['GET'])
-def check_denylist():
+def check_denylist(request):
+    token = request.headers.get('jwt')
+    resp = decode_auth_token(token)
+    if not isinstance(resp, str):
+        response_object = {
+            'status': 'fail',
+            'message': resp
+        }
+        return response_object, 401
     token_query = datastore_client.query(kind='denylist_token')
     token_query.add_filter('jwt', '=', str(token))
     is_denied = list(token_query.fetch())
