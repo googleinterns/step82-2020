@@ -2,13 +2,13 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { Modal, Button, Form, Input } from 'antd';
+import { Modal, Button, Form, Input, Menu, Dropdown } from 'antd';
 
 const layout = {
   layout: 'vertical'
 };
 
-class BookmarkModal extends React.Component {
+class BookmarkMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, visible: false };
@@ -38,9 +38,21 @@ class BookmarkModal extends React.Component {
 
   render() {
     const { visible, loading } = this.state;
+
+    const menu = (<Menu>
+      <Menu.Item key="edit" onClick={this.showModal}>
+        Edit
+      </Menu.Item>
+      <Menu.Item key="delete">
+        Delete
+      </Menu.Item>
+    </Menu>);
+
     return (
       <div>
-        <Button className="ellipsis-card-button" type="link" icon={<EllipsisOutlined />} onClick={this.showModal} />
+        <Dropdown overlay={menu} trigger={['click']} className="ellipsis-card-button">
+          <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+        </Dropdown>
         <Modal
           visible={visible}
           onCancel={this.handleCancel}
@@ -102,4 +114,4 @@ class BookmarkModal extends React.Component {
   }
 }
 
-export default BookmarkModal
+export default BookmarkMenu
