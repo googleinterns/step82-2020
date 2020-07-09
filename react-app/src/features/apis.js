@@ -21,9 +21,10 @@ const logout = (currentUser) => axios.post(LOGOUT_URL, {
   user: currentUser
 });
 
-const checkUser = () => axios.get(GET_CURR_USER_URL)//, //{
-  //headers: {'Authorization': `${}`}
-//})
+const checkUser = (token) => axios.get(GET_CURR_USER_URL, {
+  headers: {'Authorization': token}
+  //jwt: token
+});
 
 export default {
   login, signup, logout, checkUser

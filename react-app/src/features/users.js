@@ -17,9 +17,8 @@ const usersSlice = createSlice({
     },
     loginSucceeded(state, action) {
       localStorage.setItem('currentToken', JSON.stringify(action.payload));
-
+      state.currentToken = localStorage.getItem('currentToken');
       state.isLoggingIn = false;
-      state.currentUser = action.payload;
     },
     loginFailed(state) {
       state.isLoggingIn = false;
@@ -31,18 +30,17 @@ const usersSlice = createSlice({
     },
     getCurrentUserSucceeded(state) {
       state.isCurrentUserFetched = true;
+      state.currentToken = localStorage.getItem('currentToken');
     },
     logout(state) {
-      localStorage.removeItem('currentUser');
       localStorage.removeItem('currentToken');
-      delete state.currentUser;
       delete state.currentToken;
     },
   },
 });
 
 export const {
-  loginStart, loginSucceeded, loginFailed, logout,
+  loginStart, loginSucceeded, loginFailed, logout, getCurrentUserFailed, getCurrentUserSucceeded
 } = usersSlice.actions;
 
 export const login = (username, password) => async dispatch => {
@@ -69,13 +67,14 @@ export const logOut = (user) => async dispatch => {
   }
 }
 
-export const getCurrentUser = (token) => async dispatch => {
+export const getCurrentUser = () => async dispatch => {
   console.log("checking token")
   const currentToken = localStorage.getItem('currentToken')
   try {
-    const response = await apis.getCurrentUser(currentToken)
-    console.log("token response: " + response)
+    const response = await apis.checkUser(currentToken)
+    dispatch(getCurrentUserSucceeded())
   } catch (err) {
+    dispatch(getCurrentUserFailed())
     console.log(err)
   }
 }

@@ -86,7 +86,7 @@ def logout_user():
         auth_token = ''
     if auth_token:
         resp = decode_auth_token(auth_token)
-        if isinstance(resp, str):
+        if is_valid_instance(resp):
             return save_token(token=auth_token)
         else:
             response_object = {
@@ -100,6 +100,11 @@ def logout_user():
             'message': 'Provide a valid auth token.'
         }
         return response_object, 403
+
+def is_valid_instance(resp):
+    if resp == "Token denylisted. Please log in again" or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
+        return False
+    return True
 
 # add token to denylist
 def save_token(token):
@@ -123,19 +128,35 @@ def save_token(token):
         return response_object, 200
 
 @app.route('/apis/get-curr-user', methods=['GET'])
-def check_denylist(request):
-    token = request.headers.get('jwt')
+def get_curr_user():
+    token = request.headers.get('Authorization')
+    try:
+        token_check = check_denylist(token)
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': e
+        }
+        return response_object, 401
+
     resp = decode_auth_token(token)
-    if not isinstance(resp, str):
+    if not is_valid_instance(resp):
         response_object = {
             'status': 'fail',
             'message': resp
         }
         return response_object, 401
+    return token
+
+def check_denylist(token):
     token_query = datastore_client.query(kind='denylist_token')
     token_query.add_filter('jwt', '=', str(token))
     is_denied = list(token_query.fetch())
-    return is_denied
+    if is_denied:
+        return 401
+    else:
+        return token
+
 
 # password
 def password(password):

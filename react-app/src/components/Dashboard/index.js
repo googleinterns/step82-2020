@@ -15,23 +15,21 @@ const Dashboard = () => {
 
   const dispatch = useDispatch()
 
-  const user = useSelector(state => state.users.currentUser)
+  const token = useSelector(state => state.users.currentToken)
   const userFetched = useSelector(state => state.users.isCurrentUserFetched)
-  //const token = useSelector(state => state.users.currentToken)
 
   useEffect(() => {
     dispatch(getCurrentUser())
   }, []);
 
-  console.log(user)
+  console.log(token)
   console.log(userFetched)
-  //console.log("token: " + token)
   
   const history = useHistory()
 
   if(!userFetched) return <div/>
 
-  if(!user && userFetched) {
+  if(!token && userFetched) {
     history.push("/get-started")
   }
   
