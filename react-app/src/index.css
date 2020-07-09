@@ -51,6 +51,19 @@ code {
   height: 84vh;
 }
 
+.home-body {
+  padding-left: 100px;
+}
+
+.home-title {
+  padding: 15vh 0 20vh;
+  font-size: 100px;
+}
+
+.home-button {
+  margin-right: 30px;
+}
+
 .topbar-wrapper {
   position: relative;
   height: 153px!important;
