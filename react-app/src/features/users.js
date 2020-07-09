@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import apis from './apis';
 
 const initialState = {
+  isFetchingUser: false,
   isCurrentUserFetched: false,
   isLoggingIn: false,
   isSigningUp: false,
@@ -11,10 +12,20 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    getCurrentUser(state) {
-      const currentUser = localStorage.getItem('currentUser');
+    getCurrentUserStart(state) {
+      state.isFetchingUser = true;
+    },
+    getCurrentUserSucceeded(state, action){
+      state.isFetchingUser = false;
       state.isCurrentUserFetched = true;
-      state.currentUser = currentUser && JSON.parse(currentUser);
+      state.currentUser = action.payload;
+      delete state.authorizationError;
+    },
+    getCurrentUserFailed(state, action){
+      state.isFetchingUser = false;
+      state.isCurrentUserFetched = false;
+      state.authorizationError = action.payload;
+      delete state.currentUser
     },
     signUpStart(state, _action) {
       state.isSigningUp = true;
@@ -32,32 +43,35 @@ const usersSlice = createSlice({
       delete state.loginError;
     },
     loginSucceeded(state, action) {
-      localStorage.setItem('currentUser', JSON.stringify(action.payload));
+      localStorage.setItem('currentToken', action.payload);
 
-      state.isLoggingIn = false;
       state.currentUser = action.payload;
+      state.isLoggingIn = false;
     },
     loginFailed(state, action) {
       state.isLoggingIn = false;
       state.loginError = action.payload;
     },
     logout(state) {
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
   },
 });
 
 export const {
-  getCurrentUser, signUpStart, signUpSucceeded, signUpFailed, loginStart, loginSucceeded, loginFailed, logout,
+  getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed, 
+  signUpStart, signUpSucceeded, signUpFailed, 
+  loginStart, loginSucceeded, loginFailed, 
+  logout,
 } = usersSlice.actions;
 
 export const login = (username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(loginStart())
     const response = await apis.login(username, password)
+    dispatch(loginSucceeded(response.data.Authorization))
     callbackSucceed()
-    dispatch(loginSucceeded(response.data))
   } catch (err) {
     dispatch(loginFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
@@ -68,12 +82,22 @@ export const signUp = (email, username, password, callbackSucceed, callbackFaile
   try {
     dispatch(signUpStart())
     await apis.signUp(email, username, password) 
-    callbackSucceed()
     dispatch(signUpSucceeded())
+    callbackSucceed()
   } catch (err) {
     dispatch(signUpFailed(err.response.data.message))
-    console.log(err.response)
     callbackFailed(err.response.data.message)
+  }
+}
+
+export const checkUser = () => async dispatch => {
+  try{
+    dispatch(getCurrentUserStart())
+    // const response = await apis.checkUser(localStorage.getItem('currentToken'))
+    dispatch(getCurrentUserSucceeded(localStorage.getItem('currentToken')))
+  } catch(err){
+    dispatch(getCurrentUserFailed(err.response.data.message))
+    console.log(err.response)
   }
 }
 

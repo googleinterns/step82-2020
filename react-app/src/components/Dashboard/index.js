@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getCurrentUser } from '../../features/users';
+import { checkUser } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Spin } from 'antd';
@@ -16,21 +16,23 @@ const Dashboard = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCurrentUser())
+    dispatch(checkUser())
   }, []);
 
   const currentUser = useSelector(state => state.users.currentUser)
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
+  const isFetchingUser = useSelector(state => state.users.isFetchingUser)
+  // const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
+  const authorizationError = useSelector(state => state.users.authorizationError)
 
   const history = useHistory()
 
-  if (!isCurrentUserFetched) return (
+  if (isFetchingUser) return (
     <div className="center-load">
       <Spin size="large" />
     </div>
   )
 
-  if (!currentUser && isCurrentUserFetched) {
+  if (!currentUser || authorizationError && !isFetchingUser) {
     console.log(history)
     history.push("/get-started")
     console.log(history)
