@@ -57,6 +57,7 @@ const NewButton = () => {
         New</Button>
       <Modal
         visible={state.visible}
+        onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
@@ -65,7 +66,7 @@ const NewButton = () => {
             Submit
           </Button>,
         ]}>
-        <Tabs defaultActiveKey="bookmark" onChange={switchForm} >
+        <Tabs defaultActiveKey={state.form} onChange={switchForm} >
           <TabPane tab="Bookmark" key="bookmark">
             <Form
               {...{ layout: 'vertical' }}
