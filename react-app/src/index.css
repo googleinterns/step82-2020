@@ -12,6 +12,23 @@ code {
     monospace;
 }
 
+.new-button {
+  height: 40px!important;
+  width: 100%;
+  text-align-last: left;
+}
+
+.card-header {
+  display: inline-flex;
+  width: 100%;
+  position: relative!important;
+}
+
+.ellipsis-card-button {
+  position: absolute!important;
+  right: 0px!important;
+}
+
 .login-form-forgot {
   float: right;
 }
@@ -73,6 +90,9 @@ code {
 
 .sidebar {
   position: fixed;
+  min-width: 250px!important;
+  max-width: 250px!important;
+  width: 250px!important;
   height: 100vh;
   left: 0px;
 }
@@ -82,11 +102,59 @@ code {
   height: 84vh;
 }
 
+.home-body {
+  padding-left: 100px;
+}
+
+.home-title {
+  padding: 15vh 0 20vh;
+  font-size: 100px;
+}
+
+.home-button {
+  margin-right: 30px;
+}
+
+.topbar-wrapper {
+  position: relative;
+  height: 153px!important;
+}
+
+.card {
+  border-radius: 10px !important;
+  background-color: pink !important;
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
 }
+
+.top-search {
+  width: 80%!important;
+}
+
+.top-button {
+  padding: 0px;
+  margin: 15px;
+  float: right;
+  height: 35px;
+  padding: 0 5px;
+  align-items: center;
+}
+
+.top-icon {
+  padding: 0px;
+  margin: 15px;
+  float: right;
+  height: 35px;
+  padding: 5px 5px 0px;
+  font-size: 25px;
+  align-items: center;
+  color: white !important;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }
