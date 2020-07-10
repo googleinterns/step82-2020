@@ -13,5 +13,5 @@ const addCollection = (name, description) => axios.post(ADD_COLLECTION_URL, {
 });
 
 export default {
-  login,
+  login, addCollection
 }

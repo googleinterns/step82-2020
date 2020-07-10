@@ -7,10 +7,6 @@ import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-// const layout = {
-//   layout: 'vertical'
-// };
-
 class NewButton extends React.Component {
   constructor(props) {
     super(props);
