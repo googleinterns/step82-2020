@@ -5,7 +5,7 @@ const initialState = {
 
 };
 
-const usersSlice = createSlice({
+const clinkSlice = createSlice({
   name: 'clink',
   initialState,
   reducers: {
@@ -15,7 +15,7 @@ const usersSlice = createSlice({
 
 export const {
 
-} = usersSlice.actions;
+} = clinkSlice.actions;
 
 export const addClink = (title) => async dispatch => {
   try {
@@ -25,4 +25,4 @@ export const addClink = (title) => async dispatch => {
   }
 }
 
-export default usersSlice.reducer;
+export default clinkSlice.reducer;

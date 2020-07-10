@@ -30,7 +30,7 @@ class NewButton extends React.Component {
   onClinkFinish = values => {
     console.log(values);
     this.setState({ loading: true })
-    //dispatchClink(values.title);
+    //dispatch to addClink
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
