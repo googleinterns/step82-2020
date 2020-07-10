@@ -156,9 +156,10 @@ def save_token(token):
         }
         return response_object, 200
     except Exception as e:
+        print(e)
         response_object = {
             'status': 'fail',
-            'message': e
+            'message': 'Could not log out.'
         }
         return response_object, 200
 
