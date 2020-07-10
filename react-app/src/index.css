@@ -16,6 +16,37 @@ code {
   float: right;
 }
 
+.topbar{
+  height: 153px!important;
+}
+
+.topbar-searchbar-wrapper{
+  position: relative!important;
+  width: 100%;
+}
+
+.topbar-search{
+  width: 80%!important; 
+}
+
+.topbar-button{
+  position: absolute!important;
+  top: 17px;
+  left: 90%;
+}
+
+.topbar-user-icon{
+  position: relative;
+  top: 8px;
+  left: 225px;
+  font-size: 25px;
+  color: white!important;
+}
+
+.topbar-title{
+  color: white!important;
+}
+
 .ant-col-rtl .login-form-forgot {
   float: left;
 }
@@ -29,20 +60,20 @@ code {
 }
 
 .center-tabs {
+  display: table;
+  position: fixed;
   min-width: 320px;
   max-width: 320px;
   width: 320px;
   height: 397.6px;
-  display: table;
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .sidebar {
-  height: 100vh;
   position: fixed;
+  height: 100vh;
   left: 0px;
 }
 
