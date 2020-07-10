@@ -21,9 +21,6 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getCurrentUser())
   }, []);
-
-  console.log(token)
-  console.log(userFetched)
   
   const history = useHistory()
 

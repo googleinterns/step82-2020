@@ -9,7 +9,6 @@ import { getCurrentUser } from '../../features/users';
 
 
 const { Header } = Layout;
-const { Search } = Input;
 
 const Topbar = () => {
 
