@@ -3,11 +3,9 @@ import { logOut } from '../../features/users';
 import { useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { Layout, Input, Button} from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 
 const { Header } = Layout;
-const { Search } = Input;
 
 const Topbar = () => {
 
