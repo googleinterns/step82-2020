@@ -1,11 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
+import addClink from '../../features/clink'
 
 const { Option } = Select;
 const { TabPane } = Tabs;
+
+function mapDispatchToProps(dispatch) {
+  return { onClinkFinish: (title) => dispatch(addClink(title)) };
+}
 
 class NewButton extends React.Component {
   constructor(props) {
@@ -31,6 +37,7 @@ class NewButton extends React.Component {
     console.log(values);
     this.setState({ loading: true })
     //dispatch to addClink
+    this.props.onClinkFinish(values.clinkTitle);
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
@@ -161,4 +168,6 @@ class NewButton extends React.Component {
   }
 }
 
-export default NewButton;
+export default connect(
+  mapDispatchToProps
+)(NewButton);

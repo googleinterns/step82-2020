@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/apis';
+const BASE_URL = 'http://localhost:5000/apis';
 const LOGIN_URL = `${BASE_URL}/login`;
-const ADD_COLLECTION_URL = `${BASE_URL}/add-collection`;
+const ADD_CLINK_URL = `${BASE_URL}/add-clink`;
 
 const login = (username, password) =>
   axios.post(LOGIN_URL, {username, password});
 
-const addClink = (title) => axios.post(ADD_COLLECTION_URL, {
+const addClink = (title) => axios.post(ADD_CLINK_URL, {
   title: title
 });
 

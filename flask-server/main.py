@@ -117,11 +117,11 @@ def decode_auth_token(auth_token):
 
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    entity = datastore_client.Entity(key=datastore_client.key('clink'))
-    entiy.update({
+    entity = datastore.Entity(key=datastore_client.key('clink'))
+    entity.update({
         'title': request.json['title']
     })
-    datastore_client.put(entity)
+    return datastore_client.put(entity)
         
 # routing
 @app.route('/', defaults={'path': ''})
