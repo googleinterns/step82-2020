@@ -6,7 +6,7 @@ const SIGNUP_URL = `${BASE_URL}/sign-up`;
 const LOGOUT_URL = `${BASE_URL}/logout`;
 const GET_CURR_USER_URL = `${BASE_URL}/get-curr-user`;
 
-const signup = (email, username, password) => axios.post(SIGNUP_URL, {
+const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
   username: username,
   password: password
@@ -21,11 +21,11 @@ const logout = (token) => axios.post(LOGOUT_URL, {
   Authorization: token
 });
 
-const checkuser = (token) => axios.get(GET_CURR_USER_URL, {
+const checkUser = (token) => axios.get(GET_CURR_USER_URL, {
   headers: {'Authorization': token}
 });
 
 
 export default {
-  login, signup, logout, checkuser
+  signUp, login, logout, checkUser
 } 	
