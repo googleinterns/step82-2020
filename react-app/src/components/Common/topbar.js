@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { Layout, Input, Button} from 'antd';
+import { Layout, Button} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logOut } from '../../features/users';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import { getCurrentUser } from '../../features/users';
 
 
 const { Header } = Layout;
-const { Search } = Input;
 
 const Topbar = () => {
 
