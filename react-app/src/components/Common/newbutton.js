@@ -26,6 +26,16 @@ class NewButton extends React.Component {
     }, 3000);
   };
 
+
+  onClinkFinish = values => {
+    console.log(values);
+    this.setState({ loading: true })
+    //dispatchClink(values.title);
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  };
+
   onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
@@ -127,12 +137,12 @@ class NewButton extends React.Component {
                 initialValues={{
                   remember: false,
                 }}
-                onFinish={this.onFinish}
+                onFinish={this.onClinkFinish}
                 onFinishFailed={this.onFinishFailed}
               >
                 <Form.Item
                   label="Clink Title"
-                  name="clink title"
+                  name="clinkTitle"
                   rules={[
                     {
                       required: true,

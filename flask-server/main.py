@@ -114,6 +114,14 @@ def decode_auth_token(auth_token):
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
+
+@app.route('/apis/add-clink', methods=['POST'])
+def add_clink():
+    entity = datastore_client.Entity(key=datastore_client.key('clink'))
+    entiy.update({
+        'title': request.json['title']
+    })
+    datastore_client.put(entity)
         
 # routing
 @app.route('/', defaults={'path': ''})
