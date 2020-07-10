@@ -24,7 +24,6 @@ class NewButton extends React.Component {
   };
 
   onFinish = values => {
-    console.log('Success:', values);
     this.setState({ loading: true })
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
