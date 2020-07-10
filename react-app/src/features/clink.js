@@ -25,4 +25,12 @@ export const addClink = (title) => async dispatch => {
   }
 }
 
+export const addBookmark = (link, title, description, clink) => async dispatch => {
+  try {
+    const response = await apis.addBookmark(link, title, description, clink)
+  } catch (err) {
+    
+  }
+}
+
 export default clinkSlice.reducer;
