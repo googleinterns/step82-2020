@@ -61,7 +61,7 @@ const NewButton = () => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form='clink' htmlType="submit" key="submit" type="primary" loading={state.loading} >
+          <Button form={state.form} htmlType="submit" key="submit" type="primary" loading={state.loading} >
             Submit
           </Button>,
         ]}>
