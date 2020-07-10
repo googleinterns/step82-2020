@@ -10,7 +10,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 
 const NewButton = () => {
-  
+
   const dispatch = useDispatch()
 
   const [state, setState] = useState({ loading: false, visible: false, form: 'bookmark' })
@@ -47,12 +47,8 @@ const NewButton = () => {
     setState({ visible: false, form: 'bookmark' });
   };
 
-  const switchForm = () => {
-    if (state.form === 'bookmark') {
-      setState({ visible: true, form: 'clink' });
-    } else {
-      setState({ visible: true, form: 'bookmark' });
-    }
+  const switchForm = (key) => {
+    setState({ visible: true, form: key });
   }
 
   return (
@@ -61,7 +57,6 @@ const NewButton = () => {
         New</Button>
       <Modal
         visible={state.visible}
-        onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel

@@ -34,8 +34,8 @@ export const addClink = (title) => async dispatch => {
     await apis.addClink(title) // maybe save value as an variable
     dispatch(addingClinkSucceed())
   } catch (err) {
-    console.log(err.response)
-    dispatch(addingClinkFailed(err.response))
+    console.log(err)
+    dispatch(addingClinkFailed(err))
   }
 }
 
