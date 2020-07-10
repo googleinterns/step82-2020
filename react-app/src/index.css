@@ -12,6 +12,23 @@ code {
     monospace;
 }
 
+.new-button {
+  height: 40px!important;
+  width: 100%;
+  text-align-last: left;
+}
+
+.card-header {
+  display: inline-flex;
+  width: 100%;
+  position: relative!important;
+}
+
+.ellipsis-card-button {
+  position: absolute!important;
+  right: 0px!important;
+}
+
 .login-form-forgot {
   float: right;
 }
