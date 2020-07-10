@@ -33,9 +33,7 @@ const Dashboard = () => {
   )
 
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
-    console.log(history)
     history.push("/get-started/login")
-    console.log(history)
   }
 
   return (
