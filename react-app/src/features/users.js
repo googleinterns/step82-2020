@@ -104,10 +104,11 @@ export const checkUser = () => async dispatch => {
   try {
     dispatch(getCurrentUserStart())
     const response = await apis.checkuser(localStorage.getItem('currentToken'))
+    console.log(response)
     dispatch(getCurrentUserSucceeded(response.data.message))
   } catch (err) {
-    dispatch(getCurrentUserFailed(err.response.data.message))
     console.log(err.response)
+    dispatch(getCurrentUserFailed(err.response.data.message))
   }
 }
 
