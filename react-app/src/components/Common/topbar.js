@@ -3,7 +3,9 @@ import { logOut } from '../../features/users';
 import { useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { Layout } from 'antd';
+import { Layout, Button} from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+
 
 const { Header } = Layout;
 
@@ -19,11 +21,6 @@ const Topbar = () => {
 
   return (
     <Header className="topbar-wrapper">
-      <Search
-        placeholder="Search in Title..."
-        onSearch={value => console.log(value)}
-        className="top-search"
-      />
       <UserOutlined className="top-icon" />
       <Button className="top-button" type="primary" onClick={logout}>Log Out</Button>
       <h1>TITLE</h1>

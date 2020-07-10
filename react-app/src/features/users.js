@@ -80,7 +80,7 @@ export const login = (username, password, remember, callbackSucceed, callbackFai
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(signUpStart())
-    await apis.signup(email, username, password)
+    await apis.signUp(email, username, password)
     dispatch(signUpSucceeded())
     callbackSucceed()
   } catch (err) {
@@ -103,7 +103,7 @@ export const logOut = (user) => async dispatch => {
 export const checkUser = () => async dispatch => {
   try {
     dispatch(getCurrentUserStart())
-    const response = await apis.checkuser(localStorage.getItem('currentToken'))
+    const response = await apis.checkUser(localStorage.getItem('currentToken'))
     console.log(response)
     dispatch(getCurrentUserSucceeded(response.data.message))
   } catch (err) {
