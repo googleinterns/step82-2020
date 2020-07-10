@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import apis from './apis';
 
 const initialState = {
+  isFetchingUser: false,
   isCurrentUserFetched: false,
   isLoggingIn: false,
   isSigningUp: false,
@@ -11,53 +12,85 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    getCurrentUserStart(state) {
+      state.isFetchingUser = true;
+    },
+    getCurrentUserSucceeded(state, action) {
+      state.isFetchingUser = false;
+      state.isCurrentUserFetched = true;
+      state.currentUser = action.payload;
+      delete state.authorizationError;
+    },
+    getCurrentUserFailed(state, action) {
+      state.isFetchingUser = false;
+      state.isCurrentUserFetched = false;
+      state.authorizationError = action.payload;
+      delete state.currentUser
+    },
+    signUpStart(state, _action) {
+      state.isSigningUp = true;
+      delete state.signUpError;
+    },
+    signUpSucceeded(state) {
+      state.isSigningUp = false;
+    },
+    signUpFailed(state, action) {
+      state.isSigningUp = false;
+      state.signUpError = action.payload;
+    },
     loginStart(state, _action) {
       state.isLoggingIn = true;
       delete state.loginError;
+      delete state.authorizationError;
     },
     loginSucceeded(state, action) {
-      localStorage.setItem('currentToken', JSON.stringify(action.payload));
-      state.currentToken = localStorage.getItem('currentToken');
+      localStorage.setItem('currentToken', action.payload);
       state.isLoggingIn = false;
     },
-    loginFailed(state) {
+    loginFailed(state, action) {
       state.isLoggingIn = false;
-      state.loginError = 'Login Failed';
-    },
-    getCurrentUserFailed(state) {
-      state.isCurrentUserFetched = true;
-      state.getCurrUserError = 'Get user failed';
-    },
-    getCurrentUserSucceeded(state) {
-      state.isCurrentUserFetched = true;
-      state.currentToken = localStorage.getItem('currentToken');
+      state.loginError = action.payload;
     },
     logout(state) {
       localStorage.removeItem('currentToken');
-      delete state.currentToken;
+      delete state.currentUser;
     },
   },
 });
 
 export const {
-  loginStart, loginSucceeded, loginFailed, logout, getCurrentUserFailed, getCurrentUserSucceeded
+  getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
+  signUpStart, signUpSucceeded, signUpFailed,
+  loginStart, loginSucceeded, loginFailed,
+  logout,
 } = usersSlice.actions;
 
-export const login = (username, password) => async dispatch => {
-  console.log("logging in...")
+export const login = (username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(loginStart())
     const response = await apis.login(username, password)
-    console.log(response)
     dispatch(loginSucceeded(response.data.Authorization))
+    callbackSucceed()
   } catch (err) {
-    dispatch(loginFailed(err.toString()))
+    dispatch(loginFailed(err.response.data.message))
+    callbackFailed(err.response.data.message)
+  }
+}
+
+export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
+  try {
+    dispatch(signUpStart())
+    await apis.signUp(email, username, password)
+    dispatch(signUpSucceeded())
+    callbackSucceed()
+  } catch (err) {
     console.log(err)
+    dispatch(signUpFailed(err.response.data.message))
+    callbackFailed(err.response.data.message)
   }
 }
 
 export const logOut = (user) => async dispatch => {
-  console.log("logging out...")
   try {
     dispatch(logout())
     const response = await apis.logout(user)
@@ -67,15 +100,15 @@ export const logOut = (user) => async dispatch => {
   }
 }
 
-export const getCurrentUser = () => async dispatch => {
-  console.log("checking token")
-  const currentToken = localStorage.getItem('currentToken')
+export const checkUser = () => async dispatch => {
   try {
-    const response = await apis.checkUser(currentToken)
-    dispatch(getCurrentUserSucceeded())
+    dispatch(getCurrentUserStart())
+    const response = await apis.checkUser(localStorage.getItem('currentToken'))
+    console.log(response)
+    dispatch(getCurrentUserSucceeded(response.data.message))
   } catch (err) {
-    dispatch(getCurrentUserFailed())
-    console.log(err)
+    console.log(err.response)
+    dispatch(getCurrentUserFailed(err.response.data.message))
   }
 }
 
