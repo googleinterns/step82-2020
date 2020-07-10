@@ -7,9 +7,9 @@ import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-const layout = {
-  layout: 'vertical'
-};
+// const layout = {
+//   layout: 'vertical'
+// };
 
 class NewButton extends React.Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class NewButton extends React.Component {
           <Tabs defaultActiveKey="bookmark" onChange={this.switchForm} >
             <TabPane tab="Bookmark" key="bookmark">
               <Form
-                {...layout}
+                {...{ layout: 'vertical' }}
                 name="bookmark"
                 initialValues={{
                   remember: false,
@@ -126,7 +126,7 @@ class NewButton extends React.Component {
             </TabPane>
             <TabPane tab="Clink" key="clink">
               <Form
-                {...layout}
+                {...{layout: 'vertical'}}
                 name="clink"
                 initialValues={{
                   remember: false,
