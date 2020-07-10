@@ -41,6 +41,9 @@ code {
 }
 
 .sidebar {
+  min-width: 250px!important;
+  max-width: 250px!important;
+  width: 250px!important;
   height: 100vh;
   position: fixed;
   left: 0px;
@@ -49,6 +52,19 @@ code {
 .sidebar-scroll {
   overflow: auto;
   height: 84vh;
+}
+
+.home-body {
+  padding-left: 100px;
+}
+
+.home-title {
+  padding: 15vh 0 20vh;
+  font-size: 100px;
+}
+
+.home-button {
+  margin-right: 30px;
 }
 
 .topbar-wrapper {

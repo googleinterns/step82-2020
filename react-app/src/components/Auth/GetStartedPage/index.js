@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from "react-router-dom";
 import 'antd/dist/antd.css';
 import '../../../index.css';
 import { Tabs } from 'antd';
@@ -13,8 +14,10 @@ function callback(key) {
 
 const GetStartedPage = () => {
 
+  let { form } = useParams()
+
   return (
-    <Tabs className="center-tabs" defaultActiveKey="login" onChange={callback}>
+    <Tabs className="center-tabs" defaultActiveKey={form} onChange={callback}>
       <TabPane tab="Login" key="login">
         <LoginPage />
       </TabPane>
