@@ -7,11 +7,10 @@ const ADD_COLLECTION_URL = `${BASE_URL}/add-collection`;
 const login = (username, password) =>
   axios.post(LOGIN_URL, {username, password});
 
-const addCollection = (name, description) => axios.post(ADD_COLLECTION_URL, {
-  name: name,
-  description: description
+const addClink = (title) => axios.post(ADD_COLLECTION_URL, {
+  title: title
 });
 
 export default {
-  login, addCollection
+  login, addClink
 }
