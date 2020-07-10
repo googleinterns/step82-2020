@@ -122,6 +122,17 @@ def add_clink():
         'title': request.json['title']
     })
     return datastore_client.put(entity)
+
+@app.route('/apis/add-bookmark', methods=['POST'])
+def add_clink():
+    entity = datastore.Entity(key=datastore_client.key('bookmark'))
+    entity.update({
+        'link': request.json['link'],
+        'title': request.json['title'],
+        'description': request.json['description'],
+        'clink': reques.json['clink']
+    })
+    return datastore_client.put(entity)
         
 # routing
 @app.route('/', defaults={'path': ''})
