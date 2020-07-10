@@ -55,4 +55,12 @@ export const login = (username, password) => async dispatch => {
   }
 }
 
+export const addCollection = (name, description) => async dispatch => {
+  try {
+    const response = await apis.addCollection(name, description)
+  } catch (err) {
+    
+  }
+}
+
 export default usersSlice.reducer;
