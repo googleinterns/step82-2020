@@ -111,89 +111,6 @@ def login_user():
         }
         return response_object, 500
 
-# logout api
-@app.route('/apis/logout', methods=['POST'])
-def logout_user():
-    user = request.json['user']
-    if user:
-        auth_token = user.get('Authorization')
-    else:
-        auth_token = ''
-    if auth_token:
-        resp = decode_auth_token(auth_token)
-        if is_valid_instance(resp):
-            return save_token(token=auth_token)
-        else:
-            response_object = {
-                'status': 'fail',
-                'message': resp
-            }
-            return response_object, 401
-    else:
-        response_object = {
-            'status': 'fail',
-            'message': 'Provide a valid auth token.'
-        }
-        return response_object, 403
-
-def is_valid_instance(resp):
-    if resp == "Token denylisted. Please log in again" or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
-        return False
-    return True
-
-# add token to denylist
-def save_token(token):
-    try:
-        deny_token = datastore.Entity(key=datastore_client.key('denylist_token'))
-        deny_token.update({
-            'jwt': str(token)
-        })
-        datastore_client.put(deny_token)
-
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully logged out.'
-        }
-        return response_object, 200
-    except Exception as e:
-        print(e)
-        response_object = {
-            'status': 'fail',
-            'message': 'Could not log out.'
-        }
-        return response_object, 200
-
-@app.route('/apis/get-curr-user', methods=['GET'])
-def get_curr_user():
-    token = request.headers.get('Authorization')
-    try:
-        token_check = check_denylist(token)
-    except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': e
-        }
-        return response_object, 401
-
-    resp = decode_auth_token(token)
-    if not is_valid_instance(resp):
-        response_object = {
-            'status': 'fail',
-            'message': resp
-        }
-        return response_object, 401
-    return token
-
-def check_denylist(token):
-    token_query = datastore_client.query(kind='denylist_token')
-    token_query.add_filter('jwt', '=', str(token))
-    is_denied = list(token_query.fetch())
-    if is_denied:
-        return 401
-    else:
-        return token
-
-
 # password
 def password(password):
     return bcrypt.generate_password_hash(password).decode('utf-8')        
@@ -301,8 +218,9 @@ def save_token(token):
         return response_object, 200
     except Exception as e:
         response_object = {
+            print(e)
             'status': 'fail',
-            'message': e
+            'message': 'Succssfully logout out w/ error.'
         }
         return response_object, 200
 
