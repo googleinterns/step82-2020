@@ -1,21 +1,36 @@
 import React from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { login } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { message, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const LoginPage = () => {
-  
-  const onFinish = values => {
-    axios.post('/login', {
-      username: values.username,
-      password: values.password
-    }).then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+
+  const dispatch = useDispatch()
+
+  const key = "loginFeedBack"
+
+  const history = useHistory()
+
+  const logInSucceedCallback = () => {
+    setTimeout(() => {
+      message.success({ content: 'Successfully logged in.', key, duration: 2 });
+    }, 1000)
+    history.push("/dashboard")
+  }
+
+  const logInFailedCallback = (loginError) => {
+    setTimeout(() => {
+      message.error({ content: loginError, key, duration: 2 });
+    }, 1000)
+  }
+
+  const onFinish = (values) => {
+    message.loading({ content: 'Logging in...', key })
+    dispatch(login(values.username, values.password, logInSucceedCallback, logInFailedCallback))
   };
 
   return (
@@ -35,7 +50,11 @@ const LoginPage = () => {
           },
         ]}
       >
-        <Input autocomplete="username" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input
+          autocomplete="username"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+        />
       </Form.Item>
 
       <Form.Item
@@ -47,7 +66,12 @@ const LoginPage = () => {
           },
         ]}
       >
-        <Input.Password autocomplete="current-password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input.Password
+          autocomplete="current-password"
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item>
@@ -61,12 +85,16 @@ const LoginPage = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button className="login-form-button" type="primary" htmlType="submit">
+        <Button
+          className="login-form-button"
+          type="primary"
+          htmlType="submit"
+        >
           Log in
         </Button>
       </Form.Item>
     </Form>
-  );
-}
+  )
+};
 
 export default LoginPage;
