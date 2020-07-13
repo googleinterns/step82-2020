@@ -241,7 +241,7 @@ def add_clink():
                 'status': 'fail',
                 'message': 'Title already exists.'
             }
-            return response_object, 401
+            return response_object, 400
     
         else:
             entity = datastore.Entity(key=datastore_client.key('clink'))
@@ -262,7 +262,7 @@ def add_clink():
             'status': 'fail',
             'message': 'Try to add clink again.'
         }
-        return response_object, 401
+        return response_object, 400
 
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
