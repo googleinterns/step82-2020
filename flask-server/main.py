@@ -107,7 +107,7 @@ def login_user():
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Try again.'
+            'message': 'Try to login again.'
         }
         return response_object, 500
 
@@ -231,11 +231,38 @@ def check_denylist(token):
 
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    entity = datastore.Entity(key=datastore_client.key('clink'))
-    entity.update({
-        'title': request.json['title']
-    })
-    return datastore_client.put(entity)
+    try:
+        titleQuery = datastore_client.query(kind='clink')
+        titleQuery.add_filter('title', '=', request.json['title'])
+        titleResult = list(titleQuery.fetch())
+
+        if titleResult:
+            response_object = {
+                'status': 'fail',
+                'message': 'Title already exists.'
+            }
+            return response_object, 401
+    
+        else:
+            entity = datastore.Entity(key=datastore_client.key('clink'))
+            entity.update({
+                'title': request.json['title']
+            })
+            
+            datastore_client.put(entity)
+            
+            response_object = {
+                'status': 'success',
+                'message': 'Successfully added clink.'
+            }
+            return response_object, 200
+    
+    except Exception as e:
+        response_object = {
+            'status': 'fail',
+            'message': 'Try to add clink again.'
+        }
+        return response_object, 401
 
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
@@ -278,7 +305,7 @@ def add_bookmark():
             'message': 'Successfuly added bookmark.'
         }
         return response_object, 200
-
+        
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
