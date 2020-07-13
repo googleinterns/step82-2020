@@ -207,7 +207,7 @@ def add_clink():
             'status': 'fail',
             'message': 'Title already exists.'
         }
-        return response_object, 401
+        return response_object, 400
 
     else:
         entity = datastore.Entity(key=datastore_client.key('clink'))
