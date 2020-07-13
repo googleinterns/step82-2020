@@ -125,13 +125,18 @@ def add_clink():
 
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
-
-    linkQuery = datastore_client.query(kind='bookmark').add_filter('link', '=', request.json['link'])
+    linkQuery = datastore_client.query(kind='bookmark')
+    linkQuery.add_filter('link', '=', request.json['link'])
     linkResult = list(linkQuery.fetch())
-    titleQuery = datastore_client.query(kind='bookmark').add_filter('title', '=', request.json['title'])
+
+    titleQuery = datastore_client.query(kind='bookmark')
+    titleQuery.add_filter('title', '=', request.json['title'])
     titleResult = list(titleQuery.fetch())
-    clinkQuery = datastore_client.query(kind='bookmark').add_filter('clink', '=', request.json['clink'])
+
+    clinkQuery = datastore_client.query(kind='bookmark')
+    clinkQuery.add_filter('clink', '=', request.json['clink'])
     clinkResult = list(clinkQuery.fetch())
+
     if linkResult and clink:
         response_object = {
             'status': 'fail',
