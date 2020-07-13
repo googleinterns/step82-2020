@@ -76,6 +76,14 @@ code {
   width: 100%;
 }
 
+.center-load{
+  display: table;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .center-tabs {
   display: table;
   position: fixed;

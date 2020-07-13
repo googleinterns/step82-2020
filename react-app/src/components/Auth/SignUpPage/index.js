@@ -1,24 +1,34 @@
 import React from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../../../features/users';
 import 'antd/dist/antd.css';
 import '../../../index.css';
-import { Form, Input, Checkbox, Button } from 'antd';
+import { message, Form, Input, Checkbox, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 const SignUpPage = () => {
 
   const [form] = Form.useForm();
 
-  const onFinish = values => {
-    axios.post('/sign-up', {
-      email: values.email,
-      username: values.username,
-      password: values.password
-    }).then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+  const dispatch = useDispatch()
+
+  const key = "signUpFeedBack"
+
+  const signUpSucceedCallback = () => {
+    setTimeout(() => {
+      message.success({ content: 'Successfully signed up.', key, duration: 2 });
+    }, 1000)
+  }
+
+  const signUpFailedCallback = (signUpError) => {
+    setTimeout(() => {
+      message.error({ content: signUpError, key, duration: 2 });
+    }, 1000)
+  }
+
+  const onFinish = (values) => {
+    message.loading({ content: 'Signing up...', key })
+    dispatch(signUp(values.email, values.username, values.password, signUpSucceedCallback, signUpFailedCallback))
   };
 
   return (
