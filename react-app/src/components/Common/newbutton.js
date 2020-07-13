@@ -10,7 +10,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 
 const NewButton = () => {
-  
+
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
   const [clinkForm] = Form.useForm()
@@ -53,12 +53,8 @@ const NewButton = () => {
     bookmarkForm.resetFields()
   };
 
-  const switchForm = () => {
-    if (state.form === 'bookmark') {
-      setState({ visible: true, form: 'clink' });
-    } else {
-      setState({ visible: true, form: 'bookmark' });
-    }
+  const switchForm = (key) => {
+    setState({ visible: true, form: key });
   }
 
   return (
@@ -72,11 +68,11 @@ const NewButton = () => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form='clink' htmlType="submit" key="submit" type="primary" loading={state.loading} >
+          <Button form={state.form} htmlType="submit" key="submit" type="primary" loading={state.loading} >
             Submit
           </Button>,
         ]}>
-        <Tabs defaultActiveKey="bookmark" onChange={switchForm} >
+        <Tabs defaultActiveKey={state.form} onChange={switchForm} >
           <TabPane tab="Bookmark" key="bookmark">
             <Form
               {...{ layout: 'vertical' }}
