@@ -35,7 +35,7 @@ export const addClink = (title) => async dispatch => {
     dispatch(addingClinkSucceed())
   } catch (err) {
     console.log(err)
-    dispatch(addingClinkFailed(err))
+    dispatch(addingClinkFailed(err.response.data.message))
   }
 }
 
