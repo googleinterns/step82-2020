@@ -16,30 +16,33 @@ const NewButton = () => {
   const [clinkForm] = Form.useForm()
   const key = "formFeedback"
 
-  const [state, setState] = useState({ loading: false, visible: false, form: 'bookmark' })
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
-    setState({
-      visible: true,
-    });
+    console.log('showmodal')
+    setVisible(true);
   };
 
   const onBookmarkFinish = values => {
-    console.log(values)
-    setState({ loading: true })
+    console.log(values);
+    setLoading(true);
     bookmarkForm.resetFields()
     setTimeout(() => {
-      setState({ loading: false, visible: false });
+      setLoading(false);
+      setVisible(false);
     }, 3000);
   };
 
   const onClinkFinish = values => {
     console.log(values);
-    setState({ loading: true })
+    setLoading(true);
     dispatch(addClink(values.clinkTitle, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
-      setState({ loading: false, visible: false });
+      setLoading(false);
+      setVisible(false);
     }, 3000);
   };
 
@@ -63,13 +66,13 @@ const NewButton = () => {
   };
 
   const handleCancel = () => {
-    setState({ visible: false, form: 'bookmark' });
+    setVisible(false);
     clinkForm.resetFields()
     bookmarkForm.resetFields()
   };
 
   const switchForm = (key) => {
-    setState({ visible: true, form: key });
+    setForm(key);
   }
 
   return (
@@ -77,17 +80,17 @@ const NewButton = () => {
       <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={showModal}>
         New</Button>
       <Modal
-        visible={state.visible}
+        visible={visible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form={state.form} htmlType="submit" key="submit" type="primary" loading={state.loading} >
+          <Button form={form} htmlType="submit" key="submit" type="primary" loading={loading} >
             Submit
           </Button>,
         ]}>
-        <Tabs defaultActiveKey={state.form} onChange={switchForm} >
+        <Tabs defaultActiveKey={form} onChange={switchForm} >
           <TabPane tab="Bookmark" key="bookmark">
             <Form
               {...{ layout: 'vertical' }}
