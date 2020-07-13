@@ -34,7 +34,7 @@ const NewButton = () => {
   const onBookmarkFinish = values => {
     console.log(values);
     setLoading(true);
-    dispatch(addBookmark(values.link,values.title, values.description, clinkToAddTo))
+    dispatch(addBookmark(values.link,values.title, values.description, clinkToAddTo, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
       setLoading(false);

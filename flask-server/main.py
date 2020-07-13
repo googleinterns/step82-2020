@@ -278,13 +278,13 @@ def add_bookmark():
     clinkQuery.add_filter('clink', '=', request.json['clink'])
     clinkResult = list(clinkQuery.fetch())
 
-    if linkResult and clink:
+    if linkResult and clinkResult:
         response_object = {
             'status': 'fail',
             'message': 'Bookmark already exists in ' + request.json['clink'] + '.'
         }
         return response_object, 401
-    elif titleResult and clink:
+    elif titleResult and clinkResult:
         response_object = {
             'status': 'fail',
             'message': 'Title already exists in ' + request.json['clink'] + '.'
