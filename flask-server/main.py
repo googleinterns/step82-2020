@@ -124,15 +124,41 @@ def add_clink():
     return datastore_client.put(entity)
 
 @app.route('/apis/add-bookmark', methods=['POST'])
-def add_clink():
-    entity = datastore.Entity(key=datastore_client.key('bookmark'))
-    entity.update({
-        'link': request.json['link'],
-        'title': request.json['title'],
-        'description': request.json['description'],
-        'clink': reques.json['clink']
-    })
-    return datastore_client.put(entity)
+def add_bookmark():
+
+    linkQuery = datastore_client.query(kind='bookmark').add_filter('link', '=', request.json['link'])
+    linkResult = list(linkQuery.fetch())
+    titleQuery = datastore_client.query(kind='bookmark').add_filter('title', '=', request.json['title'])
+    titleResult = list(titleQuery.fetch())
+    clinkQuery = datastore_client.query(kind='bookmark').add_filter('clink', '=', request.json['clink'])
+    clinkResult = list(clinkQuery.fetch())
+    if linkResult and clink:
+        response_object = {
+            'status': 'fail',
+            'message': 'Bookmark already exists in ' + request.json['clink'] + '.'
+        }
+        return response_object, 200
+    elif titleResult and clink:
+        response_object = {
+            'status': 'fail',
+            'message': 'Title already exists in ' + request.json['clink'] + '.'
+        }
+        return response_object, 200
+    else:
+        entity = datastore.Entity(key=datastore_client.key('bookmark'))
+        entity.update({
+            'link': request.json['link'],
+            'title': request.json['title'],
+            'description': request.json['description'],
+            'clink': request.json['clink']
+        })
+        datastore_client.put(entity)
+
+        response_object = {
+            'status': 'success',
+            'message': 'Successfuly added bookmark.'
+        }
+        return response_object, 200
         
 # routing
 @app.route('/', defaults={'path': ''})
