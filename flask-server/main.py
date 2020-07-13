@@ -283,13 +283,13 @@ def add_bookmark():
             'status': 'fail',
             'message': 'Bookmark already exists in ' + request.json['clink'] + '.'
         }
-        return response_object, 200
+        return response_object, 401
     elif titleResult and clink:
         response_object = {
             'status': 'fail',
             'message': 'Title already exists in ' + request.json['clink'] + '.'
         }
-        return response_object, 200
+        return response_object, 401
     else:
         entity = datastore.Entity(key=datastore_client.key('bookmark'))
         entity.update({
