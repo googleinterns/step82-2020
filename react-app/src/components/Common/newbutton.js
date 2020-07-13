@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addClink } from '../../features/clink';
+import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
@@ -19,15 +19,22 @@ const NewButton = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
+  const clinkToAddTo = "All";
 
   const showModal = () => {
     console.log('showmodal')
     setVisible(true);
   };
 
+  const changeClinkToAdd = value => {
+    console.log(value);
+    clinkToAddTo = value;
+  }
+
   const onBookmarkFinish = values => {
     console.log(values);
     setLoading(true);
+    dispatch(addBookmark(values.link,values.title, values.description, clinkToAddTo))
     bookmarkForm.resetFields()
     setTimeout(() => {
       setLoading(false);
@@ -139,7 +146,8 @@ const NewButton = () => {
               </Form.Item>
               <Form.Item
                 label="Add to Clinks"
-                name="add"
+                name="toAdd"
+                onChange={changeClinkToAdd}
                 rules={[
                   {
                     required: false

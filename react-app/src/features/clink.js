@@ -20,12 +20,23 @@ const clinkSlice = createSlice({
     addingClinkFailed(state, action){
       state.isAddingClink = false;
       state.clinkError = action.payload;
-    }   
+    },
+    addingBookmarkStart(state){
+      state.isAddingBookmark = true;
+    },
+    addingBookmarkSucceed(state){
+      state.isAddingBookmark = false;
+      delete state.clinkError;
+    },
+    addingBookmarkFailed(state, action){
+      state.isAddingBookmark = false;
+      state.bookmarkError = action.payload;
+    }     
   },
 });
 
 export const {
-  addingClinkStart, addingClinkSucceed, addingClinkFailed
+  addingClinkStart, addingClinkSucceed, addingClinkFailed, addingBookmarkStart, addingBookmarkSucceed, addingBookmarkFailed
 } = clinkSlice.actions;
 
 export const addClink = (title, callbackSucceed, callbackFailed) => async dispatch => {
@@ -43,9 +54,13 @@ export const addClink = (title, callbackSucceed, callbackFailed) => async dispat
 
 export const addBookmark = (link, title, description, clink) => async dispatch => {
   try {
+    dispatch(addingBookmarkStart())
     const response = await apis.addBookmark(link, title, description, clink)
+    console.log(response)
+    dispatch(addingBookmarkSucceed())
   } catch (err) {
-    
+    console.log(err)
+    dispatch(addingBookmarkFailed(err.response.data.message))
   }
 }
 
