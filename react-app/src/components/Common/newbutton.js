@@ -16,30 +16,30 @@ const NewButton = () => {
   const [clinkForm] = Form.useForm()
   const key = "formFeedback"
 
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [visible, setIsVisible] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
-    setVisible(true);
+    setIsVisible(true);
   };
 
   const onBookmarkFinish = values => {
-    setLoading(true);
+    setIsLoading(true);
     bookmarkForm.resetFields()
     setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
+      setIsLoading(false);
+      setIsVisible(false);
     }, 3000);
   };
 
   const onClinkFinish = values => {
-    setLoading(true);
+    setIsLoading(true);
     dispatch(addClink(values.clinkTitle, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
+      setIsLoading(false);
+      setIsVisible(false);
     }, 3000);
   };
 
@@ -61,7 +61,7 @@ const NewButton = () => {
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    setIsVisible(false);
     clinkForm.resetFields()
     bookmarkForm.resetFields()
   };
