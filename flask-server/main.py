@@ -72,7 +72,7 @@ def login_user():
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Try again'
+            'message': 'Try to login again.'
         }
         return response_object, 500
 
@@ -119,11 +119,26 @@ def decode_auth_token(auth_token):
 
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    entity = datastore.Entity(key=datastore_client.key('clink'))
-    entity.update({
-        'title': request.json['title']
-    })
-    return datastore_client.put(entity)
+    try:
+        entity = datastore.Entity(key=datastore_client.key('clink'))
+        entity.update({
+            'title': request.json['title']
+        })
+        
+        datastore_client.put(entity)
+        
+        response_object = {
+                        'status': 'success',
+                        'message': 'Successfully added clink.'
+        }
+        return response_object, 200
+    
+    except Exception as e:
+        response_object = {
+                        'status': 'fail',
+                        'message': 'Try to add clink again.'
+        }
+        return response_object, 401
         
 # routing
 @app.route('/', defaults={'path': ''})
