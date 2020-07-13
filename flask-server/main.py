@@ -225,7 +225,7 @@ def save_token(token):
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Succssfully logout out w/ error.'
+            'message': 'Successfully logout out w/ error.'
         }
         return response_object, 200
 
