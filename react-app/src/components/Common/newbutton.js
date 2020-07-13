@@ -12,6 +12,8 @@ const { TabPane } = Tabs;
 const NewButton = () => {
   
   const dispatch = useDispatch()
+  const [bookmarkForm] = Form.useForm()
+  const [clinkForm] = Form.useForm()
 
   const [state, setState] = useState({ loading: false, visible: false, form: 'bookmark' })
 
@@ -21,9 +23,10 @@ const NewButton = () => {
     });
   };
 
-  const onFinish = values => { // onBookmarkFinish
+  const onBookmarkFinish = values => {
     console.log(values)
     setState({ loading: true })
+    bookmarkForm.resetFields()
     setTimeout(() => {
       setState({ loading: false, visible: false });
     }, 3000);
@@ -34,6 +37,7 @@ const NewButton = () => {
     console.log(values);
     setState({ loading: true })
     dispatch(addClink(values.clinkTitle))
+    clinkForm.resetFields()
     setTimeout(() => {
       setState({ loading: false, visible: false });
     }, 3000);
@@ -45,6 +49,8 @@ const NewButton = () => {
 
   const handleCancel = () => {
     setState({ visible: false, form: 'bookmark' });
+    clinkForm.resetFields()
+    bookmarkForm.resetFields()
   };
 
   const switchForm = () => {
@@ -74,11 +80,12 @@ const NewButton = () => {
           <TabPane tab="Bookmark" key="bookmark">
             <Form
               {...{ layout: 'vertical' }}
+              form={bookmarkForm}
               name="bookmark"
               initialValues={{
                 remember: false,
               }}
-              onFinish={onFinish} //onBookmarkFinish
+              onFinish={onBookmarkFinish}
               onFinishFailed={onFinishFailed}
             >
               <Form.Item
@@ -134,6 +141,7 @@ const NewButton = () => {
           <TabPane tab="Clink" key="clink">
             <Form
               {...{ layout: 'vertical' }}
+              form={clinkForm}
               name="clink"
               initialValues={{
                 remember: false,
