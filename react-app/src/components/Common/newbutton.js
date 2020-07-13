@@ -21,12 +21,10 @@ const NewButton = () => {
   const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
-    console.log('showmodal')
     setVisible(true);
   };
 
   const onBookmarkFinish = values => {
-    console.log(values);
     setLoading(true);
     bookmarkForm.resetFields()
     setTimeout(() => {
@@ -36,7 +34,6 @@ const NewButton = () => {
   };
 
   const onClinkFinish = values => {
-    console.log(values);
     setLoading(true);
     dispatch(addClink(values.clinkTitle, addSuccess, addFail))
     clinkForm.resetFields()
@@ -47,7 +44,6 @@ const NewButton = () => {
   };
 
   const addSuccess = () => {
-    console.log("add success")
     setTimeout(() => {
       message.success({ content: 'Successfully added clink.', key, duration: 2} );
     }, 1000)
@@ -55,7 +51,6 @@ const NewButton = () => {
 
 
   const addFail = (error) => {
-    console.log("add fail")
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
     }, 1000)
