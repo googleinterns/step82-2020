@@ -46,7 +46,7 @@ const NewButton = () => {
   const addSuccess = () => {
     console.log("add success")
     setTimeout(() => {
-      message.success({ content: 'Successfully added.', key, duration: 2} );
+      message.success({ content: 'Successfully added clink.', key, duration: 2} );
     }, 1000)
   }
 
