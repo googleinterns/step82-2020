@@ -4,7 +4,7 @@ import { addClink } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Tabs, Button, Form, Input, Select } from 'antd';
+import { message, Modal, Tabs, Button, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -14,6 +14,7 @@ const NewButton = () => {
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
   const [clinkForm] = Form.useForm()
+  const key = "formFeedback"
 
   const [state, setState] = useState({ loading: false, visible: false, form: 'bookmark' })
 
@@ -32,16 +33,30 @@ const NewButton = () => {
     }, 3000);
   };
 
-
   const onClinkFinish = values => {
     console.log(values);
     setState({ loading: true })
-    dispatch(addClink(values.clinkTitle))
+    dispatch(addClink(values.clinkTitle, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setState({ loading: false, visible: false });
     }, 3000);
   };
+
+  const addSuccess = () => {
+    console.log("add success")
+    setTimeout(() => {
+      message.success({ content: 'Successfully added.', key, duration: 2} );
+    }, 1000)
+  }
+
+
+  const addFail = (error) => {
+    console.log("add fail")
+    setTimeout(() => {
+      message.error({ content: error, key, duration: 2});
+    }, 1000)
+  }
 
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
