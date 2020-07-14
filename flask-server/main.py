@@ -107,7 +107,7 @@ def login_user():
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Try again.'
+            'message': 'Try to login again.'
         }
         return response_object, 500
 
@@ -196,6 +196,32 @@ def decode_auth_token(auth_token):
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
 
+@app.route('/apis/add-clink', methods=['POST'])
+def add_clink():
+    titleQuery = datastore_client.query(kind='clink')
+    titleQuery.add_filter('title', '=', request.json['title'])
+    titleResult = list(titleQuery.fetch())
+
+    if titleResult:
+        response_object = {
+            'status': 'fail',
+            'message': 'Title already exists.'
+        }
+        return response_object, 400
+
+    else:
+        entity = datastore.Entity(key=datastore_client.key('clink'))
+        entity.update({
+            'title': request.json['title']
+        })
+        
+        datastore_client.put(entity)
+        
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully added clink.'
+        }
+        return response_object, 200
 
 def is_valid_instance(resp):
     if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
