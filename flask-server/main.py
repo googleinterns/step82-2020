@@ -85,7 +85,7 @@ def login_user():
     try: 
         user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
         if user and check_password(user['password_hash'], password):
-            auth_token=encode_auth_token(username, remember)
+            auth_token=encode_auth_token(user.id, remember)
             if auth_token:
                     response_object = {
                         'status': 'success',
@@ -156,7 +156,7 @@ def get_curr_user():
     return response_object, 200
 
 # jwt token
-def encode_auth_token(username, remember):
+def encode_auth_token(user_id, remember):
     """
     Generates the Auth Token
     :return: string
@@ -169,7 +169,7 @@ def encode_auth_token(username, remember):
         payload = {
             'exp': exp,
             'iat': datetime.datetime.utcnow(),
-            'sub': username
+            'sub': user_id
         }
         return jwt.encode(
             payload,
@@ -235,7 +235,7 @@ def check_denylist(token):
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
     title_result = list(datastore_client.query(kind='clink').add_filter('title', '=', request.json['title']).fetch(limit=1))
-    user = list(datastore_client.query(kind='user').add_filter('username', '=', request.json['username']).fetch(limit=1))[0]
+    user_id = request.json['user_id']
 
     if title_result:
         response_object = {
@@ -258,7 +258,7 @@ def add_clink():
 
         mapping = {
             'clink_id': clink_entity.id,
-            'user_id': user.id
+            'user_id': user_id
         }
         
         write_entity.update(mapping)
