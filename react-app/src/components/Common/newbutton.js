@@ -158,16 +158,6 @@ const NewButton = () => {
                   <Option value="All">All</Option>
                 </Select>
               </Form.Item>
-              <Form.Item
-                label="Privacy"
-                name="privacy"
-                rules={[
-                  {
-                    required: false
-                  },
-                ]}>
-                <Switch checkedChildren="Private" unCheckedChildren="Public" defaultUnchecked />
-              </Form.Item>
             </Form>
           </TabPane>
           <TabPane tab="Clink" key="clink">
@@ -192,6 +182,16 @@ const NewButton = () => {
                 ]}
               >
                 <Input />
+              </Form.Item>
+              <Form.Item
+                label="Privacy"
+                name="privacy"
+                rules={[
+                  {
+                    required: false
+                  },
+                ]}>
+                <Switch checkedChildren="Private" unCheckedChildren="Public" defaultUnchecked />
               </Form.Item>
             </Form>
           </TabPane>
