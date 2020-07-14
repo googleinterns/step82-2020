@@ -57,7 +57,9 @@ const NewButton = () => {
   }
 
   const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    setTimeout(() => {
+      message.error({ content: errorInfo, key, duration: 2});
+    }, 1000)
   };
 
   const handleCancel = () => {
