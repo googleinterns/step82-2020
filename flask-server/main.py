@@ -234,8 +234,10 @@ def check_denylist(token):
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    title_result = list(datastore_client.query(kind='clink').add_filter('title', '=', request.json['title']).fetch(limit=1))
     user_id = request.json['user_id']
+    title = request.json['title']
+    
+    title_result = list(datastore_client.query(kind='clink').add_filter('title', '=', title).fetch(limit=1))
 
     if title_result:
         response_object = {
@@ -247,7 +249,7 @@ def add_clink():
     else:
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
-            'title': request.json['title'],
+            'title': title,
             'deleted': False
         })
         
