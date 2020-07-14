@@ -73,7 +73,7 @@ def show_users():
     users = fetch_users(limit)
     array = []
     for user in users:
-        array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
+        array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
     return jsonify(array)
 
 # login api
