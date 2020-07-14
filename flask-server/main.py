@@ -52,7 +52,8 @@ def store_user():
             'email': email,
             'username': username,
             'password_hash': password(request.json['password']),
-            'registered_on': datetime.datetime.now()
+            'registered_on': datetime.datetime.now(),
+            'deleted': False
         })
 
         datastore_client.put(entity)
@@ -71,7 +72,7 @@ def fetch_users(limit):
 
     return users
 
-@app.route('/fetch-users', methods=['GET'])
+@app.route('/apis/fetch-users', methods=['GET'])
 def show_users():
     limit = int(request.headers.get('limit'))    
     users = fetch_users(limit)
