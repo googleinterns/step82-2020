@@ -90,7 +90,7 @@ const NewButton = () => {
         <Tabs defaultActiveKey={form} onChange={switchForm} >
           <TabPane tab="Bookmark" key="bookmark">
             <Form
-              {...{ layout: 'vertical' }}
+              layout="vertical"
               form={bookmarkForm}
               name="bookmark"
               initialValues={{
@@ -151,7 +151,7 @@ const NewButton = () => {
           </TabPane>
           <TabPane tab="Clink" key="clink">
             <Form
-              {...{ layout: 'vertical' }}
+              layout="vertical"
               form={clinkForm}
               name="clink"
               initialValues={{
