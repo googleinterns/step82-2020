@@ -48,7 +48,8 @@ def store_user():
             'email': email,
             'username': username,
             'password_hash': password(request.json['password']),
-            'registered_on': datetime.datetime.now()
+            'registered_on': datetime.datetime.now(),
+            'deleted': False
         })
 
         datastore_client.put(entity)
@@ -67,7 +68,7 @@ def fetch_users(limit):
 
     return users
 
-@app.route('/fetch-users', methods=['GET'])
+@app.route('/apis/fetch-users', methods=['GET'])
 def show_users():
     limit = int(request.headers.get('limit'))    
     users = fetch_users(limit)
@@ -81,10 +82,11 @@ def show_users():
 def login_user():
     username = request.json['username']
     password = request.json['password']
+    remember = request.json['remember']
     try: 
         user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
         if user and check_password(user['password_hash'], password):
-            auth_token=encode_auth_token(username)
+            auth_token=encode_auth_token(username, remember)
             if auth_token:
                     response_object = {
                         'status': 'success',
@@ -155,14 +157,18 @@ def get_curr_user():
     return response_object, 200
 
 # jwt token
-def encode_auth_token(username):
+def encode_auth_token(username, remember):
     """
     Generates the Auth Token
     :return: string
     """
     try:
+        if remember:
+            exp = datetime.datetime.utcnow() + datetime.timedelta(days=7, seconds=5)
+        else: 
+            exp = datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5)
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
+            'exp': exp,
             'iat': datetime.datetime.utcnow(),
             'sub': username
         }
