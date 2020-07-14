@@ -43,21 +43,14 @@ code {
 }
 
 .topbar-search{
+  position: absolute!important;
+  top: 17px;
   width: 80%!important; 
 }
 
 .topbar-button{
-  position: absolute!important;
-  top: 17px;
+  position: relative!important;
   left: 90%;
-}
-
-.topbar-user-icon{
-  position: relative;
-  top: 8px;
-  left: 225px;
-  font-size: 25px;
-  color: white!important;
 }
 
 .topbar-title{
