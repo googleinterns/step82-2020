@@ -23,7 +23,6 @@ def store_user():
     email_result = list(datastore_client.query(kind='clink').add_filter('email', '=', email).fetch(limit=1))[0]
     username_result = list(datastore_client.query(kind='clink').add_filter('username', '=', username).fetch(limit=1))[0]
 
-
     if email_result and username_result:
         response_object = {
             'status': 'fail',
