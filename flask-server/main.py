@@ -52,7 +52,8 @@ def store_user():
             'email': email,
             'username': username,
             'password_hash': password(request.json['password']),
-            'registered_on': datetime.datetime.now()
+            'registered_on': datetime.datetime.now(),
+            'deleted': False
         })
 
         datastore_client.put(entity)
@@ -71,7 +72,7 @@ def fetch_users(limit):
 
     return users
 
-@app.route('/fetch-users', methods=['GET'])
+@app.route('/apis/fetch-users', methods=['GET'])
 def show_users():
     limit = int(request.headers.get('limit'))    
     users = fetch_users(limit)
@@ -85,10 +86,11 @@ def show_users():
 def login_user():
     username = request.json['username']
     password = request.json['password']
+    remember = request.json['remember']
     try: 
         user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
         if user and check_password(user['password_hash'], password):
-            auth_token=encode_auth_token(username)
+            auth_token=encode_auth_token(username, remember)
             if auth_token:
                     response_object = {
                         'status': 'success',
@@ -107,7 +109,7 @@ def login_user():
         print(e)
         response_object = {
             'status': 'fail',
-            'message': 'Try again.'
+            'message': 'Try to login again.'
         }
         return response_object, 500
 
@@ -159,14 +161,18 @@ def get_curr_user():
     return response_object, 200
 
 # jwt token
-def encode_auth_token(username):
+def encode_auth_token(username, remember):
     """
     Generates the Auth Token
     :return: string
     """
     try:
+        if remember:
+            exp = datetime.datetime.utcnow() + datetime.timedelta(days=7, seconds=5)
+        else: 
+            exp = datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5)
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
+            'exp': exp,
             'iat': datetime.datetime.utcnow(),
             'sub': username
         }
@@ -196,6 +202,32 @@ def decode_auth_token(auth_token):
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
 
+@app.route('/apis/add-clink', methods=['POST'])
+def add_clink():
+    titleQuery = datastore_client.query(kind='clink')
+    titleQuery.add_filter('title', '=', request.json['title'])
+    titleResult = list(titleQuery.fetch())
+
+    if titleResult:
+        response_object = {
+            'status': 'fail',
+            'message': 'Title already exists.'
+        }
+        return response_object, 400
+
+    else:
+        entity = datastore.Entity(key=datastore_client.key('clink'))
+        entity.update({
+            'title': request.json['title']
+        })
+        
+        datastore_client.put(entity)
+        
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully added clink.'
+        }
+        return response_object, 200
 
 def is_valid_instance(resp):
     if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
