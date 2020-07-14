@@ -4,7 +4,7 @@ import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
-import { message, Modal, Tabs, Button, Form, Input, Select } from 'antd';
+import { message, Modal, Tabs, Button, Form, Input, Select, Switch } from 'antd';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -19,7 +19,7 @@ const NewButton = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
-  const clinkToAddTo = "All";
+  let clinkToAddTo = "All";
 
   const showModal = () => {
     console.log('showmodal')
@@ -157,6 +157,16 @@ const NewButton = () => {
                 <Select mode="multiple" defaultValue="All">
                   <Option value="All">All</Option>
                 </Select>
+              </Form.Item>
+              <Form.Item
+                label="Privacy"
+                name="privacy"
+                rules={[
+                  {
+                    required: false
+                  },
+                ]}>
+                <Switch checkedChildren="Private" unCheckedChildren="Public" defaultUnchecked />
               </Form.Item>
             </Form>
           </TabPane>
