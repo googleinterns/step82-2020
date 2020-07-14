@@ -19,22 +19,19 @@ const NewButton = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
-  let clinkToAddTo = "All";
 
   const showModal = () => {
     console.log('showmodal')
     setVisible(true);
   };
 
-  const changeClinkToAdd = value => {
-    console.log(value);
-    clinkToAddTo = value;
-  }
-
   const onBookmarkFinish = values => {
     console.log(values);
     setLoading(true);
-    dispatch(addBookmark(values.link,values.title, values.description, clinkToAddTo, addSuccess, addFail))
+    if (!values.description) {
+      values.description = ' ';
+    }
+    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
       setLoading(false);
@@ -147,15 +144,16 @@ const NewButton = () => {
               <Form.Item
                 label="Add to Clinks"
                 name="toAdd"
-                onChange={changeClinkToAdd}
                 rules={[
                   {
-                    required: false
+                    required: true
                   },
                 ]}
               >
                 <Select mode="multiple" defaultValue="All">
                   <Option value="All">All</Option>
+                  <Option value="clink1">Clink 1</Option>
+                  <Option value="clink2">Clink 2</Option>
                 </Select>
               </Form.Item>
             </Form>
