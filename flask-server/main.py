@@ -247,7 +247,8 @@ def add_clink():
     else:
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
-            'title': request.json['title']
+            'title': request.json['title'],
+            'deleted': False
         })
         
         datastore_client.put(clink_entity)
