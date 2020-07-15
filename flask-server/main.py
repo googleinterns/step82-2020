@@ -73,7 +73,7 @@ def show_users():
     users = fetch_users(limit)
     array = []
     for user in users:
-        array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
+        array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
     return jsonify(array)
 
 @app.route('/apis/fetch-clinks', methods=['GET'])
@@ -240,46 +240,33 @@ def check_denylist(token):
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    user_id = request.json['user_id']
-    title = request.json['title']
-    
-    title_result = list(datastore_client.query(kind='clink').add_filter('title', '=', title).fetch(limit=1))
-
-    if title_result:
-        response_object = {
-            'status': 'fail',
-            'message': 'Title already exists.'
-        }
-        return response_object, 400
-
-    else:
-        clink_entity = datastore.Entity(key=datastore_client.key('clink'))
-        clink_entity.update({
-            'title': title,
-            'deleted': False
-        })
+    clink_entity = datastore.Entity(key=datastore_client.key('clink'))
+    clink_entity.update({
+        'title': request.json['title'],
+        'deleted': False
+    })
         
-        datastore_client.put(clink_entity)
+    datastore_client.put(clink_entity)
 
-        write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
-        read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+    write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+    read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
-        mapping = {
-            'clink_id': clink_entity.id,
-            'user_id': user_id
-        }
+    mapping = {
+        'clink_id': clink_entity.id,
+        'user_id': request.json['id']
+    }
         
-        write_entity.update(mapping)
-        read_entity.update(mapping)
+    write_entity.update(mapping)
+    read_entity.update(mapping)
 
-        datastore_client.put(write_entity)
-        datastore_client.put(read_entity)
+    datastore_client.put(write_entity)
+    datastore_client.put(read_entity)
 
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully added clink.'
-        }
-        return response_object, 200
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully added clink.'
+    }
+    return response_object, 200
 
 # routing
 @app.route('/', defaults={'path': ''})
