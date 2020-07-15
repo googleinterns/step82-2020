@@ -14,9 +14,10 @@ const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   password: password
 });
 
-const login = (username, password) => axios.post(LOGIN_URL, {
+const login = (username, password, remember) => axios.post(LOGIN_URL, {
   username: username,
-  password: password
+  password: password,
+  remember: remember
 });
 
 const logout = (token) => axios.post(LOGOUT_URL, {
@@ -26,7 +27,6 @@ const logout = (token) => axios.post(LOGOUT_URL, {
 const checkUser = (token) => axios.get(GET_CURR_USER_URL, {
   headers: {'Authorization': token}
 });
-
 
 const addClink = (title) => axios.post(ADD_CLINK_URL, {
   title: title

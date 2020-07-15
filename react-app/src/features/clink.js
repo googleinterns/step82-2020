@@ -10,25 +10,25 @@ const clinkSlice = createSlice({
   name: 'clink',
   initialState,
   reducers: {
-    addingClinkStart(state){
+    addClinkStart(state){
       state.isAddingClink = true;
     },
-    addingClinkSucceed(state){
+    addClinkSucceed(state){
       state.isAddingClink = false;
       delete state.clinkError;
     },
-    addingClinkFailed(state, action){
+    addClinkFailed(state, action){
       state.isAddingClink = false;
       state.clinkError = action.payload;
     },
-    addingBookmarkStart(state){
+    addBookmarkStart(state){
       state.isAddingBookmark = true;
     },
-    addingBookmarkSucceed(state){
+    addBookmarkSucceed(state){
       state.isAddingBookmark = false;
       delete state.clinkError;
     },
-    addingBookmarkFailed(state, action){
+    addBookmarkFailed(state, action){
       state.isAddingBookmark = false;
       state.bookmarkError = action.payload;
     }     
@@ -36,32 +36,32 @@ const clinkSlice = createSlice({
 });
 
 export const {
-  addingClinkStart, addingClinkSucceed, addingClinkFailed, addingBookmarkStart, addingBookmarkSucceed, addingBookmarkFailed
+  addClinkStart, addClinkSucceed, addClinkFailed, addBookmarkStart, addBookmarkSucceed, addBookmarkFailed
 } = clinkSlice.actions;
 
 export const addClink = (title, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(addingClinkStart())
+    dispatch(addClinkStart())
     await apis.addClink(title) // maybe save value as an variable
-    dispatch(addingClinkSucceed())
+    dispatch(addClinkSucceed())
     callbackSucceed()
   } catch (err) {
     console.log(err)
-    dispatch(addingClinkFailed(err.response.data.message))
+    dispatch(addClinkFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
   }
 }
 
 export const addBookmark = (link, title, description, clink, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(addingBookmarkStart())
+    dispatch(addBookmarkStart())
     const response = await apis.addBookmark(link, title, description, clink)
     console.log(response)
-    dispatch(addingBookmarkSucceed())
+    dispatch(addBookmarkSucceed())
     callbackSucceed()
   } catch (err) {
     console.log(err)
-    dispatch(addingBookmarkFailed(err.response.data.message))
+    dispatch(addBookmarkFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
   }
 }

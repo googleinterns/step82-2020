@@ -16,42 +16,38 @@ const NewButton = () => {
   const [clinkForm] = Form.useForm()
   const key = "formFeedback"
 
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [visible, setIsVisible] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
-    console.log('showmodal')
-    setVisible(true);
+    setIsVisible(true);
   };
 
   const onBookmarkFinish = values => {
-    console.log(values);
-    setLoading(true);
+    setIsLoading(true);
     if (!values.description) {
       values.description = ' ';
     }
     dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
+      setIsLoading(false);
+      setIsVisible(false);
     }, 3000);
   };
 
   const onClinkFinish = values => {
-    console.log(values);
-    setLoading(true);
+    setIsLoading(true);
     dispatch(addClink(values.clinkTitle, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
+      setIsLoading(false);
+      setIsVisible(false);
     }, 3000);
   };
 
   const addSuccess = () => {
-    console.log("add success")
     setTimeout(() => {
       message.success({ content: 'Successfully added clink.', key, duration: 2} );
     }, 1000)
@@ -59,18 +55,19 @@ const NewButton = () => {
 
 
   const addFail = (error) => {
-    console.log("add fail")
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
     }, 1000)
   }
 
   const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    setTimeout(() => {
+      message.error({ content: errorInfo, key, duration: 2});
+    }, 1000)
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    setIsVisible(false);
     clinkForm.resetFields()
     bookmarkForm.resetFields()
   };
@@ -97,7 +94,7 @@ const NewButton = () => {
         <Tabs defaultActiveKey={form} onChange={switchForm} >
           <TabPane tab="Bookmark" key="bookmark">
             <Form
-              {...{ layout: 'vertical' }}
+              layout="vertical"
               form={bookmarkForm}
               name="bookmark"
               initialValues={{
@@ -160,7 +157,7 @@ const NewButton = () => {
           </TabPane>
           <TabPane tab="Clink" key="clink">
             <Form
-              {...{ layout: 'vertical' }}
+              layout="vertical"
               form={clinkForm}
               name="clink"
               initialValues={{
