@@ -78,12 +78,8 @@ def show_users():
 
 @app.route('/apis/fetch-clinks', methods=['GET'])
 def fetch_clinks():
-    my_id = request.headers.get('id')
-    id_query = datastore_client.query(kind='user_read_map')
-    id_query.add_filter('user_id', '=', my_id)
-    clink_ids = list(id_query.fetch())
-    title_query = datastore_client.query(kind='clink')
-    all_list = list(title_query.fetch())
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', request.headers.get('id')).fetch())
+    all_list = list(datastore_client.query(kind='clink').fetch())
     to_return = []    
 
     for clink in all_list:
@@ -93,7 +89,7 @@ def fetch_clinks():
                     'title': clink['title'],
                     'id': clink.id 
                 }
-                to_return.append(json)
+                to_return.append(json)              
     return jsonify(to_return)
 
 # login api

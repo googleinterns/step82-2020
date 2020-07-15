@@ -12,7 +12,8 @@ const Sidebar = () => {
 
   const currentUser = useSelector(state => state.users.currentUser)
 
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([])
+
   useEffect(() => {
     axios.get(`http://localhost:5000/apis/fetch-clinks`, {
       headers: {'id': currentUser}
