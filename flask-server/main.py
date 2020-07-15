@@ -271,6 +271,7 @@ def add_bookmark():
         'link': request.json['link'],
         'title': request.json['title'],
         'description': request.json['description'],
+        'deleted': False
     })
     datastore_client.put(entity)
 
