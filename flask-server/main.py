@@ -76,6 +76,12 @@ def show_users():
         array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
     return jsonify(array)
 
+@app.route('/apis/fetch-clinks', methods=['GET'])
+def fetch_clinks():
+    query = datastore_client.query(kind='clink').fetch()
+    clinks = list(query)
+    return jsonify(clinks)
+
 # login api
 @app.route('/apis/login', methods=['POST'])
 def login_user():
