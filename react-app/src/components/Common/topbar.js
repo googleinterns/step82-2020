@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Input, Dropdown, Menu } from 'antd';
@@ -10,7 +11,14 @@ const { Search } = Input;
 
 const Topbar = () => {
 
+  const currentToken = localStorage.getItem('currentToken')
   const currentUser = useSelector(state => state.users.currentUser)
+ 
+  const dispatch = useDispatch()
+
+  const logout = () => {
+    dispatch(logOut(currentToken))
+  };
 
   const menu = (
     <Menu>
@@ -29,8 +37,8 @@ const Topbar = () => {
             placeholder="Search in Title..."
             onSearch={value => console.log(value)}
           />
-          <Dropdown.Button className="topbar-button" overlay={menu} icon={<UserOutlined />} onClick /* trigger={['click']} */> 
-            Logout
+          <Dropdown.Button className="topbar-button" overlay={menu} icon={<UserOutlined />} onClick={logout} /* trigger={['click']} */> 
+            Log Out
           </Dropdown.Button> 
         </div>
       </div>
