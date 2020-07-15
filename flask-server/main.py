@@ -78,9 +78,19 @@ def show_users():
 
 @app.route('/apis/fetch-clinks', methods=['GET'])
 def fetch_clinks():
-    query = datastore_client.query(kind='clink').fetch()
-    clinks = list(query)
-    return jsonify(clinks)
+    my_id = request.headers.get('id')
+    id_query = datastore_client.query(kind='user_read_map')
+    id_query.add_filter('user_id', '=', my_id)
+    clink_ids = list(id_query.fetch())
+    title_query = datastore_client.query(kind='clink')
+    all_list = list(title_query.fetch())
+    to_return = []    
+
+    for clink in all_list:
+        for id in clink_ids:
+            if id['clink_id'] == clink.id:
+                to_return.append(clink)
+    return jsonify(to_return)
 
 # login api
 @app.route('/apis/login', methods=['POST'])
@@ -253,7 +263,7 @@ def add_clink():
 
     mapping = {
         'clink_id': clink_entity.id,
-        'user_id': request.json['id']
+        'user_id': str(request.json['id'])
     }
         
     write_entity.update(mapping)

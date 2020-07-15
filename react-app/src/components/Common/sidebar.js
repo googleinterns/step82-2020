@@ -4,14 +4,19 @@ import '../../index.css';
 import { Layout, Menu } from 'antd';
 import NewButton  from './newbutton';
 import axios from "axios";
+import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
 
+  const currentUser = useSelector(state => state.users.currentUser)
+
   const [menuItems, setMenuItems] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:5000/apis/fetch-clinks`).then(
+    axios.get(`http://localhost:5000/apis/fetch-clinks`, {
+      headers: {'id': currentUser}
+    }).then(
       (response) => {
         const allItems = response.data;
         console.log(response.data);
@@ -32,7 +37,7 @@ const Sidebar = () => {
         </Menu.Item>
         
         {menuItems.map(item => (
-          <Menu.Item key="1">{item.title}</Menu.Item>
+          <Menu.Item key={item.id}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >
