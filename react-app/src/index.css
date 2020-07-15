@@ -33,16 +33,16 @@ code {
   float: right;
 }
 
-.topbar{
+.topbar {
   height: 153px!important;
 }
 
-.topbar-searchbar-wrapper{
+.topbar-searchbar-wrapper {
   position: relative!important;
   width: 100%;
 }
 
-.topbar-search{
+.topbar-search {
   position: absolute!important;
   top: 17px;
   width: 80%!important; 
@@ -53,7 +53,7 @@ code {
   left: 90%;
 }
 
-.topbar-title{
+.topbar-title {
   color: white!important;
 }
 
@@ -69,7 +69,7 @@ code {
   width: 100%;
 }
 
-.center-load{
+.center-load {
   display: table;
   position: fixed;
   top: 50%;
@@ -130,30 +130,6 @@ code {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
-}
-
-.top-search {
-  width: 80%!important;
-}
-
-.top-button {
-  padding: 0px;
-  margin: 15px;
-  float: right;
-  height: 35px;
-  padding: 0 5px;
-  align-items: center;
-}
-
-.top-icon {
-  padding: 0px;
-  margin: 15px;
-  float: right;
-  height: 35px;
-  padding: 5px 5px 0px;
-  font-size: 25px;
-  align-items: center;
-  color: white !important;
 }
 
 .site-layout .site-layout-background {
