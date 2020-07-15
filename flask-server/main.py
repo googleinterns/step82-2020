@@ -266,45 +266,27 @@ def add_clink():
 
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
-    linkQuery = datastore_client.query(kind='bookmark')
-    linkQuery.add_filter('link', '=', request.json['link'])
-    linkResult = list(linkQuery.fetch())
+    entity = datastore.Entity(key=datastore_client.key('bookmark'))
+    entity.update({
+        'link': request.json['link'],
+        'title': request.json['title'],
+        'description': request.json['description'],
+    })
+    datastore_client.put(entity)
 
-    titleQuery = datastore_client.query(kind='bookmark')
-    titleQuery.add_filter('title', '=', request.json['title'])
-    titleResult = list(titleQuery.fetch())
-
-    clinkQuery = datastore_client.query(kind='bookmark')
-    clinkQuery.add_filter('clink', '=', request.json['clink'])
-    clinkResult = list(clinkQuery.fetch())
-
-    if linkResult and clinkResult:
-        response_object = {
-            'status': 'fail',
-            'message': 'Bookmark already exists in ' + request.json['clink'] + '.'
-        }
-        return response_object, 400
-    elif titleResult and clinkResult:
-        response_object = {
-            'status': 'fail',
-            'message': 'Title already exists in ' + request.json['clink'] + '.'
-        }
-        return response_object, 400
-    else:
-        entity = datastore.Entity(key=datastore_client.key('bookmark'))
-        entity.update({
-            'link': request.json['link'],
-            'title': request.json['title'],
-            'description': request.json['description'],
-            'clink': request.json['clink']
+    for clink in request.json['clink']:
+        map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
+        map_entity.update({
+            'clink_id': clink,
+            'bookmark_id': entity.id
         })
-        datastore_client.put(entity)
+        datastore_client.put(map_entity)
 
-        response_object = {
-            'status': 'success',
-            'message': 'Successfuly added bookmark.'
-        }
-        return response_object, 200
+    response_object = {
+        'status': 'success',
+        'message': 'Successfuly added bookmark.'
+    }
+    return response_object, 200
         
 # routing
 @app.route('/', defaults={'path': ''})
