@@ -20,27 +20,22 @@ def store_user():
     email = request.json['email']
     username = request.json['username']
 
-    emailQuery = datastore_client.query(kind='user')
-    emailQuery.add_filter('email', '=', email)
-    emailResult = list(emailQuery.fetch())
+    email_result = list(datastore_client.query(kind='user').add_filter('email', '=', email).fetch(limit=1))
+    username_result = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))
 
-    usernameQuery = datastore_client.query(kind='user')
-    usernameQuery.add_filter('username', '=', username)
-    usernameResult = list(usernameQuery.fetch())
-
-    if emailResult and usernameResult:
+    if email_result and username_result:
         response_object = {
             'status': 'fail',
             'message': 'Both username and email are already registered.'
         }
         return response_object, 401
-    elif emailResult:
+    elif email_result:
         response_object = {
             'status': 'fail',
             'message': 'Email already has a registered account.'
         }
         return response_object, 401
-    elif usernameResult:
+    elif username_result:
         response_object = {
             'status': 'fail',
             'message': 'Username is already registered.'
@@ -78,7 +73,7 @@ def show_users():
     users = fetch_users(limit)
     array = []
     for user in users:
-        array.append([user['email'], user['username'], user['password_hash'], user['registered_on']])
+        array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
     return jsonify(array)
 
 # login api
@@ -90,7 +85,7 @@ def login_user():
     try: 
         user = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))[0]
         if user and check_password(user['password_hash'], password):
-            auth_token=encode_auth_token(username, remember)
+            auth_token=encode_auth_token(user.id, remember)
             if auth_token:
                     response_object = {
                         'status': 'success',
@@ -161,7 +156,7 @@ def get_curr_user():
     return response_object, 200
 
 # jwt token
-def encode_auth_token(username, remember):
+def encode_auth_token(user_id, remember):
     """
     Generates the Auth Token
     :return: string
@@ -174,7 +169,7 @@ def encode_auth_token(username, remember):
         payload = {
             'exp': exp,
             'iat': datetime.datetime.utcnow(),
-            'sub': username
+            'sub': user_id
         }
         return jwt.encode(
             payload,
@@ -201,33 +196,6 @@ def decode_auth_token(auth_token):
         return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
-
-@app.route('/apis/add-clink', methods=['POST'])
-def add_clink():
-    titleQuery = datastore_client.query(kind='clink')
-    titleQuery.add_filter('title', '=', request.json['title'])
-    titleResult = list(titleQuery.fetch())
-
-    if titleResult:
-        response_object = {
-            'status': 'fail',
-            'message': 'Title already exists.'
-        }
-        return response_object, 400
-
-    else:
-        entity = datastore.Entity(key=datastore_client.key('clink'))
-        entity.update({
-            'title': request.json['title']
-        })
-        
-        datastore_client.put(entity)
-        
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully added clink.'
-        }
-        return response_object, 200
 
 def is_valid_instance(resp):
     if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
@@ -262,6 +230,37 @@ def check_denylist(token):
         return True
     else:
         return False
+
+# add clink api
+@app.route('/apis/add-clink', methods=['POST'])
+def add_clink():
+    clink_entity = datastore.Entity(key=datastore_client.key('clink'))
+    clink_entity.update({
+        'title': request.json['title'],
+        'deleted': False
+    })
+        
+    datastore_client.put(clink_entity)
+
+    write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+    read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+
+    mapping = {
+        'clink_id': clink_entity.id,
+        'user_id': request.json['id']
+    }
+        
+    write_entity.update(mapping)
+    read_entity.update(mapping)
+
+    datastore_client.put(write_entity)
+    datastore_client.put(read_entity)
+
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully added clink.'
+    }
+    return response_object, 200
 
 # routing
 @app.route('/', defaults={'path': ''})
