@@ -76,22 +76,6 @@ def show_users():
         array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
     return jsonify(array)
 
-@app.route('/apis/fetch-clinks', methods=['GET'])
-def fetch_clinks():
-    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', request.headers.get('id')).fetch())
-    all_list = list(datastore_client.query(kind='clink').fetch())
-    to_return = []    
-
-    for clink in all_list:
-        for id in clink_ids:
-            if id['clink_id'] == clink.id:
-                json = {
-                    'title': clink['title'],
-                    'id': clink.id 
-                }
-                to_return.append(json)              
-    return jsonify(to_return)
-
 # login api
 @app.route('/apis/login', methods=['POST'])
 def login_user():
@@ -277,6 +261,22 @@ def add_clink():
         'message': 'Successfully added clink.'
     }
     return response_object, 200
+
+@app.route('/apis/fetch-clinks', methods=['GET'])
+def fetch_clinks():
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', request.headers.get('id')).fetch())
+    all_list = list(datastore_client.query(kind='clink').fetch())
+    to_return = []    
+
+    for clink in all_list:
+        for id in clink_ids:
+            if id['clink_id'] == clink.id:
+                json = {
+                    'title': clink['title'],
+                    'id': clink.id 
+                }
+                to_return.append(json)              
+    return jsonify(to_return)
 
 # routing
 @app.route('/', defaults={'path': ''})
