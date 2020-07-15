@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addClink } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -11,7 +11,7 @@ const { TabPane } = Tabs;
 
 const NewButton = () => {
 
-  const currentUser = useSelector(state => state.users.currentUser)
+  const currentToken = localStorage.getItem('currentToken')
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
@@ -37,7 +37,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentUser, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);

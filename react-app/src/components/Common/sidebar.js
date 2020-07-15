@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
 import NewButton  from './newbutton';
-import axios from "axios";
-import { useSelector } from 'react-redux';
+
 
 const { Sider } = Layout;
 
@@ -21,6 +22,7 @@ const Sidebar = () => {
     }).then(
       (response) => {
         const allItems = response.data;
+        console.log(allItems)
         setMenuItems(allItems);
     });
   }, [isAddingClink]);
