@@ -9,8 +9,8 @@ const layout = {
 };
 
 const BookmarkMenu = () => {
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isVisible, setVisible] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const showModal = () => {
     setVisible(true);
@@ -47,13 +47,13 @@ const BookmarkMenu = () => {
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
       <Modal
-        visible={visible}
+        visible={isVisible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={loading} >
+          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading} >
             Submit
           </Button>,
         ]}

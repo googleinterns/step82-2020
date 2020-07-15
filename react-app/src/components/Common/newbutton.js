@@ -18,8 +18,8 @@ const NewButton = () => {
   const [clinkForm] = Form.useForm()
   const key = "formFeedback"
 
-  const [visible, setIsVisible] = useState(false);
-  const [loading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
@@ -83,13 +83,13 @@ const NewButton = () => {
       <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={showModal}>
         New</Button>
       <Modal
-        visible={visible}
+        visible={isVisible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form={form} htmlType="submit" key="submit" type="primary" loading={loading} >
+          <Button form={form} htmlType="submit" key="submit" type="primary" loading={isLoading} >
             Submit
           </Button>,
         ]}>
