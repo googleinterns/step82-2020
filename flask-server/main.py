@@ -267,7 +267,7 @@ def add_clink():
     else:
         response_object = {
             'status': 'fail',
-            'message': 'Invalid JWT. Failed to add clink."
+            'message': 'Invalid JWT. Failed to add clink.'
         }
         return response_object, 401
 
