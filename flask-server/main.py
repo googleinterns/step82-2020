@@ -247,7 +247,7 @@ def add_clink():
 
     mapping = {
         'clink_id': clink_entity.id,
-        'user_id': request.json['user_id']
+        'user_id': request.json['id']
     }
         
     write_entity.update(mapping)
