@@ -37,7 +37,7 @@ const Topbar = () => {
             placeholder="Search in Title..."
             onSearch={value => console.log(value)}
           />
-          <Dropdown.Button className="topbar-dropdown-user-logout-button" overlay={menu} icon={<UserOutlined />} onClick={logout} /* trigger={['click']} */> 
+          <Dropdown.Button className="topbar-dropdown-user-logout-button" overlay={menu} icon={<UserOutlined />} onClick={logout} trigger={['click']}> 
             Log Out
           </Dropdown.Button> 
         </div>
