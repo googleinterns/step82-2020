@@ -46,7 +46,6 @@ export const addClink = (title, id, callbackSucceed, callbackFailed) => async di
     dispatch(addClinkSucceed())
     callbackSucceed()
   } catch (err) {
-    console.log(err)
     dispatch(addClinkFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
   }
@@ -56,11 +55,9 @@ export const addBookmark = (link, title, description, clink, callbackSucceed, ca
   try {
     dispatch(addBookmarkStart())
     const response = await apis.addBookmark(link, title, description, clink)
-    console.log(response)
     dispatch(addBookmarkSucceed())
     callbackSucceed()
   } catch (err) {
-    console.log(err)
     dispatch(addBookmarkFailed(err.response.data.message))
     callbackFailed(err.response.data.message)
   }
