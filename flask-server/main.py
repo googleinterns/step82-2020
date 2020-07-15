@@ -89,7 +89,11 @@ def fetch_clinks():
     for clink in all_list:
         for id in clink_ids:
             if id['clink_id'] == clink.id:
-                to_return.append(clink)
+                json = {
+                    'title': clink['title'],
+                    'id': clink.id 
+                }
+                to_return.append(json)
     return jsonify(to_return)
 
 # login api
