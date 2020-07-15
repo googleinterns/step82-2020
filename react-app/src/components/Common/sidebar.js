@@ -17,7 +17,7 @@ const Sidebar = () => {
         console.log(response.data);
         setMenuItems(allItems);
     });
-  }, []);
+  });
 
 
   return (
