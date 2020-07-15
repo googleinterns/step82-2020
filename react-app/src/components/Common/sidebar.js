@@ -11,6 +11,7 @@ const { Sider } = Layout;
 const Sidebar = () => {
 
   const currentUser = useSelector(state => state.users.currentUser)
+  const isAddingClink = useSelector(state => state.clink.isAddingClink)
 
   const [menuItems, setMenuItems] = useState([])
 
@@ -23,7 +24,7 @@ const Sidebar = () => {
         console.log(response.data);
         setMenuItems(allItems);
     });
-  });
+  },[isAddingClink]);
 
 
   return (
