@@ -11,7 +11,7 @@ const { TabPane } = Tabs;
 
 const NewButton = () => {
 
-  const currentUser = useSelector(state => state.users.currentUser)
+  const currentToken = localStorage.getItem('currentToken')
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
@@ -37,7 +37,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentUser, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);

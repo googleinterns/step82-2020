@@ -234,33 +234,42 @@ def check_denylist(token):
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    clink_entity = datastore.Entity(key=datastore_client.key('clink'))
-    clink_entity.update({
-        'title': request.json['title'],
-        'deleted': False
-    })
-        
-    datastore_client.put(clink_entity)
+    resp_token = decode_auth_token(request.json['token'])
 
-    write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
-    read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+    if is_valid_instance(resp_token):
+        clink_entity = datastore.Entity(key=datastore_client.key('clink'))
+        clink_entity.update({
+            'title': request.json['title'],
+            'deleted': False
+        })
+            
+        datastore_client.put(clink_entity)
 
-    mapping = {
-        'clink_id': clink_entity.id,
-        'user_id': request.json['id']
-    }
-        
-    write_entity.update(mapping)
-    read_entity.update(mapping)
+        write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+        read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
-    datastore_client.put(write_entity)
-    datastore_client.put(read_entity)
+        mapping = {
+            'clink_id': clink_entity.id,
+            'user_id': resp_token
+        }
+            
+        write_entity.update(mapping)
+        read_entity.update(mapping)
 
-    response_object = {
-        'status': 'success',
-        'message': 'Successfully added clink.'
-    }
-    return response_object, 200
+        datastore_client.put(write_entity)
+        datastore_client.put(read_entity)
+
+        response_object = {
+            'status': 'success',
+            'message': 'Successfully added clink.'
+        }
+        return response_object, 200  
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to add clink."
+        }
+        return response_object, 401
 
 # routing
 @app.route('/', defaults={'path': ''})
