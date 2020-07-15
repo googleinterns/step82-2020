@@ -21,7 +21,6 @@ const Sidebar = () => {
     }).then(
       (response) => {
         const allItems = response.data;
-        console.log(response.data);
         setMenuItems(allItems);
     });
   },[isAddingClink]);

@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addClink } from '../../features/clink';
+import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
-import { message, Modal, Tabs, Button, Form, Input, Select } from 'antd';
+import { message, Modal, Tabs, Button, Form, Input, Select, Switch } from 'antd';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 
 const NewButton = () => {
 
-  const currentUser = useSelector(state => state.users.currentUser)
+  const currentToken = localStorage.getItem('currentToken')
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
   const [clinkForm] = Form.useForm()
   const key = "formFeedback"
 
-  const [visible, setIsVisible] = useState(false);
-  const [loading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
   const showModal = () => {
@@ -28,6 +28,10 @@ const NewButton = () => {
 
   const onBookmarkFinish = values => {
     setIsLoading(true);
+    if (!values.description) {
+      values.description = ' ';
+    }
+    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);
@@ -37,7 +41,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentUser, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);
@@ -79,13 +83,13 @@ const NewButton = () => {
       <Button className="new-button" type="primary" icon={<PlusOutlined />} onClick={showModal}>
         New</Button>
       <Modal
-        visible={visible}
+        visible={isVisible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form={form} htmlType="submit" key="submit" type="primary" loading={loading} >
+          <Button form={form} htmlType="submit" key="submit" type="primary" loading={isLoading} >
             Submit
           </Button>,
         ]}>
@@ -138,15 +142,17 @@ const NewButton = () => {
               </Form.Item>
               <Form.Item
                 label="Add to Clinks"
-                name="add"
+                name="toAdd"
                 rules={[
                   {
-                    required: false
+                    required: true
                   },
                 ]}
               >
                 <Select mode="multiple" defaultValue="All">
                   <Option value="All">All</Option>
+                  <Option value="clink1">Clink 1</Option>
+                  <Option value="clink2">Clink 2</Option>
                 </Select>
               </Form.Item>
             </Form>
@@ -173,6 +179,16 @@ const NewButton = () => {
                 ]}
               >
                 <Input />
+              </Form.Item>
+              <Form.Item
+                label="Privacy"
+                name="privacy"
+                rules={[
+                  {
+                    required: false
+                  },
+                ]}>
+                <Switch checkedChildren="Private" unCheckedChildren="Public" defaultUnchecked />
               </Form.Item>
             </Form>
           </TabPane>
