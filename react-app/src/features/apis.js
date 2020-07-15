@@ -28,8 +28,9 @@ const checkUser = (token) => axios.get(GET_CURR_USER_URL, {
   headers: {'Authorization': token}
 });
 
-const addClink = (title) => axios.post(ADD_CLINK_URL, {
-  title: title
+const addClink = (title, id) => axios.post(ADD_CLINK_URL, {
+  title: title,
+  id: id
 });
 
 const addBookmark = (link, title, description, clink) => axios.post(ADD_BOOKMARK_URL, {

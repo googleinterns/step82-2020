@@ -39,10 +39,10 @@ export const {
   addClinkStart, addClinkSucceed, addClinkFailed, addBookmarkStart, addBookmarkSucceed, addBookmarkFailed
 } = clinkSlice.actions;
 
-export const addClink = (title, callbackSucceed, callbackFailed) => async dispatch => {
+export const addClink = (title, id, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(addClinkStart())
-    await apis.addClink(title) // maybe save value as an variable
+    await apis.addClink(title, id) // maybe save value as an variable
     dispatch(addClinkSucceed())
     callbackSucceed()
   } catch (err) {
