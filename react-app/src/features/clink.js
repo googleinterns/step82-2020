@@ -39,15 +39,15 @@ const clinkSlice = createSlice({
       state.bookmarkError = action.payload;
     },
     fetchClinksStart(state){
-      state.isFetchingClink = true;
+      state.isFetchingClinks = true;
     },
     fetchClinksSucceed(state, action){
-      state.isFetchingClink = false;
+      state.isFetchingClinks = false;
       state.clinks = action.payload
       delete state.clinkError;
     },
     fetchClinksFailed(state, action){
-      state.isFetchingClink = false;
+      state.isFetchingClinks = false;
       state.clinkError = action.payload;
     },
     fetchBookmarksStart(state){
