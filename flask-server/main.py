@@ -334,7 +334,9 @@ def fetch_clinks():
 
     if is_valid_instance(resp_token):
         clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', str(resp_token)).fetch())
-        all_list = list(datastore_client.query(kind='clink').fetch())
+        all_query = datastore_client.query(kind='clink')
+        all_query.order = ['created']
+        all_list = list(all_query.fetch())
         to_return = []    
 
         for clink in all_list:
@@ -344,7 +346,8 @@ def fetch_clinks():
                         'title': clink['title'],
                         'id': clink.id 
                     }
-                    to_return.append(response_object)              
+                    to_return.append(response_object)
+                    break;              
         return jsonify(to_return), 200
     else:
         response_object = {
