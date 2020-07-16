@@ -65,18 +65,11 @@ const NewButton = () => {
     }, 1000)
   }
 
-
   const addFail = (error) => {
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
     }, 1000)
   }
-
-  const onFinishFailed = errorInfo => {
-    setTimeout(() => {
-      message.error({ content: errorInfo, key, duration: 2});
-    }, 1000)
-  };
 
   const handleCancel = () => {
     setIsVisible(false);
@@ -113,7 +106,6 @@ const NewButton = () => {
                 remember: false,
               }}
               onFinish={onBookmarkFinish}
-              onFinishFailed={onFinishFailed}
             >
               <Form.Item
                 label="Link"
@@ -176,7 +168,6 @@ const NewButton = () => {
                 remember: false,
               }}
               onFinish={onClinkFinish}
-              onFinishFailed={onFinishFailed}
             >
               <Form.Item
                 label="Clink Title"
