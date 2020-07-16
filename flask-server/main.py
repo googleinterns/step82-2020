@@ -260,7 +260,8 @@ def add_bookmark():
         'link': request.json['link'],
         'title': request.json['title'],
         'description': request.json['description'],
-        'deleted': False
+        'deleted': False,
+        'created': datetime.datetime.now(timezone.utc)
     })
     datastore_client.put(entity)
 
