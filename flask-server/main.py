@@ -286,6 +286,12 @@ def add_clink():
 
     if is_valid_instance(resp_token):
         title = request.json['title']
+        if title == 'All':
+            response_object = {
+                'status': 'fail',
+                'message': 'Cannot create a clink called \"All\". Failed to add clink.'
+            }
+            return response_object, 401
 
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
