@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Input, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import ClinkMenu from './clinkmenu';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -42,7 +43,7 @@ const Topbar = () => {
           </Dropdown.Button> 
         </div>
       </div>
-      <h1 className="topbar-title">TITLE</h1>
+      <h1 className="topbar-title">TITLE</h1> <ClinkMenu />
     </Header>
   )
 }
