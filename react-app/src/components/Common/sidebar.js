@@ -23,6 +23,10 @@ const Sidebar = () => {
     }
   }, []);
 
+  const changeBookmark = () => {
+    
+  }
+
   return (
     <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
@@ -35,7 +39,7 @@ const Sidebar = () => {
         </Menu.Item>
         
         {clinks.map(item => (
-          <Menu.Item key={item.id}>{item.title}</Menu.Item>
+          <Menu.Item key={item.id} onClick={changeBookmark}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >
