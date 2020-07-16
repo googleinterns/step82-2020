@@ -179,7 +179,6 @@ def encode_auth_token(user_id, remember):
     except Exception as e:
         return e    
 
-
 def decode_auth_token(auth_token):
     """
     Decodes the auth token
@@ -229,7 +228,32 @@ def check_denylist(token):
     if token_query:
         return True
     else:
-        return False
+        return False        
+
+@app.route('/apis/add-bookmark', methods=['POST'])
+def add_bookmark():
+    entity = datastore.Entity(key=datastore_client.key('bookmark'))
+    entity.update({
+        'link': request.json['link'],
+        'title': request.json['title'],
+        'description': request.json['description'],
+        'deleted': False
+    })
+    datastore_client.put(entity)
+
+    for clink in request.json['clink']:
+        map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
+        map_entity.update({
+            'clink_id': clink,
+            'bookmark_id': entity.id
+        })
+        datastore_client.put(map_entity)
+
+    response_object = {
+        'status': 'success',
+        'message': 'Successfuly added bookmark.'
+    }
+    return response_object, 200
 
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
