@@ -118,7 +118,7 @@ const NewButton = () => {
                   },
                 ]}
               >
-                <Input place defaultValue="https://www." />
+                <Input defaultValue="https://www." />
               </Form.Item>
               <Form.Item
                 label="Title"
