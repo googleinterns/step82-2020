@@ -39,6 +39,9 @@ const NewButton = () => {
     if (!values.description) {
       values.description = ' ';
     }
+    if (!values.toAdd) {
+      values.toAdd = [];
+    }
     values.toAdd.unshift('All');
     console.log(values.toAdd);
     dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
