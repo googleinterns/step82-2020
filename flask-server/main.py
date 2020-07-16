@@ -308,18 +308,18 @@ def fetch_clinks():
         for clink in all_list:
             for id in clink_ids:
                 if id['clink_id'] == clink.id:
-                    json = {
+                    response_object = {
                         'title': clink['title'],
                         'id': clink.id 
                     }
-                    to_return.append(json)              
+                    to_return.append(response_object)              
         return jsonify(to_return), 200
     else:
         response_object = {
             'status': 'fail',
             'message': 'Invalid JWT. Failed to fetch clinks.'
         }
-        return responce_object, 401
+        return response_object, 401
 
 
 # routing
