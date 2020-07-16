@@ -53,6 +53,27 @@ def store_user():
 
         datastore_client.put(entity)
 
+        all_clink_entity = datastore.Entity(key=datastore_client.key('clink'))
+        all_clink_entity.update({
+            'title': 'All',
+            'deleted': False
+        })
+
+        datastore_client.put(all_clink_entity)
+
+        write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+        read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+
+        mapping = {
+            'clink_id': all_clink_entity.id,
+            'user_id': entity.id
+        }
+            
+        write_entity.update(mapping)
+        read_entity.update(mapping)
+        datastore_client.put(write_entity)
+        datastore_client.put(read_entity)
+
         response_object = {
             'status': 'success',
             'message': 'Successfully signed up.'
