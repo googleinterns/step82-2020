@@ -11,15 +11,15 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
 
-  const currentToken = localStorage.getItem('currentToken')
-  const clinks = useSelector(state => state.clink.clinks)
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
+  const currentToken = localStorage.getItem('currentToken');
+  const clinks = useSelector(state => state.clink.clinks);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(isCurrentUserFetched){
-      dispatch(fetchClinks(currentToken))
+    if (isCurrentUserFetched) {
+      dispatch(fetchClinks(currentToken));
     }
   }, []);
 

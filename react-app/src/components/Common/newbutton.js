@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addClink, addBookmark } from '../../features/clink';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchClinks, addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
@@ -11,7 +11,9 @@ const { TabPane } = Tabs;
 
 const NewButton = () => {
 
-  const currentToken = localStorage.getItem('currentToken')
+  const currentToken = localStorage.getItem('currentToken');
+  const clinks = useSelector(state => state.clink.clinks);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
@@ -22,6 +24,12 @@ const NewButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
+  useEffect(() => {
+    if(isCurrentUserFetched) {
+      dispatch(fetchClinks(currentToken))
+    }
+  }, []);
+
   const showModal = () => {
     setIsVisible(true);
   };
@@ -31,6 +39,8 @@ const NewButton = () => {
     if (!values.description) {
       values.description = ' ';
     }
+    values.toAdd.unshift('All');
+    console.log(values.toAdd);
     dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
@@ -145,14 +155,14 @@ const NewButton = () => {
                 name="toAdd"
                 rules={[
                   {
-                    required: true
+                    required: false
                   },
                 ]}
               >
-                <Select mode="multiple" defaultValue="All">
-                  <Option value="All">All</Option>
-                  <Option value="clink1">Clink 1</Option>
-                  <Option value="clink2">Clink 2</Option>
+                <Select mode="multiple">
+                  {clinks.map(item => (
+                    <Option value={item.id}>{item.title}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Form>
