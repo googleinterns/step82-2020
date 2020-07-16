@@ -255,13 +255,15 @@ def check_denylist(token):
 # add bookmark api
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
+    resp_token = decode_auth_token(request.json['Authorization'])
     entity = datastore.Entity(key=datastore_client.key('bookmark'))
     entity.update({
         'link': request.json['link'],
         'title': request.json['title'],
         'description': request.json['description'],
         'deleted': False,
-        'created': datetime.datetime.now(timezone.utc)
+        'created': datetime.datetime.now(timezone.utc),
+        'creator': str(resp_token)
     })
     datastore_client.put(entity)
 

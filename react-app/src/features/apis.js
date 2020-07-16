@@ -35,7 +35,8 @@ const addClink = (title, token) => axios.post(ADD_CLINK_URL, {
   Authorization: token
 });
 
-const addBookmark = (link, title, description, clink) => axios.post(ADD_BOOKMARK_URL, {
+const addBookmark = (token, link, title, description, clink) => axios.post(ADD_BOOKMARK_URL, {
+  Authorization: token,
   link: link,
   title: title,
   description: description,
