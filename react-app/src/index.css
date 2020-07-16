@@ -123,13 +123,29 @@ code {
 
 .card {
   border-radius: 10px !important;
-  background-color: pink !important;
+  background-color: #d9f7be !important;
 }
 
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
+}
+
+.bookmark-link:link{
+  color: black;
+}
+
+.bookmark-link:visited{
+  color: black;
+}
+
+.bookmark-link:hover{
+  color: black;
+}
+
+.bookmark-link:active{
+  color: black;
 }
 
 .site-layout .site-layout-background {

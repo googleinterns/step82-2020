@@ -6,6 +6,7 @@ import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
 import { message, Modal, Tabs, Button, Form, Input, Select, Switch } from 'antd';
 
+
 const { Option } = Select;
 const { TabPane } = Tabs;
 
@@ -117,7 +118,7 @@ const NewButton = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input place defaultValue="https://www." />
               </Form.Item>
               <Form.Item
                 label="Title"
