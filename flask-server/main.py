@@ -24,23 +24,23 @@ def store_user():
     username_result = list(datastore_client.query(kind='user').add_filter('username', '=', username).fetch(limit=1))
 
     if email_result and username_result:
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Both username and email are already registered.'
         }
-        return response_object, 401
+        return resp_tokenonse_object, 401
     elif email_result:
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Email already has a registered account.'
         }
-        return response_object, 401
+        return resp_tokenonse_object, 401
     elif username_result:
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Username is already registered.'
         }
-        return response_object, 401
+        return resp_tokenonse_object, 401
     else:
         entity = datastore.Entity(key=datastore_client.key('user'))
         entity.update({
@@ -53,11 +53,11 @@ def store_user():
 
         datastore_client.put(entity)
 
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'success',
             'message': 'Successfully signed up.'
         }
-        return response_object, 200
+        return resp_tokenonse_object, 200
 
 def fetch_users(limit):
     query = datastore_client.query(kind='user')
@@ -87,26 +87,26 @@ def login_user():
         if user and check_password(user['password_hash'], password):
             auth_token=encode_auth_token(user.id, remember)
             if auth_token:
-                    response_object = {
+                    resp_tokenonse_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
                         'Authorization': auth_token.decode() 
                     }
-                    return response_object, 200
+                    return resp_tokenonse_object, 200
         else:
-            response_object = {
+            resp_tokenonse_object = {
                 'status': 'fail',
                 'message': 'Username or password does not match.'
             }
-            return response_object, 401
+            return resp_tokenonse_object, 401
 
     except Exception as e:
         print(e)
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Try to login again.'
         }
-        return response_object, 500
+        return resp_tokenonse_object, 500
 
 # password
 def password(password):
@@ -120,40 +120,40 @@ def check_password(password_hash, password):
 def logout_user():
     auth_token = request.json['Authorization']
     if auth_token:
-        resp = decode_auth_token(auth_token)
-        if is_valid_instance(resp):
+        resp_token = decode_auth_token(auth_token)
+        if is_valid_instance(resp_token):
             return save_token(token=auth_token)
         else:
-            response_object = {
+            resp_tokenonse_object = {
                 'status': 'fail',
-                'message': resp
+                'message': resp_token
             }
-            return response_object, 401
+            return resp_tokenonse_object, 401
     else:
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Provide a valid auth token.'
         }
-        return response_object, 403
+        return resp_tokenonse_object, 403
 
 # get current user api
 @app.route('/apis/get-curr-user', methods=['GET'])
 def get_curr_user():
     token = request.headers.get('Authorization')    
-    resp = decode_auth_token(token)
-    if not is_valid_instance(resp):
-        response_object = {
+    resp_token = decode_auth_token(token)
+    if not is_valid_instance(resp_token):
+        resp_tokenonse_object = {
             'status': 'fail',
-            'message': resp
+            'message': resp_token
         }
-        return response_object, 401
+        return resp_tokenonse_object, 401
     
-    response_object = {
+    resp_tokenonse_object = {
             'status': 'success',
-            'message': resp,
+            'message': resp_token,
             'Authorization': token
     }
-    return response_object, 200
+    return resp_tokenonse_object, 200
 
 # jwt token
 def encode_auth_token(user_id, remember):
@@ -196,8 +196,8 @@ def decode_auth_token(auth_token):
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
 
-def is_valid_instance(resp):
-    if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
+def is_valid_instance(resp_token):
+    if resp_token == "Token denylisted. Please log in again." or resp_token == "Signature expired. Please log in again." or resp_token == "Invalid token. Please log in again.":
         return False
     return True
 
@@ -210,18 +210,18 @@ def save_token(token):
         })
         datastore_client.put(deny_token)
 
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'success',
             'message': 'Successfully logged out.'
         }
-        return response_object, 200
+        return resp_tokenonse_object, 200
     except Exception as e:
         print(e)
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Successfully logout out w/ error.'
         }
-        return response_object, 200
+        return resp_tokenonse_object, 200
 
 def check_denylist(token):
     token_query = list(datastore_client.query(kind='denylist_token').add_filter('jwt', '=', token).fetch())
@@ -250,11 +250,11 @@ def add_bookmark():
         })
         datastore_client.put(map_entity)
 
-    response_object = {
+    resp_tokenonse_object = {
         'status': 'success',
         'message': 'Successfuly added bookmark.'
     }
-    return response_object, 200
+    return resp_tokenonse_object, 200
 
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
@@ -282,17 +282,17 @@ def add_clink():
         datastore_client.put(write_entity)
         datastore_client.put(read_entity)
 
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'success',
             'message': 'Successfully added clink.'
         }
-        return response_object, 200  
+        return resp_tokenonse_object, 200  
     else:
-        response_object = {
+        resp_tokenonse_object = {
             'status': 'fail',
             'message': 'Invalid JWT. Failed to add clink.'
         }
-        return response_object, 401
+        return resp_tokenonse_object, 401
 
 @app.route('/apis/fetch-clinks', methods=['GET'])
 def fetch_clinks():
