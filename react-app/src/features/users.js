@@ -52,6 +52,7 @@ const usersSlice = createSlice({
       state.loginError = action.payload;
     },
     logout(state) {
+      state.isCurrentUserFetched = false;
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
