@@ -17,7 +17,7 @@ const clinkSlice = createSlice({
     },
     addClinkSucceed(state, action){
       state.isAddingClink = false;
-      state.clinks = [...state.clinks, action.payload]
+      state.clinks = [action.payload, ...state.clinks]
       delete state.clinkError;
     },
     addClinkFailed(state, action){
