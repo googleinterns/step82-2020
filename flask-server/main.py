@@ -336,7 +336,8 @@ def fetch_bookmarks():
                     response_object = {
                         'title': bookmark['title'],
                         'description': bookmark['description'],
-                        'link': bookmark['link']
+                        'link': bookmark['link'],
+                        'id': id['bookmark_id']
                     }
                     to_return.append(response_object)              
         return jsonify(to_return), 200
