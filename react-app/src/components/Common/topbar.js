@@ -43,7 +43,7 @@ const Topbar = () => {
           </Dropdown.Button> 
         </div>
       </div>
-      <h1 className="topbar-title">TITLE</h1> <ClinkMenu />
+      <h1 className="topbar-title">TITLE <ClinkMenu /> </h1>
     </Header>
   )
 }
