@@ -33,6 +33,30 @@ code {
   float: right;
 }
 
+.topbar {
+  height: 153px!important;
+}
+
+.topbar-searchbar-wrapper {
+  position: relative!important;
+  width: 100%;
+}
+
+.topbar-search {
+  position: absolute!important;
+  top: 17px;
+  width: 80%!important; 
+}
+
+.topbar-dropdown-user-logout-button {
+  position: relative!important;
+  left: 90%;
+}
+
+.topbar-title {
+  color: white!important;
+}
+
 .ant-col-rtl .login-form-forgot {
   float: left;
 }
@@ -45,7 +69,7 @@ code {
   width: 100%;
 }
 
-.center-load{
+.center-load {
   display: table;
   position: fixed;
   top: 50%;
@@ -54,23 +78,23 @@ code {
 }
 
 .center-tabs {
+  display: table;
+  position: fixed;
   min-width: 320px;
   max-width: 320px;
   width: 320px;
   height: 397.6px;
-  display: table;
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .sidebar {
+  position: fixed;
   min-width: 250px!important;
   max-width: 250px!important;
   width: 250px!important;
   height: 100vh;
-  position: fixed;
   left: 0px;
 }
 
@@ -106,30 +130,6 @@ code {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
-}
-
-.top-search {
-  width: 80%!important;
-}
-
-.top-button {
-  padding: 0px;
-  margin: 15px;
-  float: right;
-  height: 35px;
-  padding: 0 5px;
-  align-items: center;
-}
-
-.top-icon {
-  padding: 0px;
-  margin: 15px;
-  float: right;
-  height: 35px;
-  padding: 5px 5px 0px;
-  font-size: 25px;
-  align-items: center;
-  color: white !important;
 }
 
 .site-layout .site-layout-background {
