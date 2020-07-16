@@ -266,8 +266,7 @@ def add_clink():
         clink_entity.update({
             'title': request.json['title'],
             'deleted': False
-        })
-            
+        })  
         datastore_client.put(clink_entity)
 
         write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
@@ -280,7 +279,6 @@ def add_clink():
             
         write_entity.update(mapping)
         read_entity.update(mapping)
-
         datastore_client.put(write_entity)
         datastore_client.put(read_entity)
 
