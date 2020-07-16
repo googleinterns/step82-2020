@@ -29,8 +29,9 @@ const clinkSlice = createSlice({
     addBookmarkStart(state){
       state.isAddingBookmark = true;
     },
-    addBookmarkSucceed(state){
+    addBookmarkSucceed(state, action){
       state.isAddingBookmark = false;
+      state.bookmarks = [action.payload, ...state.bookmarks]
       delete state.clinkError;
     },
     addBookmarkFailed(state, action){
@@ -87,7 +88,8 @@ export const addBookmark = (link, title, description, clink, callbackSucceed, ca
   try {
     dispatch(addBookmarkStart())
     const response = await apis.addBookmark(link, title, description, clink)
-    dispatch(addBookmarkSucceed())
+    console.log(response)
+    dispatch(addBookmarkSucceed(response.data))
     callbackSucceed()
   } catch (err) {
     dispatch(addBookmarkFailed(err.response.data.message))
@@ -109,6 +111,7 @@ export const fetchBookmarks = (token, clinkId) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart())
     const response = await apis.fetchBookmarks(token, clinkId)
+    console.log(response)
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message))

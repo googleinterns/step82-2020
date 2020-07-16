@@ -251,8 +251,10 @@ def add_bookmark():
         datastore_client.put(map_entity)
 
     response_object = {
-        'status': 'success',
-        'message': 'Successfuly added bookmark.'
+        'link': request.json['link'],
+        'title': request.json['title'],
+        'description': request.json['description'],
+        'id': entity.id
     }
     return response_object, 200
 
