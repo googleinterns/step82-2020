@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchClinks } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
@@ -11,22 +11,17 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
 
-  const currentUser = useSelector(state => state.users.currentUser)
-  const isAddingClink = useSelector(state => state.clink.isAddingClink)
+  const currentToken = localStorage.getItem('currentToken');
+  const clinks = useSelector(state => state.clink.clinks);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
-  const [menuItems, setMenuItems] = useState([])
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/apis/fetch-clinks`, {
-      headers: {'id': currentUser}
-    }).then(
-      (response) => {
-        const allItems = response.data;
-        console.log(allItems)
-        setMenuItems(allItems);
-    });
-  }, [isAddingClink]);
-
+    if (isCurrentUserFetched) {
+      dispatch(fetchClinks(currentToken));
+    }
+  }, []);
 
   return (
     <Sider className="sidebar">
@@ -39,7 +34,7 @@ const Sidebar = () => {
           All
         </Menu.Item>
         
-        {menuItems.map(item => (
+        {clinks.map(item => (
           <Menu.Item key={item.id}>{item.title}</Menu.Item>
         ))}
       </Menu>

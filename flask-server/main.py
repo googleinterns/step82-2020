@@ -259,12 +259,14 @@ def add_bookmark():
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
 def add_clink():
-    resp_token = decode_auth_token(request.json['token'])
+    resp_token = decode_auth_token(request.json['Authorization'])
 
     if is_valid_instance(resp_token):
+        title = request.json['title']
+
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
-            'title': request.json['title'],
+            'title': title,
             'deleted': False
         })  
         datastore_client.put(clink_entity)
@@ -283,8 +285,8 @@ def add_clink():
         datastore_client.put(read_entity)
 
         response_object = {
-            'status': 'success',
-            'message': 'Successfully added clink.'
+            'title': title,
+            'id': clink_entity.id
         }
         return response_object, 200  
     else:
@@ -296,19 +298,28 @@ def add_clink():
 
 @app.route('/apis/fetch-clinks', methods=['GET'])
 def fetch_clinks():
-    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', request.headers.get('id')).fetch())
-    all_list = list(datastore_client.query(kind='clink').fetch())
-    to_return = []    
+    resp_token = decode_auth_token(request.headers.get('Authorization'))
 
-    for clink in all_list:
-        for id in clink_ids:
-            if id['clink_id'] == clink.id:
-                json = {
-                    'title': clink['title'],
-                    'id': clink.id 
-                }
-                to_return.append(json)              
-    return jsonify(to_return)
+    if is_valid_instance(resp_token):
+        clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', str(resp_token)).fetch())
+        all_list = list(datastore_client.query(kind='clink').fetch())
+        to_return = []    
+
+        for clink in all_list:
+            for id in clink_ids:
+                if id['clink_id'] == clink.id:
+                    response_object = {
+                        'title': clink['title'],
+                        'id': clink.id 
+                    }
+                    to_return.append(response_object)              
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to fetch clinks.'
+        }
+        return response_object, 401
 
 
 # routing
