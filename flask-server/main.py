@@ -337,6 +337,32 @@ def fetch_clinks():
         }
         return response_object, 401
 
+@app.route('/apis/fetch-user-bookmarks', methods=['GET'])
+def fetch_user_bookmarks():
+    resp_token = decode_auth_token(request.headers.get('Authorization'))
+
+    if is_valid_instance(resp_token):
+        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token))
+        bookmark_query.addOrder = ['created']
+        bookmark_ids = list(bookmark_query.fetch())
+        to_return = []
+
+        for id in bookmark_ids:
+            response_object = {
+                'title': bookmark['title'],
+                'description': bookmark['description'],
+                'link': bookmark['link'],
+                'id': id['bookmark_id']
+            }
+            to_return.append(response_object)              
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to fetch clinks.'
+        }
+        return response_object, 401
+
 @app.route('/apis/fetch-bookmarks', methods=['GET'])
 def fetch_bookmarks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
