@@ -6,6 +6,7 @@ from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from google.cloud import datastore
+from datetime import timezone
 
 datastore_client = datastore.Client()
 app = Flask(__name__, template_folder='static/react')
@@ -47,7 +48,7 @@ def store_user():
             'email': email,
             'username': username,
             'password_hash': password(request.json['password']),
-            'registered_on': datetime.datetime.now(),
+            'registered_on': datetime.datetime.now(timezone.utc),
             'deleted': False
         })
 
@@ -184,12 +185,12 @@ def encode_auth_token(user_id, remember):
     """
     try:
         if remember:
-            exp = datetime.datetime.utcnow() + datetime.timedelta(days=7, seconds=5)
+            exp = datetime.datetime.now(timezone.utc) + datetime.timedelta(days=7, seconds=5)
         else: 
-            exp = datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5)
+            exp = datetime.datetime.now(timezone.utc) + datetime.timedelta(days=1, seconds=5)
         payload = {
             'exp': exp,
-            'iat': datetime.datetime.utcnow(),
+            'iat': datetime.datetime.now(timezone.utc),
             'sub': user_id
         }
         return jwt.encode(
@@ -296,7 +297,8 @@ def add_clink():
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
             'title': title,
-            'deleted': False
+            'deleted': False,
+            'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
 
