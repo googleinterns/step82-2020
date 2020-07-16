@@ -7,7 +7,7 @@ const LOGOUT_URL = `${BASE_URL}/logout`;
 const GET_CURR_USER_URL = `${BASE_URL}/get-curr-user`;
 const ADD_CLINK_URL = `${BASE_URL}/add-clink`;
 const ADD_BOOKMARK_URL = `${BASE_URL}/add-bookmark`;
-const FETCH_CLINK_URL = `${BASE_URL}/fetch-clinks`;
+const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -41,7 +41,7 @@ const addBookmark = (link, title, description, clink) => axios.post(ADD_BOOKMARK
   clink: clink
 });
 
-const fetchClinks = (token) => axios.get(FETCH_CLINK_URL, {
+const fetchClinks = (token) => axios.get(FETCH_CLINKS_URL, {
   headers: {'Authorization': token}
 });
 
