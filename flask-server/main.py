@@ -120,13 +120,13 @@ def check_password(password_hash, password):
 def logout_user():
     auth_token = request.json['Authorization']
     if auth_token:
-        resp = decode_auth_token(auth_token)
-        if is_valid_instance(resp):
+        resp_token = decode_auth_token(auth_token)
+        if is_valid_instance(resp_token):
             return save_token(token=auth_token)
         else:
             response_object = {
                 'status': 'fail',
-                'message': resp
+                'message': resp_token
             }
             return response_object, 401
     else:
@@ -140,17 +140,17 @@ def logout_user():
 @app.route('/apis/get-curr-user', methods=['GET'])
 def get_curr_user():
     token = request.headers.get('Authorization')    
-    resp = decode_auth_token(token)
-    if not is_valid_instance(resp):
+    resp_token = decode_auth_token(token)
+    if not is_valid_instance(resp_token):
         response_object = {
             'status': 'fail',
-            'message': resp
+            'message': resp_token
         }
         return response_object, 401
     
     response_object = {
             'status': 'success',
-            'message': resp,
+            'message': resp_token,
             'Authorization': token
     }
     return response_object, 200
@@ -196,8 +196,8 @@ def decode_auth_token(auth_token):
     except jwt.InvalidTokenError:
         return 'Invalid token. Please log in again.'
 
-def is_valid_instance(resp):
-    if resp == "Token denylisted. Please log in again." or resp == "Signature expired. Please log in again." or resp == "Invalid token. Please log in again.":
+def is_valid_instance(resp_token):
+    if resp_token == "Token denylisted. Please log in again." or resp_token == "Signature expired. Please log in again." or resp_token == "Invalid token. Please log in again.":
         return False
     return True
 
@@ -230,6 +230,7 @@ def check_denylist(token):
     else:
         return False        
 
+# add bookmark api
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
     entity = datastore.Entity(key=datastore_client.key('bookmark'))
@@ -265,8 +266,7 @@ def add_clink():
         clink_entity.update({
             'title': request.json['title'],
             'deleted': False
-        })
-            
+        })  
         datastore_client.put(clink_entity)
 
         write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
@@ -274,12 +274,11 @@ def add_clink():
 
         mapping = {
             'clink_id': clink_entity.id,
-            'user_id': resp_token
+            'user_id': str(resp_token)
         }
             
         write_entity.update(mapping)
         read_entity.update(mapping)
-
         datastore_client.put(write_entity)
         datastore_client.put(read_entity)
 
@@ -294,6 +293,23 @@ def add_clink():
             'message': 'Invalid JWT. Failed to add clink.'
         }
         return response_object, 401
+
+@app.route('/apis/fetch-clinks', methods=['GET'])
+def fetch_clinks():
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', request.headers.get('id')).fetch())
+    all_list = list(datastore_client.query(kind='clink').fetch())
+    to_return = []    
+
+    for clink in all_list:
+        for id in clink_ids:
+            if id['clink_id'] == clink.id:
+                json = {
+                    'title': clink['title'],
+                    'id': clink.id 
+                }
+                to_return.append(json)              
+    return jsonify(to_return)
+
 
 # routing
 @app.route('/', defaults={'path': ''})

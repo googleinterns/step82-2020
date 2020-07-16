@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
