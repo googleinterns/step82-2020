@@ -60,7 +60,6 @@ export const addClink = (title, token, callbackSucceed, callbackFailed) => async
   try {
     dispatch(addClinkStart())
     const response = await apis.addClink(title, token) 
-    console.log(response)
     dispatch(addClinkSucceed(response.data))
     callbackSucceed()
   } catch (err) {
