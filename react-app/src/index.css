@@ -132,6 +132,22 @@ code {
   margin: 16px;
 }
 
+.bookmark-link:link{
+  color: black;
+}
+
+.bookmark-link:visited{
+  color: black;
+}
+
+.bookmark-link:hover{
+  color: black;
+}
+
+.bookmark-link:active{
+  color: black;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }
