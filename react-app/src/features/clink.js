@@ -23,6 +23,7 @@ const clinkSlice = createSlice({
     addClinkSucceed(state, action){
       state.isAddingClink = false;
       state.clinks = [action.payload, ...state.clinks];
+      state.writeClinks = [action.payload, ...state.writeClinks];
       delete state.clinkError;
     },
     addClinkFailed(state, action){
