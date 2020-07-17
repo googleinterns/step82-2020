@@ -40,9 +40,10 @@ const NewButton = () => {
     if (!values.description) {
       values.description = ' ';
     }
-    values.toAdd.unshift('All');
-    console.log(values.toAdd);
-    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, addSuccess, addFail))
+    if (!values.toAdd) {
+      values.toAdd = [];
+    }
+    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, currentToken, addSuccess, addFail))
     bookmarkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);
