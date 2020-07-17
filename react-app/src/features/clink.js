@@ -68,6 +68,7 @@ const clinkSlice = createSlice({
     },
     clearClinks(state){
       state.clinks = [];
+      state.currentClink = 'All';
     },
     clearBookmarks(state){
       state.bookmarks = [];
