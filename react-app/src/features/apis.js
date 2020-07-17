@@ -48,7 +48,7 @@ const fetchClinks = (token) => axios.get(FETCH_CLINKS_URL, {
   headers: {'Authorization': token}
 });
 
-const fetchWriteClinks = (token) => axios.get(FETCH_CLINKS_URL, {
+const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
   headers: {'Authorization': token}
 });
 
