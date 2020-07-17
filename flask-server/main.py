@@ -336,7 +336,7 @@ def fetch_clinks():
                         'id': clink.id 
                     }
                     to_return.append(response_object)
-                    break;              
+                    break
         return jsonify(to_return), 200
     else:
         response_object = {
