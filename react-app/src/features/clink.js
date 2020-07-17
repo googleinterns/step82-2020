@@ -20,7 +20,7 @@ const clinkSlice = createSlice({
     },
     addClinkSucceed(state, action){
       state.isAddingClink = false;
-      state.clinks = [action.payload, ...state.clinks]
+      state.clinks = [action.payload, ...state.clinks];
       delete state.clinkError;
     },
     addClinkFailed(state, action){
@@ -32,7 +32,7 @@ const clinkSlice = createSlice({
     },
     addBookmarkSucceed(state, action){
       state.isAddingBookmark = false;
-      state.bookmarks = [action.payload, ...state.bookmarks]
+      state.bookmarks = [action.payload, ...state.bookmarks];
       delete state.clinkError;
     },
     addBookmarkFailed(state, action){
@@ -56,7 +56,7 @@ const clinkSlice = createSlice({
     },
     fetchBookmarksSucceed(state, action){
       state.isFetchingBookmarks = false;
-      state.bookmarks = action.payload
+      state.bookmarks = action.payload;
       delete state.bookmarkError;
     },
     fetchBookmarksFailed(state, action){
@@ -65,6 +65,12 @@ const clinkSlice = createSlice({
     } ,
     changeCurrClink(state, action){
       state.currentClink = action.payload;
+    },
+    clearClinks(state){
+      state.clinks = [];
+    },
+    clearBookmarks(state){
+      state.bookmarks = [];
     }    
   },
 });
@@ -72,8 +78,9 @@ const clinkSlice = createSlice({
 export const {
   addClinkStart, addClinkSucceed, addClinkFailed, 
   addBookmarkStart, addBookmarkSucceed, addBookmarkFailed,
-  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed,
-  fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed, changeCurrClink
+  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, changeCurrClink,
+  fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
+  clearClinks, clearBookmarks
 } = clinkSlice.actions;
 
 export const addClink = (title, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -124,6 +131,11 @@ export const fetchBookmarks = (token, clinkId) => async dispatch => {
 
 export const setCurrClink = (title) => async dispatch => {
   dispatch(changeCurrClink(title))
+}
+
+export const clearClinksAndBookmarks = () => async dispatch => {
+  dispatch(clearClinks())
+  dispatch(clearBookmarks())
 }
 
 export default clinkSlice.reducer;
