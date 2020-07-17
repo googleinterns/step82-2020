@@ -84,10 +84,10 @@ export const addClink = (title, token, callbackSucceed, callbackFailed) => async
   }
 }
 
-export const addBookmark = (link, title, description, clink, callbackSucceed, callbackFailed) => async dispatch => {
+export const addBookmark = (link, title, description, clink, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(addBookmarkStart())
-    const response = await apis.addBookmark(link, title, description, clink)
+    const response = await apis.addBookmark(link, title, description, clink, token)
     console.log(response)
     dispatch(addBookmarkSucceed(response.data))
     callbackSucceed()
