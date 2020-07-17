@@ -7,7 +7,8 @@ const initialState = {
   isFetchingClinks: false,
   isFetchingBookmarks: false,
   clinks: [],
-  bookmarks: []
+  bookmarks: [],
+  currentClink: ''
 };
 
 const clinkSlice = createSlice({
@@ -61,7 +62,10 @@ const clinkSlice = createSlice({
     fetchBookmarksFailed(state, action){
       state.isFetchingBookmarks = false;
       state.bookmarkError = action.payload;
-    }     
+    } ,
+    changeCurrClink(state, action){
+      state.currentClink = action.payload;
+    }    
   },
 });
 
@@ -69,7 +73,7 @@ export const {
   addClinkStart, addClinkSucceed, addClinkFailed, 
   addBookmarkStart, addBookmarkSucceed, addBookmarkFailed,
   fetchClinksStart, fetchClinksSucceed, fetchClinksFailed,
-  fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed
+  fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed, changeCurrClink
 } = clinkSlice.actions;
 
 export const addClink = (title, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -116,6 +120,10 @@ export const fetchBookmarks = (token, clinkId) => async dispatch => {
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message))
   }
+}
+
+export const setCurrClink = (title) => async dispatch => {
+  dispatch(changeCurrClink(title))
 }
 
 export default clinkSlice.reducer;
