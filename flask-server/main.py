@@ -323,8 +323,8 @@ def fetch_clinks():
 
     if is_valid_instance(resp_token):
         clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', str(resp_token)).fetch())
-        all_query = datastore_client.query(kind='clink')
-        all_query.order = ['created']
+        all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
+        all_query.order = ['deleted', 'created']
         all_list = list(all_query.fetch())
         to_return = []    
 
@@ -352,8 +352,8 @@ def fetch_bookmarks():
     if is_valid_instance(resp_token):
         clink_id = request.headers.get('id')
         if clink_id == 'All':
-            bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token))
-            bookmark_query.addOrder = ['created']
+            bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
+            bookmark_query.order = ['creator', 'deleted', 'created']
             bookmark_ids = list(bookmark_query.fetch())
             to_return = []
 
@@ -368,7 +368,7 @@ def fetch_bookmarks():
             return jsonify(to_return), 200
         else:
             bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', clink_id).fetch())
-            all_list = list(datastore_client.query(kind='bookmark').fetch())
+            all_list = list(datastore_client.query(kind='bookmark').add_filter('deleted', '=', False).fetch())
             to_return = []    
 
             for bookmark in all_list:
