@@ -5,6 +5,7 @@ const initialState = {
   isAddingClink: false,
   isAddingBookmark: false,
   isFetchingClinks: false,
+  isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
   clinks: [],
   bookmarks: [],
@@ -51,6 +52,18 @@ const clinkSlice = createSlice({
       state.isFetchingClinks = false;
       state.clinkError = action.payload;
     },
+    fetchWriteClinksStart(state){
+      state.isFetchingWriteClinks = true;
+    },
+    fetchWriteClinksSucceed(state, action){
+      state.isFetchingWriteClinks = false;
+      state.clinks = action.payload
+      delete state.clinkError;
+    },
+    fetchWriteClinksFailed(state, action){
+      state.isFetchingWriteClinks = false;
+      state.clinkError = action.payload;
+    },
     fetchBookmarksStart(state){
       state.isFetchingBookmarks = true;
     },
@@ -79,7 +92,8 @@ const clinkSlice = createSlice({
 export const {
   addClinkStart, addClinkSucceed, addClinkFailed, 
   addBookmarkStart, addBookmarkSucceed, addBookmarkFailed,
-  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, changeCurrClink,
+  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
+  fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
   clearClinks, clearBookmarks
 } = clinkSlice.actions;
@@ -116,6 +130,16 @@ export const fetchClinks = (token) => async dispatch => {
     dispatch(fetchClinksSucceed(response.data))
   } catch (err) {
     dispatch(fetchClinksFailed(err.response.data.message))
+  }
+}
+
+export const fetchWriteClinks = (token) => async dispatch => {
+  try {
+    dispatch(fetchWriteClinksStart())
+    const response = await apis.fetchWriteClinks(token)
+    dispatch(fetchWriteClinksSucceed(response.data))
+  } catch (err) {
+    dispatch(fetchWriteClinksFailed(err.response.data.message))
   }
 }
 
