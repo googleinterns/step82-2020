@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addClink, addBookmark } from '../../features/clink';
+import { addClink, addBookmark, fetchWriteClinks } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
@@ -13,7 +13,8 @@ const { TabPane } = Tabs;
 const NewButton = () => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const clinks = useSelector(state => state.clink.clinks);
+  const writeClinks = useSelector(state => state.clink.writeClinks);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
@@ -23,6 +24,12 @@ const NewButton = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
+
+  useEffect(() => {
+    if (isCurrentUserFetched) {
+      dispatch(fetchWriteClinks(currentToken));
+    }
+  }, []);
 
   const showModal = () => {
     setIsVisible(true);
@@ -147,7 +154,7 @@ const NewButton = () => {
                 ]}
               >
                 <Select mode="multiple">
-                  {clinks.map(item => (
+                  {writeClinks.map(item => (
                     <Option value={item.id}>{item.title}</Option>
                   ))}
                 </Select>
