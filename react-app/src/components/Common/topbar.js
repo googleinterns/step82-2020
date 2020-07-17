@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../features/users';
+import { clearClinksAndBookmarks } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Input, Dropdown, Menu } from 'antd';
@@ -19,6 +20,7 @@ const Topbar = () => {
 
   const logout = () => {
     dispatch(logOut(currentToken))
+    dispatch(clearClinksAndBookmarks())
   };
 
   const menu = (
