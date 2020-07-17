@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks, addClink, addBookmark } from '../../features/clink';
+import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
@@ -14,7 +14,6 @@ const NewButton = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const clinks = useSelector(state => state.clink.clinks);
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
