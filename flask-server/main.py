@@ -235,32 +235,40 @@ def check_denylist(token):
 @app.route('/apis/add-bookmark', methods=['POST'])
 def add_bookmark():
     resp_token = decode_auth_token(request.json['Authorization'])
-    entity = datastore.Entity(key=datastore_client.key('bookmark'))
-    entity.update({
-        'link': request.json['link'],
-        'title': request.json['title'],
-        'description': request.json['description'],
-        'deleted': False,
-        'created': datetime.datetime.now(timezone.utc),
-        'creator': str(resp_token)
-    })
-    datastore_client.put(entity)
 
-    for clink in request.json['clink']:
-        map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
-        map_entity.update({
-            'clink_id': clink,
-            'bookmark_id': entity.id
+    if is_valid_instance(resp_token):
+        entity = datastore.Entity(key=datastore_client.key('bookmark'))
+        entity.update({
+            'link': request.json['link'],
+            'title': request.json['title'],
+            'description': request.json['description'],
+            'deleted': False,
+            'created': datetime.datetime.now(timezone.utc),
+            'creator': str(resp_token)
         })
-        datastore_client.put(map_entity)
+        datastore_client.put(entity)
 
-    response_object = {
-        'link': request.json['link'],
-        'title': request.json['title'],
-        'description': request.json['description'],
-        'id': entity.id
-    }
-    return response_object, 200
+        for clink in request.json['clink']:
+            map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
+            map_entity.update({
+                'clink_id': clink,
+                'bookmark_id': entity.id
+            })
+            datastore_client.put(map_entity)
+
+        response_object = {
+            'link': request.json['link'],
+            'title': request.json['title'],
+            'description': request.json['description'],
+            'id': entity.id
+        }
+        return response_object, 200
+    else: 
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to add bookmark.'
+        }
+        return response_object, 401
 
 # add clink api
 @app.route('/apis/add-clink', methods=['POST'])
