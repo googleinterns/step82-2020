@@ -42,7 +42,7 @@ const Dashboard = () => {
       <Layout className="site-layout">
         <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'auto', height: '65vh' }}>
-          <div className="site-layout-background" style={{ padding: '24px' }}>
+          <div className="site-layout-background" style={{ padding: '24px', minHeight: '65vh' }}>
           <Card />
           </div>
         </Content>
