@@ -389,12 +389,6 @@ def fetch_bookmarks():
         }
         return response_object, 401
 
-# checks if enitiy is deleted
-def is_deleted(entity):
-    if entity['deleted'] == True:
-        return True
-    return False
-
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
