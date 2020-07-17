@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks, addClink, addBookmark } from '../../features/clink';
+import { addClink, addBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
@@ -14,7 +14,6 @@ const NewButton = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const clinks = useSelector(state => state.clink.clinks);
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
   const dispatch = useDispatch()
   const [bookmarkForm] = Form.useForm()
@@ -24,12 +23,6 @@ const NewButton = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
-
-  useEffect(() => {
-    if(isCurrentUserFetched) {
-      dispatch(fetchClinks(currentToken))
-    }
-  }, []);
 
   const showModal = () => {
     setIsVisible(true);
@@ -119,7 +112,7 @@ const NewButton = () => {
                   },
                 ]}
               >
-                <Input place defaultValue="https://www." />
+                <Input defaultValue="https://www." />
               </Form.Item>
               <Form.Item
                 label="Title"

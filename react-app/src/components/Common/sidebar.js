@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks } from '../../features/clink'
+import { fetchClinks, setCurrClink } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
@@ -23,6 +23,10 @@ const Sidebar = () => {
     }
   }, []);
 
+  const changeClink = (title) => {
+    dispatch(setCurrClink(title))
+  }
+
   return (
     <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
@@ -30,12 +34,12 @@ const Sidebar = () => {
         <NewButton />
       </Menu>
       <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
-        <Menu.Item key="all">
+        <Menu.Item key="all" onClick={(() => changeClink("All"))}>
           All
         </Menu.Item>
         
         {clinks.map(item => (
-          <Menu.Item key={item.id}>{item.title}</Menu.Item>
+          <Menu.Item key={item.id} onClick={(() => changeClink(item.title))}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >
