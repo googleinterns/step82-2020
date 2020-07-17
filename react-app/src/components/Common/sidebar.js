@@ -34,7 +34,7 @@ const Sidebar = () => {
         <NewButton />
       </Menu>
       <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
-        <Menu.Item key="all">
+        <Menu.Item key="all" onClick={(() => changeClink("All"))}>
           All
         </Menu.Item>
         
