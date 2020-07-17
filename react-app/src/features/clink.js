@@ -8,7 +8,7 @@ const initialState = {
   isFetchingBookmarks: false,
   clinks: [],
   bookmarks: [],
-  currentClink: ''
+  currentClink: 'All'
 };
 
 const clinkSlice = createSlice({
