@@ -25,12 +25,6 @@ const NewButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState('bookmark');
 
-  useEffect(() => {
-    if(isCurrentUserFetched) {
-      dispatch(fetchClinks(currentToken))
-    }
-  }, []);
-
   const showModal = () => {
     setIsVisible(true);
   };
