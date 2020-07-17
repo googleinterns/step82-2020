@@ -8,6 +8,7 @@ const initialState = {
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
   clinks: [],
+  writeClinks: [],
   bookmarks: [],
   currentClink: 'All'
 };
@@ -57,7 +58,7 @@ const clinkSlice = createSlice({
     },
     fetchWriteClinksSucceed(state, action){
       state.isFetchingWriteClinks = false;
-      state.clinks = action.payload
+      state.writeClinks = action.payload;
       delete state.clinkError;
     },
     fetchWriteClinksFailed(state, action){
