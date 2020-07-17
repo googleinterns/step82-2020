@@ -32,6 +32,11 @@ const Topbar = () => {
     </Menu>
   );
 
+  let menuDisplay = <ClinkMenu />;
+  if (title == "All") {
+    menuDisplay = <div />
+  }
+
   return (
     <Header className="topbar">
       <div className="topbar-searchbar-wrapper">
@@ -46,7 +51,7 @@ const Topbar = () => {
           </Dropdown.Button> 
         </div>
       </div>
-      <h1 className="topbar-title">{title}<ClinkMenu /> </h1>
+      <h1 className="topbar-title">{title} {menuDisplay}</h1>
     </Header>
   )
 }
