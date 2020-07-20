@@ -115,17 +115,9 @@ const NewButton = () => {
                 rules={[
                   {
                     required: true,
+                    message: 'Please input a valid link for your bookmark!',
+                    pattern: new RegExp('^(?:[a-z]+:)?//', 'i'),
                   },
-                  () => ({
-                    validator(rule, value) {
-                      var r = new RegExp('^(?:[a-z]+:)?//', 'i')
-                      if (r.test(value)) {
-                        return Promise.resolve();
-                      }
-                      
-                      return Promise.reject('Please input a valid link for your bookmark!');
-                    },
-                  }),
                 ]}
               >
                 <Input defaultValue="https://www." />
