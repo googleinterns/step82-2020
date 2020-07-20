@@ -128,7 +128,7 @@ const ClinkMenu = () => {
               },
             ]}
           >
-            { props.id }
+            {/* clink url goes here */}
           </Form.Item>
         </Form>
       </Modal>
