@@ -60,5 +60,7 @@ const fetchBookmarks = (token, clinkId) => axios.get(FETCH_BOOKMARKS_URL, {
 });
 
 export default {
-  signUp, login, logout, checkUser, addClink, addBookmark, fetchClinks, fetchWriteClinks, fetchBookmarks
+  signUp, login, logout, 
+  checkUser, addClink, addBookmark, 
+  fetchClinks, fetchWriteClinks, fetchBookmarks
 } 	

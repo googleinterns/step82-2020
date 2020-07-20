@@ -115,7 +115,8 @@ const NewButton = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input a link for your bookmark!',
+                    message: 'Please input a valid link for your bookmark!',
+                    pattern: new RegExp('^(?:[a-z]+:)?//', 'i'),
                   },
                 ]}
               >
