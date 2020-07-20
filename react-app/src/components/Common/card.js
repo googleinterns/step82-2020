@@ -13,12 +13,12 @@ const Card = () => {
   const currentToken = localStorage.getItem('currentToken')
   const bookmarks = useSelector(state => state.clink.bookmarks)
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
-  const clinkId = 'All';
   const dispatch = useDispatch()
+  const title = useSelector(state => state.clink.currentClink);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
-      dispatch(fetchBookmarks(currentToken, clinkId))
+      dispatch(fetchBookmarks(currentToken, title))
     }
   }, [])
 
