@@ -53,7 +53,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, values.privacy, currentToken, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);
