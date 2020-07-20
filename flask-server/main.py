@@ -288,6 +288,7 @@ def add_clink():
         clink_entity.update({
             'title': title,
             'deleted': False,
+            'private': request.json['privacy'],
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
