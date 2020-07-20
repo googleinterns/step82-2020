@@ -20,7 +20,7 @@ const Card = () => {
     if (isCurrentUserFetched) {
       dispatch(fetchBookmarks(currentToken, title))
     }
-  }, [])
+  }, [title])
 
   return(
     <>
