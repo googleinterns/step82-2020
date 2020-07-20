@@ -113,6 +113,9 @@ const NewButton = () => {
                 label="Link"
                 name="link"
                 rules={[
+                  {
+                    required: true,
+                  },
                   () => ({
                     validator(rule, value) {
                       var r = new RegExp('^(?:[a-z]+:)?//', 'i')
