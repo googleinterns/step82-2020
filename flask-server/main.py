@@ -60,22 +60,34 @@ def store_user():
         }
         return response_object, 200
 
-def fetch_users(limit):
-    query = datastore_client.query(kind='user')
-    query.order = ['registered_on']
-
-    users = query.fetch(limit=limit)
-
-    return users
-
 @app.route('/apis/fetch-users', methods=['GET'])
-def show_users():
-    limit = int(request.headers.get('limit'))    
-    users = fetch_users(limit)
-    array = []
-    for user in users:
-        array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
-    return jsonify(array)
+def fetch_users():
+    resp_token = decode_auth_token(request.headers.get('Authorization'))
+    if is_valid_instance(resp_token):
+        less_query = datastore_client.query(kind='user')
+        less_query.add_filter('user_id', '<', str(resp_token))
+        greater_query = datastore_client.query(kind='user')
+        greater_query.add_filter('user_id', '>', str(resp_token))
+        less_users = less_query.fetch()
+        greater_users = greater_query.fetch()
+        array = []
+        for user in less_users:
+            array.append({
+                id: user.id,
+                username: user['username']
+            })
+        for user in greater_users:
+            array.append({
+                id: user.id,
+                username: user['username']
+            })
+        return jsonify(array), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to fetch users.'
+        }
+        return response_object, 401
 
 # login api
 @app.route('/apis/login', methods=['POST'])

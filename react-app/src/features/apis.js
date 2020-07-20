@@ -10,6 +10,7 @@ const ADD_BOOKMARK_URL = `${BASE_URL}/add-bookmark`;
 const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
 const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
+const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -59,8 +60,15 @@ const fetchBookmarks = (token, clinkId) => axios.get(FETCH_BOOKMARKS_URL, {
   }
 });
 
+const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
+  headers: {
+    'Authorization': token
+  }
+})
+
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
-  fetchClinks, fetchWriteClinks, fetchBookmarks
+  fetchClinks, fetchWriteClinks, fetchBookmarks,
+  fetchUsers
 } 	

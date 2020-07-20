@@ -6,6 +6,8 @@ const initialState = {
   isCurrentUserFetched: false,
   isLoggingIn: false,
   isSigningUp: false,
+  isFetchingUsers: false,
+  users: []
 };
 
 const usersSlice = createSlice({
@@ -56,6 +58,18 @@ const usersSlice = createSlice({
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
+    fetchUsersStart(state){
+      state.isFetchingUsers = true;
+    },
+    fetchUsersSucceed(state, action){
+      state.isFetchingUsers = false;
+      state.users = action.payload
+      delete state.FetchUsersError;
+    },
+    fetchUsersFailed(state, action){
+      state.isFetchingUsers = false;
+      state.FetchUsersError = action.payload;
+    },
   },
 });
 
@@ -63,7 +77,7 @@ export const {
   getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
-  logout,
+  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -110,6 +124,16 @@ export const checkUser = () => async dispatch => {
   } catch (err) {
     console.log(err.response)
     dispatch(getCurrentUserFailed(err.response.data.message))
+  }
+}
+
+export const fetchUsers = (token) => async dispatch => {
+  try {
+    dispatch(fetchUsersStart())
+    const response = await apis.fetchUsers(token)
+    dispatch(fetchUsersSucceed(response.data))
+  } catch (err) {
+    dispatch(fetchUsersFailed(err.response.data.message))
   }
 }
 
