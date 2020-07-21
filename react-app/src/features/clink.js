@@ -104,10 +104,10 @@ export const {
   clearClinks, clearBookmarks
 } = clinkSlice.actions;
 
-export const addClink = (title, token, callbackSucceed, callbackFailed) => async dispatch => {
+export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(addClinkStart())
-    const response = await apis.addClink(title, token) 
+    const response = await apis.addClink(title, privacy, token) 
     dispatch(addClinkSucceed(response.data))
     callbackSucceed()
   } catch (err) {
@@ -149,10 +149,10 @@ export const fetchWriteClinks = (token) => async dispatch => {
   }
 }
 
-export const fetchBookmarks = (token, clinkId) => async dispatch => {
+export const fetchBookmarks = (token, title) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart())
-    const response = await apis.fetchBookmarks(token, clinkId)
+    const response = await apis.fetchBookmarks(token, title)
     console.log(response)
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {

@@ -53,7 +53,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, values.privacy || false, currentToken, addSuccess, addFail))
     clinkForm.resetFields()
     setTimeout(() => {
       setIsLoading(false);
@@ -115,7 +115,8 @@ const NewButton = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input a link for your bookmark!',
+                    message: 'Please input a valid link for your bookmark!',
+                    pattern: new RegExp('^(?:[a-z]+:)?//', 'i'),
                   },
                 ]}
               >
