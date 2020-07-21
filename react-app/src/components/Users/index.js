@@ -8,6 +8,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
 import ClinkMenu from '../Common/clinkmenu';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { setCurrClink } from '../../features/clink'
+
 
 const { Content, Footer } = Layout;
 const { Panel } = Collapse;
@@ -15,18 +18,16 @@ const { Panel } = Collapse;
 const Users = () => {
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(checkUser())
-  }, []);
-
   const currentToken = localStorage.getItem('currentToken')
   const currentUser = useSelector(state => state.users.currentUser)
   const isFetchingUser = useSelector(state => state.users.isFetchingUser)
   const clinks = useSelector(state => state.clink.clinks);
   const authorizationError = useSelector(state => state.users.authorizationError)
-
   const history = useHistory()
+
+  useEffect(() => {
+    dispatch(checkUser())
+  }, []);
 
   if (isFetchingUser) return (
     <div className="center-load">
@@ -37,7 +38,10 @@ const Users = () => {
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
     history.push("/get-started/login")
   }
-  console.log(clinks)
+
+  const changeClink = (title) => {
+    dispatch(setCurrClink(title))
+  }
 
   return (
     <Layout>
@@ -51,10 +55,12 @@ const Users = () => {
             <>
             {!clink.private &&
               <>
-                <div className="clink-card">
-                  {clink.title} <ClinkMenu />
-                </div>
-                <br />
+                <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
+                  <div className="clink-card" header={<div> <ClinkMenu /> </div>}>
+                    {clink.title} 
+                  </div>
+                  <br />
+                </Link>
               </>
             }
            </>
@@ -64,10 +70,12 @@ const Users = () => {
             <>
             {clink.private &&
               <>
-                <div className="clink-card">
-                  {clink.title} <ClinkMenu />
-                </div>
-                <br />
+                <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
+                  <div className="clink-card" header={<div> <ClinkMenu /> </div>}>
+                    {clink.title} 
+                  </div>
+                  <br />
+                </Link>
               </>
             }
            </>
