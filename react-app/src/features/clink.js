@@ -10,7 +10,8 @@ const initialState = {
   clinks: [],
   writeClinks: [],
   bookmarks: [],
-  currentClink: 'All'
+  currentClinkTitle: 'All',
+  currentClinkId: 'All'
 };
 
 const clinkSlice = createSlice({
@@ -79,11 +80,14 @@ const clinkSlice = createSlice({
       state.bookmarkError = action.payload;
     } ,
     changeCurrClink(state, action) {
-      state.currentClink = action.payload;
+      var obj = JSON.parse(action.payload)
+      state.currentClinkTitle = obj.title
+      state.currentClinkId = obj.id
     },
     clearClinks(state) {
       state.clinks = [];
-      state.currentClink = 'All';
+      state.currentClinkTitle = 'All';
+      state.currentClinkId = 'All'
     },
     clearBookmarks(state) {
       state.bookmarks = [];
@@ -156,8 +160,8 @@ export const fetchBookmarks = (token, clinkId) => async dispatch => {
   }
 }
 
-export const setCurrClink = (title) => async dispatch => {
-  dispatch(changeCurrClink(title))
+export const setCurrClink = (title, id) => async dispatch => {
+  dispatch(changeCurrClink(JSON.stringify({title: title, id: id})))
 }
 
 export const clearClinksAndBookmarks = () => async dispatch => {
