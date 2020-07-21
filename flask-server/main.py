@@ -328,13 +328,14 @@ def fetch_clinks():
         all_query.order = ['created']
         all_list = list(all_query.fetch())
         to_return = []    
-
+        print(all_list)
         for clink in all_list:
             for id in clink_ids:
                 if id['clink_id'] == clink.id:
                     response_object = {
                         'title': clink['title'],
-                        'id': clink.id 
+                        'id': clink.id,
+                        'private': clink['private'] 
                     }
                     to_return.append(response_object)
                     break
