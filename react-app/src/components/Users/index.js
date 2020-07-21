@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { Layout, Collapse } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { checkUser } from '../../features/users';
+import { Layout, Collapse, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
@@ -10,9 +12,31 @@ import ClinkMenu from '../Common/clinkmenu';
 const { Content, Footer } = Layout;
 const { Panel } = Collapse;
 
-
 const Users = () => {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(checkUser())
+  }, []);
+
+  const currentToken = localStorage.getItem('currentToken')
+  const currentUser = useSelector(state => state.users.currentUser)
+  const isFetchingUser = useSelector(state => state.users.isFetchingUser)
   const clinks = useSelector(state => state.clink.clinks);
+  const authorizationError = useSelector(state => state.users.authorizationError)
+
+  const history = useHistory()
+
+  if (isFetchingUser) return (
+    <div className="center-load">
+      <Spin size="large" />
+    </div>
+  )
+
+  if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
+    history.push("/get-started/login")
+  }
   console.log(clinks)
 
   return (
