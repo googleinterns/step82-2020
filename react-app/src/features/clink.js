@@ -10,7 +10,8 @@ const initialState = {
   clinks: [],
   writeClinks: [],
   bookmarks: [],
-  currentClink: 'All'
+  currentClink: 'All',
+  clinkMap: new Map()
 };
 
 const clinkSlice = createSlice({
@@ -87,6 +88,11 @@ const clinkSlice = createSlice({
     },
     clearBookmarks(state){
       state.bookmarks = [];
+    },
+    updateMap(state, clink, bookmark){
+      let currKey = state.clinkMap.get(clink)
+      currKey.push(bookmark)
+      state.ClinkMap.set(clink, currKey)
     }    
   },
 });
@@ -97,7 +103,7 @@ export const {
   fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
   fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
-  clearClinks, clearBookmarks
+  clearClinks, clearBookmarks, updateMap
 } = clinkSlice.actions;
 
 export const addClink = (title, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -118,6 +124,7 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
     const response = await apis.addBookmark(link, title, description, clink, token)
     console.log(response)
     dispatch(addBookmarkSucceed(response.data))
+    dispatch(updateMap(clink, response.data))
     callbackSucceed()
   } catch (err) {
     dispatch(addBookmarkFailed(err.response.data.message))
