@@ -10,8 +10,7 @@ const initialState = {
   clinks: [],
   writeClinks: [],
   bookmarks: [],
-  currentClink: 'All',
-  clinkMap: new Map()
+  currentClink: 'All'
 };
 
 const clinkSlice = createSlice({
