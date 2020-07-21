@@ -15,7 +15,8 @@ const Users = () => {
         <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
-
+          <h1 className="user-title">Public</h1>
+          <h1 className="user-title">Private</h1>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>

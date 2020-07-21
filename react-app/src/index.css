@@ -148,6 +148,10 @@ code {
   color: black;
 }
 
+.user-title {
+  text-align: left;
+}
+
 .site-layout .site-layout-background {
   background: #fff;
 }
