@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button, Modal, Form, Input, Select } from 'antd';
+import { filter } from 'underscore';
 
 const { Option } = Select;
 
@@ -23,7 +24,7 @@ const ClinkMenu = () => {
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
   const [shareIsVisible, setShareVisible] = useState(false);
-
+  const [searchMatch, setSearchMatch] = useState([]);
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchUsers(currentToken));
@@ -64,6 +65,14 @@ const ClinkMenu = () => {
     setEditVisible(false);
     setShareVisible(false);
   };
+
+  const onInputChange = (event) => {
+    console.log('oninputchange');
+    console.log(event);
+    let newlyDisplayed = filter(users, user => user.username.includes(event.target.valu.toLowerCase()));
+
+    setSearchMatch(newlyDisplayed);
+  }
 
   const menu = (<Menu>
     <Menu.Item key="edit" onClick={showEdit}>
@@ -131,9 +140,9 @@ const ClinkMenu = () => {
               },
             ]}
           >
-            <Select mode="multiple">
-              {users.map(item => (
-                <Option value={item.id}>{item.username}</Option>
+            <Select mode="multiple" onChange={onInputChange()}>
+              {searchMatch.map(user => (
+                <Option value={user.id}>{user.username}</Option>
               ))}
             </Select>
           </Form.Item>
