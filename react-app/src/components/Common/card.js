@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchBookmarks} from '../../features/clink';
+import {fetchBookmarks, clearBookmarks} from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Collapse } from 'antd';
@@ -13,14 +13,15 @@ const Card = () => {
   const currentToken = localStorage.getItem('currentToken')
   const bookmarks = useSelector(state => state.clink.bookmarks)
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
-  const clinkId = 'All';
   const dispatch = useDispatch()
+  const title = useSelector(state => state.clink.currentClink);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
-      dispatch(fetchBookmarks(currentToken, clinkId))
+      dispatch(clearBookmarks())
+      dispatch(fetchBookmarks(currentToken, title))
     }
-  }, [])
+  }, [title])
 
   return(
     <>
