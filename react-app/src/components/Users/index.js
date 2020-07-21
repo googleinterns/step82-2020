@@ -51,10 +51,9 @@ const Users = () => {
             <>
             {!clink.private &&
               <>
-                <Collapse accordion className="card" bordered={false}>
-                  <Panel style={{ border: '0px'}} showArrow={false} header={ <div className="card-header">{clink.title}<ClinkMenu /></div>}>
-                  </Panel>
-                </Collapse>
+                <div className="clink-card">
+                  {clink.title} <ClinkMenu />
+                </div>
                 <br />
               </>
             }
@@ -65,10 +64,9 @@ const Users = () => {
             <>
             {clink.private &&
               <>
-                <Collapse accordion className="card" bordered={false}>
-                  <Panel style={{ border: '0px'}} showArrow={false} header={ <div className="card-header">{clink.title}<ClinkMenu /></div>}>
-                  </Panel>
-                </Collapse>
+                <div className="clink-card">
+                  {clink.title} <ClinkMenu />
+                </div>
                 <br />
               </>
             }
