@@ -16,10 +16,10 @@ const NewButton = () => {
   const writeClinks = useSelector(state => state.clink.writeClinks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
-  const dispatch = useDispatch()
-  const [bookmarkForm] = Form.useForm()
-  const [clinkForm] = Form.useForm()
-  const key = "formFeedback"
+  const dispatch = useDispatch();
+  const [bookmarkForm] = Form.useForm();
+  const [clinkForm] = Form.useForm();
+  const key = "formFeedback";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

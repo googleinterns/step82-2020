@@ -64,23 +64,14 @@ def store_user():
 def fetch_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        less_query = datastore_client.query(kind='user')
-        less_query.add_filter('user_id', '<', str(resp_token))
-        greater_query = datastore_client.query(kind='user')
-        greater_query.add_filter('user_id', '>', str(resp_token))
-        less_users = less_query.fetch()
-        greater_users = greater_query.fetch()
+        users = list(datastore_client.query(kind='user').fetch())
         array = []
-        for user in less_users:
-            array.append({
-                id: user.id,
-                username: user['username']
-            })
-        for user in greater_users:
-            array.append({
-                id: user.id,
-                username: user['username']
-            })
+        for user in users:
+            if user.id != str(resp_token):
+                array.append({
+                    'id': user.id,
+                    'username': user['username']
+                })
         return jsonify(array), 200
     else:
         response_object = {

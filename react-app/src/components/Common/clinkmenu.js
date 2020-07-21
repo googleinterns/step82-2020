@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUsers } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -12,9 +14,21 @@ const layout = {
 
 // interactions with clinks
 const ClinkMenu = () => {
+
+  const currentToken = localStorage.getItem('currentToken');
+  const users = useSelector(state => state.users.users);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const dispatch = useDispatch();
+
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
   const [shareIsVisible, setShareVisible] = useState(false);
+
+  useEffect(() => {
+    if (isCurrentUserFetched) {
+      dispatch(fetchUsers(currentToken));
+    }
+  }, []);
 
   const showEdit = () => {
     setEditVisible(true);
@@ -118,7 +132,9 @@ const ClinkMenu = () => {
             ]}
           >
             <Select mode="multiple">
-              <Option value="Placeholder">Placeholder</Option>
+              {users.map(item => (
+                <Option value={item.id}>{item.username}</Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item label="Share read access by link" name="link"

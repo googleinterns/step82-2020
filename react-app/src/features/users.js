@@ -63,7 +63,7 @@ const usersSlice = createSlice({
     },
     fetchUsersSucceed(state, action){
       state.isFetchingUsers = false;
-      state.users = action.payload
+      state.users = action.payload;
       delete state.FetchUsersError;
     },
     fetchUsersFailed(state, action){
@@ -131,6 +131,7 @@ export const fetchUsers = (token) => async dispatch => {
   try {
     dispatch(fetchUsersStart())
     const response = await apis.fetchUsers(token)
+    console.log(response);
     dispatch(fetchUsersSucceed(response.data))
   } catch (err) {
     dispatch(fetchUsersFailed(err.response.data.message))
