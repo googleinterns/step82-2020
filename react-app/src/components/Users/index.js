@@ -57,7 +57,7 @@ const Users = () => {
               <>
                 <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
                   <div className="clink-card">
-                    {clink.title}  <ClinkMenu />
+                    {clink.title} <ClinkMenu />
                   </div>
                   <br />
                 </Link>
@@ -71,8 +71,8 @@ const Users = () => {
             {clink.private &&
               <>
                 <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
-                  <div className="clink-card" header={<div> <ClinkMenu /> </div>}>
-                    {clink.title} 
+                  <div className="clink-card">
+                    {clink.title} <ClinkMenu />
                   </div>
                   <br />
                 </Link>
