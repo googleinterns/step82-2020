@@ -55,7 +55,7 @@ const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
 const fetchBookmarks = (token, title) => axios.get(FETCH_BOOKMARKS_URL, {
   headers: {
     'Authorization': token,
-    'Title': title
+    'title': title
   }
 });
 

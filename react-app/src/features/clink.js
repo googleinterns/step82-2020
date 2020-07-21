@@ -145,10 +145,10 @@ export const fetchWriteClinks = (token) => async dispatch => {
   }
 }
 
-export const fetchBookmarks = (token, clinkId) => async dispatch => {
+export const fetchBookmarks = (token, title) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart())
-    const response = await apis.fetchBookmarks(token, clinkId)
+    const response = await apis.fetchBookmarks(token, title)
     console.log(response)
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {
