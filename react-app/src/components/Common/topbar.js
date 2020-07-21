@@ -32,7 +32,7 @@ const Topbar = () => {
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu />;
+  let menuDisplay = <ClinkMenu key={title}/>;
   if (title == "All") {
     menuDisplay = <div />
   }
