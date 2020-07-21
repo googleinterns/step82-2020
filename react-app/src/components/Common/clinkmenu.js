@@ -24,7 +24,6 @@ const ClinkMenu = () => {
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
   const [shareIsVisible, setShareVisible] = useState(false);
-  const [searchMatch, setSearchMatch] = useState([]);
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchUsers(currentToken));
@@ -65,14 +64,6 @@ const ClinkMenu = () => {
     setEditVisible(false);
     setShareVisible(false);
   };
-
-  const onInputChange = (event) => {
-    console.log('oninputchange');
-    console.log(event);
-    let newlyDisplayed = filter(users, user => user.username.includes(event.target.valu.toLowerCase()));
-
-    setSearchMatch(newlyDisplayed);
-  }
 
   const menu = (<Menu>
     <Menu.Item key="edit" onClick={showEdit}>
@@ -140,8 +131,11 @@ const ClinkMenu = () => {
               },
             ]}
           >
-            <Select mode="multiple" onChange={onInputChange()}>
-              {searchMatch.map(user => (
+            <Select mode="multiple" 
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }>
+              {users.map(user => (
                 <Option value={user.id}>{user.username}</Option>
               ))}
             </Select>
