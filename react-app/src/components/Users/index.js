@@ -48,7 +48,6 @@ const Users = () => {
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
           <h1 className="user-title">Public</h1>
           {clinks.map(clink => (
-
             <>
             {!clink.private &&
               <>
@@ -62,6 +61,19 @@ const Users = () => {
            </>
           ))}
           <h1 className="user-title">Private</h1>
+          {clinks.map(clink => (
+            <>
+            {clink.private &&
+              <>
+                <Collapse accordion className="card" bordered={false}>
+                  <Panel style={{ border: '0px'}} showArrow={false} header={ <div className="card-header">{clink.title}<ClinkMenu /></div>}>
+                  </Panel>
+                </Collapse>
+                <br />
+              </>
+            }
+           </>
+          ))}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>
