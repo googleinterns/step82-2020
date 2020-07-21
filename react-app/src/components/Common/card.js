@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchBookmarks} from '../../features/clink';
+import {fetchBookmarks, clearBookmarks} from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Collapse } from 'antd';
@@ -18,6 +18,7 @@ const Card = () => {
 
   useEffect(() => {
     if (isCurrentUserFetched) {
+      dispatch(clearBookmarks())
       dispatch(fetchBookmarks(currentToken, title))
     }
   }, [title])
