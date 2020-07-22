@@ -15,14 +15,18 @@ const layout = {
 // interactions with clinks
 const ClinkMenu = () => {
 
-  const currentToken = localStorage.getItem('currentToken');
-  const users = useSelector(state => state.users.users);
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-  const dispatch = useDispatch();
+  const currentToken = localStorage.getItem('currentToken')
+  const users = useSelector(state => state.users.users)
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
+  const dispatch = useDispatch()
 
-  const [isLoading, setLoading] = useState(false);
-  const [editIsVisible, setEditVisible] = useState(false);
-  const [shareIsVisible, setShareVisible] = useState(false);
+  const [isLoading, setLoading] = useState(false)
+  const [editIsVisible, setEditVisible] = useState(false)
+  const [shareIsVisible, setShareVisible] = useState(false)
+
+  const [shareForm] = Form.useForm()
+  const [editForm] = Form.useForm()
+
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchUsers(currentToken));
@@ -60,6 +64,8 @@ const ClinkMenu = () => {
   };
 
   const handleCancel = () => {
+    shareForm.resetFields()
+    editForm.resetFields()
     setEditVisible(false);
     setShareVisible(false);
   };
@@ -95,6 +101,8 @@ const ClinkMenu = () => {
           initialValues={{
             remember: false,
           }}
+          form={editForm}
+          name='edit'
         >
           <Form.Item label="Edit Clink Title" name="title"
             rules={[
@@ -122,6 +130,8 @@ const ClinkMenu = () => {
           initialValues={{
             remember: false,
           }}
+          form={shareForm}
+          name="share"
         >
           <Form.Item label="Share write access by username" name="username"
             rules={[

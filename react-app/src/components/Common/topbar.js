@@ -15,7 +15,7 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken')
   const currentUser = useSelector(state => state.users.currentUser)
-  const title = useSelector(state => state.clink.currentClink);
+  const title = useSelector(state => state.clink.currentClink)
 
   const dispatch = useDispatch()
 
