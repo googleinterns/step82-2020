@@ -377,12 +377,12 @@ def fetch_write_clinks():
 @app.route('/apis/fetch-bookmarks', methods=['GET'])
 def fetch_bookmarks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-    clink_title = request.headers.get('title')
+    clink_id = request.headers.get('Id')
     if is_valid_instance(resp_token):
         bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
         bookmark_query.order = ['created']
         all_list = list(bookmark_query.fetch())
-        if clink_title == 'All':
+        if clink_id == 'All':
             to_return = []
             for bookmark in all_list:
                 response_object = {
@@ -394,8 +394,7 @@ def fetch_bookmarks():
                 to_return.append(response_object)              
             return jsonify(to_return), 200
         else:
-            clink = list(datastore_client.query(kind='clink').add_filter('title', '=', clink_title).fetch(limit=1))[0]
-            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', clink.id).fetch())
+            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
             to_return = []    
 
             for bookmark in all_list:

@@ -14,14 +14,14 @@ const Card = () => {
   const bookmarks = useSelector(state => state.clink.bookmarks)
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
   const dispatch = useDispatch()
-  const title = useSelector(state => state.clink.currentClink);
+  const clinkId = useSelector(state => state.clink.currentClinkId);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(clearBookmarks())
-      dispatch(fetchBookmarks(currentToken, title))
+      dispatch(fetchBookmarks(currentToken, clinkId))
     }
-  }, [title])
+  }, [clinkId])
 
   return(
     <>
