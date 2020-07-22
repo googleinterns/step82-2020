@@ -15,7 +15,7 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken')
   const currentUser = useSelector(state => state.users.currentUser)
-  const title = useSelector(state => state.clink.currentClink);
+  const title = useSelector(state => state.clink.currentClinkTitle);
 
   const dispatch = useDispatch()
 
@@ -32,7 +32,7 @@ const Topbar = () => {
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu />;
+  let menuDisplay = <ClinkMenu key={title}/>;
   if (title === "All") {
     menuDisplay = <div />
   }
