@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks, setCurrClink } from '../../features/clink'
+import { fetchClinks, setCurrClink, setTitle } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
@@ -24,7 +24,8 @@ const Sidebar = () => {
   }, []);
 
   const changeClink = (title, id) => {
-    dispatch(setCurrClink(title, id))
+    dispatch(setCurrClink(id))
+    dispatch(setTitle(title))
   }
 
   return (

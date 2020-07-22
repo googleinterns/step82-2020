@@ -55,6 +55,7 @@ code {
 
 .topbar-title {
   color: white!important;
+  font-size: 28px;
 }
 
 .ant-col-rtl .login-form-forgot {
