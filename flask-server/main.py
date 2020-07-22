@@ -2,6 +2,9 @@ import datetime
 import jwt
 import os
 
+import urllib.parse as urlparse
+from urllib.parse import parse_qs
+
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -377,7 +380,7 @@ def fetch_write_clinks():
 @app.route('/apis/fetch-bookmarks', methods=['GET'])
 def fetch_bookmarks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-    clink_id = request.headers.get('id')
+    clink_id = request.args.get('id', 'All')
     if is_valid_instance(resp_token):
         bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
         bookmark_query.order = ['created']
