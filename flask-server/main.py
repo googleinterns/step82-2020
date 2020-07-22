@@ -420,6 +420,39 @@ def fetch_bookmarks():
         }
         return response_object, 401
 
+@app.route('/apis/share-clink', methods=['POST'])
+def share_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        to_return = []
+        for user in request.json['recipients']:
+            write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+            read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+
+            mapping = {
+                'clink_id': request.json['clink_id'],
+                'user_id': user.id
+            }
+
+            write_entity.update(mapping)
+            read_entity.update(mapping)
+            datastore_client.put(write_entity)
+            datastore_client.put(read_entity)
+            response_object = {
+                'clink': request.json['clink_id'],
+                'user': user.id
+            }
+            to_return.append(response_object)
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to share clink.'
+        }
+        return response_object, 401
+
+
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
