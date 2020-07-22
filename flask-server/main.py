@@ -374,10 +374,9 @@ def fetch_write_clinks():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-bookmarks', methods=['GET'])
-def fetch_bookmarks():
+@app.route('/apis/fetch-bookmarks/<string:clink_id>', methods=['GET'])
+def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-    clink_id = request.args.get('id')
     
     if is_valid_instance(resp_token):
         bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
