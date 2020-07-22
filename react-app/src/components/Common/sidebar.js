@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
 import NewButton  from './newbutton';
+import { useHistory } from 'react-router-dom';
 
 
 const { Sider } = Layout;
@@ -14,7 +15,7 @@ const Sidebar = () => {
   const currentToken = localStorage.getItem('currentToken');
   const clinks = useSelector(state => state.clink.clinks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-
+  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const Sidebar = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id))
     dispatch(setTitle(title))
+    history.push("/dashboard")
   }
 
   return (
@@ -40,7 +42,7 @@ const Sidebar = () => {
         </Menu.Item>
         
         {clinks.map(item => (
-          <Menu.Item key={item.id} onClick={(() => changeClink(item.title, item.id))}>{item.title}</Menu.Item>
+            <Menu.Item key={item.id} onClick={(() => changeClink(item.title, item.id))}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >
