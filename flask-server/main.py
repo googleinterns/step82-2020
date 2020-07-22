@@ -64,7 +64,8 @@ def store_user():
 def fetch_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        users = list(datastore_client.query(kind='user').fetch())
+        query = datastore_client.query(kind='user').add_filter('deleted', '=', False)
+        users = list(query.fetch())
         array = []
         for user in users:
             if user.id != str(resp_token):
