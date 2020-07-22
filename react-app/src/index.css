@@ -131,6 +131,7 @@ code {
   background-color: #d9f7be !important;
   color: black;
   text-align: left;
+  display: block;
   padding: 12px 16px 12px 12px;
 }
 

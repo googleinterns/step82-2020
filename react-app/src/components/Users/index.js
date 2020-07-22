@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { useHistory } from 'react-router-dom';
 import { checkUser } from '../../features/users';
-import { Layout, Collapse, Spin } from 'antd';
+import { Layout, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
@@ -13,7 +13,6 @@ import { setCurrClink } from '../../features/clink'
 
 
 const { Content, Footer } = Layout;
-const { Panel } = Collapse;
 
 const Users = () => {
 
@@ -39,8 +38,8 @@ const Users = () => {
     history.push("/get-started/login")
   }
 
-  const changeClink = (title) => {
-    dispatch(setCurrClink(title))
+  const changeClink = (title, id) => {
+    dispatch(setCurrClink(title, id))
   }
 
   return (
@@ -55,9 +54,11 @@ const Users = () => {
             <>
             {!clink.private &&
               <>
-                <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
+                <Link to="/dashboard" onClick={(() => changeClink(clink.title, clink.id))}>
                   <div className="clink-card">
-                    {clink.title} <ClinkMenu />
+                    <div className="card-header">
+                      {clink.title} <ClinkMenu  menuClass="ellipsis-card-button"/>
+                    </div>
                   </div>
                   <br />
                 </Link>
@@ -70,9 +71,11 @@ const Users = () => {
             <>
             {clink.private &&
               <>
-                <Link to="/dashboard" onClick={(() => changeClink(clink.title))}>
+                <Link to="/dashboard" onClick={(() => changeClink(clink.title, clink.id))}>
                   <div className="clink-card">
-                    {clink.title} <ClinkMenu />
+                    <div className="card-header">
+                      {clink.title} <ClinkMenu menuClass="ellipsis-card-button"/>
+                    </div>
                   </div>
                   <br />
                 </Link>
