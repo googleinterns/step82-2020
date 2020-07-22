@@ -5,7 +5,6 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button, Modal, Form, Input, Select } from 'antd';
-import { filter } from 'underscore';
 
 const { Option } = Select;
 
