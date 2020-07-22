@@ -17,6 +17,7 @@ const Sidebar = () => {
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const history = useHistory();
   const dispatch = useDispatch();
+  const currentId = useSelector(state => state.clink.currentClinkId);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
@@ -36,8 +37,8 @@ const Sidebar = () => {
         <div className="logo" />
         <NewButton />
       </Menu>
-      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
-        <Menu.Item key="all" onClick={(() => changeClink("All", "All"))}>
+      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={[currentId+""]} >
+        <Menu.Item key="All" onClick={(() => changeClink("All", "All"))}>
           All
         </Menu.Item>
         
