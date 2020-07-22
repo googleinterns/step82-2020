@@ -2,9 +2,6 @@ import datetime
 import jwt
 import os
 
-import urllib.parse as urlparse
-from urllib.parse import parse_qs
-
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
