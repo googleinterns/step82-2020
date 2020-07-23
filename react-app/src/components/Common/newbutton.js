@@ -54,7 +54,7 @@ const NewButton = () => {
   const onClinkFinish = values => {
     setIsLoading(true);
     dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
-    clinkForm.resetFields()
+    clinkForm.resetFields();
     setTimeout(() => {
       setIsLoading(false);
       setIsVisible(false);
@@ -64,19 +64,19 @@ const NewButton = () => {
   const addSuccess = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully added clink.', key, duration: 2} );
-    }, 1000)
+    }, 1000);
   }
 
   const addFail = (error) => {
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
-    }, 1000)
+    }, 1000);
   }
 
   const handleCancel = () => {
     setIsVisible(false);
-    clinkForm.resetFields()
-    bookmarkForm.resetFields()
+    clinkForm.resetFields();
+    bookmarkForm.resetFields();
   };
 
   const switchForm = (key) => {
