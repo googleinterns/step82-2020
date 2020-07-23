@@ -68,7 +68,7 @@ def fetch_users():
         users = list(query.fetch())
         array = []
         for user in users:
-            if user.id != str(resp_token):
+            if user.id != resp_token:
                 array.append({
                     'id': user.id,
                     'username': user['username']
