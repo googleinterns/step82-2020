@@ -7,6 +7,7 @@ const initialState = {
   isFetchingClinks: false,
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
+  isSharingClink: false,
   clinks: [],
   writeClinks: [],
   bookmarks: [],
@@ -87,7 +88,18 @@ const clinkSlice = createSlice({
     },
     clearBookmarks(state){
       state.bookmarks = [];
-    }    
+    },
+    shareClinksStart(state){
+      state.isSharingClink = true;
+    },
+    shareClinksSucceed(state){
+      state.isFetchingClinks = false;
+      delete state.clinkError;
+    },
+    shareClinksFailed(state, action){
+      state.isSharingClink = false;
+      state.clinkError = action.payload;
+    }   
   },
 });
 
