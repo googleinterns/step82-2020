@@ -48,15 +48,18 @@ const ClinkMenu = () => {
       setEditVisible(false);
       setShareVisible(false);
     }, 3000);
+    editForm.resetFields()
   };
 
   const onShareFinish = values => {
+    console.log(values)
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);
       setEditVisible(false);
     }, 3000);
+    shareForm.resetFields()
   };
 
   const onFinishFailed = errorInfo => {
@@ -102,7 +105,6 @@ const ClinkMenu = () => {
             remember: false,
           }}
           form={editForm}
-          name='edit'
         >
           <Form.Item label="Edit Clink Title" name="title"
             rules={[
@@ -131,7 +133,6 @@ const ClinkMenu = () => {
             remember: false,
           }}
           form={shareForm}
-          name="share"
         >
           <Form.Item label="Share write access by username" name="username"
             rules={[
