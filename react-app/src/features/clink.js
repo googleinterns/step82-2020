@@ -106,13 +106,13 @@ export const {
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(addClinkStart())
-    const response = await apis.addClink(title, privacy, token) 
-    dispatch(addClinkSucceed(response.data))
-    callbackSucceed()
+    dispatch(addClinkStart());
+    const response = await apis.addClink(title, privacy, token); 
+    dispatch(addClinkSucceed(response.data));
+    callbackSucceed();
   } catch (err) {
-    dispatch(addClinkFailed(err.response.data.message))
-    callbackFailed(err.response.data.message)
+    dispatch(addClinkFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 }
 

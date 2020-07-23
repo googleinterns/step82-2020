@@ -16,10 +16,10 @@ const NewButton = () => {
   const writeClinks = useSelector(state => state.clink.writeClinks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
 
-  const dispatch = useDispatch()
-  const [bookmarkForm] = Form.useForm()
-  const [clinkForm] = Form.useForm()
-  const key = "formFeedback"
+  const dispatch = useDispatch();
+  const [bookmarkForm] = Form.useForm();
+  const [clinkForm] = Form.useForm();
+  const key = "formFeedback";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +43,8 @@ const NewButton = () => {
     if (!values.toAdd) {
       values.toAdd = [];
     }
-    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, currentToken, addSuccess, addFail))
-    bookmarkForm.resetFields()
+    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, currentToken, addSuccess, addFail));
+    bookmarkForm.resetFields();
     setTimeout(() => {
       setIsLoading(false);
       setIsVisible(false);
@@ -53,8 +53,8 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, values.privacy || false, currentToken, addSuccess, addFail))
-    clinkForm.resetFields()
+    dispatch(addClink(values.clinkTitle, values.privacy || false, currentToken, addSuccess, addFail));
+    clinkForm.resetFields();
     setTimeout(() => {
       setIsLoading(false);
       setIsVisible(false);
@@ -64,19 +64,19 @@ const NewButton = () => {
   const addSuccess = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully added clink.', key, duration: 2} );
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   const addFail = (error) => {
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   const handleCancel = () => {
     setIsVisible(false);
-    clinkForm.resetFields()
-    bookmarkForm.resetFields()
+    clinkForm.resetFields();
+    bookmarkForm.resetFields();
   };
 
   const switchForm = (key) => {
@@ -199,7 +199,7 @@ const NewButton = () => {
         </Tabs>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default NewButton
+export default NewButton;
