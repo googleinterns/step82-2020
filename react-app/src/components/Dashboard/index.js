@@ -16,7 +16,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkUser())
+    dispatch(checkUser());
   }, []);
 
   const currentToken = localStorage.getItem('currentToken');
@@ -33,7 +33,7 @@ const Dashboard = () => {
   );
 
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
-    history.push("/get-started/login")
+    history.push("/get-started/login");
   };
 
   return (
