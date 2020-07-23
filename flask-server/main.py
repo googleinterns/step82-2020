@@ -60,22 +60,26 @@ def store_user():
         }
         return response_object, 200
 
-def fetch_users(limit):
-    query = datastore_client.query(kind='user')
-    query.order = ['registered_on']
-
-    users = query.fetch(limit=limit)
-
-    return users
-
 @app.route('/apis/fetch-users', methods=['GET'])
-def show_users():
-    limit = int(request.headers.get('limit'))    
-    users = fetch_users(limit)
-    array = []
-    for user in users:
-        array.append([user['email'], user['username'], user['password_hash'], user['registered_on'], user['deleted']])
-    return jsonify(array)
+def fetch_users():
+    resp_token = decode_auth_token(request.headers.get('Authorization'))
+    if is_valid_instance(resp_token):
+        query = datastore_client.query(kind='user').add_filter('deleted', '=', False)
+        users = list(query.fetch())
+        array = []
+        for user in users:
+            if user.id != resp_token:
+                array.append({
+                    'id': user.id,
+                    'username': user['username']
+                })
+        return jsonify(array), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to fetch users.'
+        }
+        return response_object, 401
 
 # login api
 @app.route('/apis/login', methods=['POST'])
@@ -374,10 +378,10 @@ def fetch_write_clinks():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-bookmarks', methods=['GET'])
-def fetch_bookmarks():
+@app.route('/apis/fetch-bookmarks/<string:clink_id>', methods=['GET'])
+def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-    clink_id = request.headers.get('Id')
+    
     if is_valid_instance(resp_token):
         bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
         bookmark_query.order = ['created']

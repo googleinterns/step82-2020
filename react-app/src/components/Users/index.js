@@ -91,6 +91,6 @@ const Users = () => {
       </Layout>
     </Layout>
   );
-}
+};
 
 export default Users;

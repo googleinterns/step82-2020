@@ -107,13 +107,13 @@ export const {
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(addClinkStart())
-    const response = await apis.addClink(title, privacy, token) 
-    dispatch(addClinkSucceed(response.data))
-    callbackSucceed()
+    dispatch(addClinkStart());
+    const response = await apis.addClink(title, privacy, token); 
+    dispatch(addClinkSucceed(response.data));
+    callbackSucceed();
   } catch (err) {
-    dispatch(addClinkFailed(err.response.data.message))
-    callbackFailed(err.response.data.message)
+    dispatch(addClinkFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 }
 
@@ -150,10 +150,10 @@ export const fetchWriteClinks = (token) => async dispatch => {
   }
 }
 
-export const fetchBookmarks = (token, title) => async dispatch => {
+export const fetchBookmarks = (token, id) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart())
-    const response = await apis.fetchBookmarks(token, title)
+    const response = await apis.fetchBookmarks(token, id)
     console.log(response)
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {

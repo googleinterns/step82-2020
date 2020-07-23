@@ -47,7 +47,7 @@ const Sidebar = () => {
         ))}
       </Menu>
     </Sider >
-  )
-}
+  );
+};
 
 export default Sidebar;

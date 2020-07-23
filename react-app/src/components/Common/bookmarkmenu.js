@@ -104,6 +104,6 @@ const BookmarkMenu = () => {
       </Modal>
     </div>
   );
-}
+};
 
-export default BookmarkMenu
+export default BookmarkMenu;

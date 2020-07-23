@@ -10,18 +10,18 @@ const { Panel } = Collapse;
 
 const Card = () => {
   const [activeKey, setActiveKey] = useState('');
-  const currentToken = localStorage.getItem('currentToken')
-  const bookmarks = useSelector(state => state.clink.bookmarks)
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
-  const dispatch = useDispatch()
+  const currentToken = localStorage.getItem('currentToken');
+  const bookmarks = useSelector(state => state.clink.bookmarks);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const dispatch = useDispatch();
   const clinkId = useSelector(state => state.clink.currentClinkId);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
-      dispatch(clearBookmarks())
-      dispatch(fetchBookmarks(currentToken, clinkId))
+      dispatch(clearBookmarks());
+      dispatch(fetchBookmarks(currentToken, clinkId));
     }
-  }, [clinkId])
+  }, [clinkId]);
 
   return(
     <>
@@ -45,6 +45,6 @@ const Card = () => {
     ))}
     </>
   )
-}
+};
 
-export default Card
+export default Card;

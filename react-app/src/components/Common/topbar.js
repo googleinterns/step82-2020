@@ -13,15 +13,15 @@ const { Search } = Input;
 
 const Topbar = () => {
 
-  const currentToken = localStorage.getItem('currentToken')
-  const currentUser = useSelector(state => state.users.currentUser)
-  const title = useSelector(state => state.clink.currentClinkTitle);
+  const currentToken = localStorage.getItem('currentToken');
+  const currentUser = useSelector(state => state.users.currentUser);
+  const title = useSelector(state => state.clink.currentClink);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const logout = () => {
-    dispatch(logOut(currentToken))
-    dispatch(clearClinksAndBookmarks())
+    dispatch(logOut(currentToken));
+    dispatch(clearClinksAndBookmarks());
   };
 
   const menu = (
@@ -35,7 +35,7 @@ const Topbar = () => {
   let menuDisplay = <ClinkMenu key={title}/>;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
-  }
+  };
 
   return (
     <Header className="topbar">
@@ -53,7 +53,7 @@ const Topbar = () => {
       </div>
       <h1 className="topbar-title">{title} {menuDisplay}</h1>
     </Header>
-  )
-}
+  );
+};
 
 export default Topbar;
