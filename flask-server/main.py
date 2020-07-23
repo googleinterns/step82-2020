@@ -64,15 +64,21 @@ def store_user():
 def fetch_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        query = datastore_client.query(kind='user').add_filter('deleted', '=', False)
-        users = list(query.fetch())
+        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', str(request.headers.get('clinkId'))).fetch())
+        users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
+        print(shared_users)
         array = []
         for user in users:
-            if user.id != resp_token:
-                array.append({
-                    'id': user.id,
-                    'username': user['username']
-                })
+            for shared_user in shared_users:
+                if str(user.id) != shared_user.id:
+                    array.append({
+                        'id': user.id,
+                        'username': user['username']
+                    })
+                else:
+                    # found the user, don't need to check it again
+                    # as there should not be duplicate users in users
+                    shared_users.remove(shared_user)
         return jsonify(array), 200
     else:
         response_object = {

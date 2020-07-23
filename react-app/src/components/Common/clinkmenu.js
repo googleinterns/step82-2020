@@ -16,6 +16,7 @@ const layout = {
 const ClinkMenu = () => {
 
   const currentToken = localStorage.getItem('currentToken');
+  const clinkId = useSelector(state => state.clink.currentClinkId);
   const users = useSelector(state => state.users.users);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const ClinkMenu = () => {
 
   useEffect(() => {
     if (isCurrentUserFetched) {
-      dispatch(fetchUsers(currentToken));
+      dispatch(fetchUsers(clinkId, currentToken));
     }
   }, []);
 
