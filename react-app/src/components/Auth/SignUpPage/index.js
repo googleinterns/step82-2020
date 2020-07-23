@@ -10,25 +10,25 @@ const SignUpPage = () => {
 
   const [form] = Form.useForm();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const key = "signUpFeedBack"
+  const key = "signUpFeedBack";
 
   const signUpSucceedCallback = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully signed up.', key, duration: 2 });
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   const signUpFailedCallback = (signUpError) => {
     setTimeout(() => {
       message.error({ content: signUpError, key, duration: 2 });
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   const onFinish = (values) => {
-    message.loading({ content: 'Signing up...', key })
-    dispatch(signUp(values.email, values.username, values.password, signUpSucceedCallback, signUpFailedCallback))
+    message.loading({ content: 'Signing up...', key });
+    dispatch(signUp(values.email, values.username, values.password, signUpSucceedCallback, signUpFailedCallback));
   };
 
   return (
@@ -124,6 +124,6 @@ const SignUpPage = () => {
       </Form.Item>
     </Form>
   );
-}
+};
 
 export default SignUpPage;

@@ -23,6 +23,10 @@ const ClinkMenu = () => {
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
   const [shareIsVisible, setShareVisible] = useState(false);
+
+  const [shareForm] = Form.useForm();
+  const [editForm] = Form.useForm();
+
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchUsers(currentToken));
@@ -44,15 +48,18 @@ const ClinkMenu = () => {
       setEditVisible(false);
       setShareVisible(false);
     }, 3000);
+    editForm.resetFields();
   };
 
   const onShareFinish = values => {
+    console.log(values);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);
       setEditVisible(false);
     }, 3000);
+    shareForm.resetFields();
   };
 
   const onFinishFailed = errorInfo => {
@@ -60,6 +67,8 @@ const ClinkMenu = () => {
   };
 
   const handleCancel = () => {
+    shareForm.resetFields();
+    editForm.resetFields();
     setEditVisible(false);
     setShareVisible(false);
   };
@@ -95,6 +104,7 @@ const ClinkMenu = () => {
           initialValues={{
             remember: false,
           }}
+          form={editForm}
         >
           <Form.Item label="Edit Clink Title" name="title"
             rules={[
@@ -122,6 +132,7 @@ const ClinkMenu = () => {
           initialValues={{
             remember: false,
           }}
+          form={shareForm}
         >
           <Form.Item label="Share write access by username" name="username"
             rules={[
@@ -152,6 +163,6 @@ const ClinkMenu = () => {
       </Modal>
     </>
   );
-}
+};
 
 export default ClinkMenu;

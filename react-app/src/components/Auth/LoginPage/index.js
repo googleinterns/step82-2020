@@ -9,28 +9,28 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const LoginPage = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const key = "loginFeedBack"
+  const key = "loginFeedBack";
 
-  const history = useHistory()
+  const history = useHistory();
 
   const logInSucceedCallback = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully logged in.', key, duration: 2 });
-    }, 1000)
-    history.push("/dashboard")
-  }
+    }, 1000);
+    history.push("/dashboard");
+  };
 
   const logInFailedCallback = (loginError) => {
     setTimeout(() => {
       message.error({ content: loginError, key, duration: 2 });
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   const onFinish = (values) => {
-    message.loading({ content: 'Logging in...', key })
-    dispatch(login(values.username, values.password, values.remember, logInSucceedCallback, logInFailedCallback))
+    message.loading({ content: 'Logging in...', key });
+    dispatch(login(values.username, values.password, values.remember, logInSucceedCallback, logInFailedCallback));
   };
 
   return (

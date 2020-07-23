@@ -10,84 +10,88 @@ const initialState = {
   clinks: [],
   writeClinks: [],
   bookmarks: [],
-  currentClink: 'All'
+  currentClinkTitle: 'All',
+  currentClinkId: 'All'
 };
 
 const clinkSlice = createSlice({
   name: 'clink',
   initialState,
   reducers: {
-    addClinkStart(state){
+    addClinkStart(state) {
       state.isAddingClink = true;
     },
-    addClinkSucceed(state, action){
+    addClinkSucceed(state, action) {
       state.isAddingClink = false;
       state.clinks = [action.payload, ...state.clinks];
       state.writeClinks = [action.payload, ...state.writeClinks];
       delete state.clinkError;
     },
-    addClinkFailed(state, action){
+    addClinkFailed(state, action) {
       state.isAddingClink = false;
       state.clinkError = action.payload;
     },
-    addBookmarkStart(state){
+    addBookmarkStart(state) {
       state.isAddingBookmark = true;
     },
-    addBookmarkSucceed(state, action){
+    addBookmarkSucceed(state, action) {
       state.isAddingBookmark = false;
       state.bookmarks = [action.payload, ...state.bookmarks];
       delete state.clinkError;
     },
-    addBookmarkFailed(state, action){
+    addBookmarkFailed(state, action) {
       state.isAddingBookmark = false;
       state.bookmarkError = action.payload;
     },
-    fetchClinksStart(state){
+    fetchClinksStart(state) {
       state.isFetchingClinks = true;
     },
-    fetchClinksSucceed(state, action){
+    fetchClinksSucceed(state, action) {
       state.isFetchingClinks = false;
       state.clinks = action.payload
       delete state.clinkError;
     },
-    fetchClinksFailed(state, action){
+    fetchClinksFailed(state, action) {
       state.isFetchingClinks = false;
       state.clinkError = action.payload;
     },
-    fetchWriteClinksStart(state){
+    fetchWriteClinksStart(state) {
       state.isFetchingWriteClinks = true;
     },
-    fetchWriteClinksSucceed(state, action){
+    fetchWriteClinksSucceed(state, action) {
       state.isFetchingWriteClinks = false;
       state.writeClinks = action.payload;
       delete state.clinkError;
     },
-    fetchWriteClinksFailed(state, action){
+    fetchWriteClinksFailed(state, action) {
       state.isFetchingWriteClinks = false;
       state.clinkError = action.payload;
     },
-    fetchBookmarksStart(state){
+    fetchBookmarksStart(state) {
       state.isFetchingBookmarks = true;
     },
-    fetchBookmarksSucceed(state, action){
+    fetchBookmarksSucceed(state, action) {
       state.isFetchingBookmarks = false;
       state.bookmarks = action.payload;
       delete state.bookmarkError;
     },
-    fetchBookmarksFailed(state, action){
+    fetchBookmarksFailed(state, action) {
       state.isFetchingBookmarks = false;
       state.bookmarkError = action.payload;
     } ,
-    changeCurrClink(state, action){
-      state.currentClink = action.payload;
+    changeCurrClink(state, action) {
+      var obj = JSON.parse(action.payload)
+      state.currentClinkTitle = obj.title
+      state.currentClinkId = obj.id
     },
-    clearClinks(state){
+    clearClinks(state) {
       state.clinks = [];
-      state.currentClink = 'All';
+      state.currentClinkTitle = 'All';
+      state.currentClinkId = 'All'
     },
-    clearBookmarks(state){
+    clearBookmarks(state) {
       state.bookmarks = [];
-    }    
+    }   
   },
 });
 
@@ -100,15 +104,15 @@ export const {
   clearClinks, clearBookmarks
 } = clinkSlice.actions;
 
-export const addClink = (title, token, callbackSucceed, callbackFailed) => async dispatch => {
+export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(addClinkStart())
-    const response = await apis.addClink(title, token) 
-    dispatch(addClinkSucceed(response.data))
-    callbackSucceed()
+    dispatch(addClinkStart());
+    const response = await apis.addClink(title, privacy, token); 
+    dispatch(addClinkSucceed(response.data));
+    callbackSucceed();
   } catch (err) {
-    dispatch(addClinkFailed(err.response.data.message))
-    callbackFailed(err.response.data.message)
+    dispatch(addClinkFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 }
 
@@ -145,10 +149,10 @@ export const fetchWriteClinks = (token) => async dispatch => {
   }
 }
 
-export const fetchBookmarks = (token, clinkId) => async dispatch => {
+export const fetchBookmarks = (token, id) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart())
-    const response = await apis.fetchBookmarks(token, clinkId)
+    const response = await apis.fetchBookmarks(token, id)
     console.log(response)
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {
@@ -156,8 +160,8 @@ export const fetchBookmarks = (token, clinkId) => async dispatch => {
   }
 }
 
-export const setCurrClink = (title) => async dispatch => {
-  dispatch(changeCurrClink(title))
+export const setCurrClink = (title, id) => async dispatch => {
+  dispatch(changeCurrClink(JSON.stringify({title: title, id: id})))
 }
 
 export const clearClinksAndBookmarks = () => async dispatch => {

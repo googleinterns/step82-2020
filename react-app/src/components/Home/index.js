@@ -18,6 +18,6 @@ const Home = () => {
       </Link>
     </body>
   );
-}
+};
 
 export default Home;
