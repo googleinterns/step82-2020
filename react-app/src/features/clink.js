@@ -80,9 +80,10 @@ const clinkSlice = createSlice({
       state.bookmarkError = action.payload;
     } ,
     changeCurrClink(state, action) {
-      var obj = JSON.parse(action.payload)
-      state.currentClinkTitle = obj.title
-      state.currentClinkId = obj.id
+      state.currentClinkId = action.payload
+    },
+    changeTitle(state, action) {
+      state.currentClinkTitle = action.payload
     },
     clearClinks(state) {
       state.clinks = [];
@@ -101,7 +102,7 @@ export const {
   fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
   fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
-  clearClinks, clearBookmarks
+  clearClinks, clearBookmarks, changeTitle
 } = clinkSlice.actions;
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -160,8 +161,12 @@ export const fetchBookmarks = (token, id) => async dispatch => {
   }
 }
 
-export const setCurrClink = (title, id) => async dispatch => {
-  dispatch(changeCurrClink(JSON.stringify({title: title, id: id})))
+export const setCurrClink = (id) => async dispatch => {
+  dispatch(changeCurrClink(id))
+}
+
+export const setTitle = (title) => async dispatch => {
+  dispatch(changeTitle(title))
 }
 
 export const clearClinksAndBookmarks = () => async dispatch => {
