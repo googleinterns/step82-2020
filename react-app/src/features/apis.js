@@ -64,11 +64,11 @@ const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
   headers: {
     'Authorization': token
   }
-})
+});
 
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
   fetchUsers
-} 	
+}; 	
