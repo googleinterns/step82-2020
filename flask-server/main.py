@@ -64,14 +64,14 @@ def store_user():
 def fetch_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', str(request.headers.get('clinkId'))).fetch())
+        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', request.headers.get('clinkId')).fetch())
         users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
         print('here she comes')
         print(shared_users)
         array = []
         for user in users:
             for shared_user in shared_users:
-                if str(user.id) != shared_user.id:
+                if str(user.id) != shared_user.user_id:
                     array.append({
                         'id': user.id,
                         'username': user['username']
