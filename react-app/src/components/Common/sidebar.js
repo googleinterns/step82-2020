@@ -23,9 +23,9 @@ const Sidebar = () => {
     }
   }, []);
 
-  const changeClink = (title) => {
-    dispatch(setCurrClink(title));
-  };
+  const changeClink = (title, id) => {
+    dispatch(setCurrClink(title, id));
+  }
 
   return (
     <Sider className="sidebar">
@@ -34,12 +34,12 @@ const Sidebar = () => {
         <NewButton />
       </Menu>
       <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={['all']} >
-        <Menu.Item key="all" onClick={(() => changeClink("All"))}>
+        <Menu.Item key="all" onClick={(() => changeClink("All", "All"))}>
           All
         </Menu.Item>
         
         {clinks.map(item => (
-          <Menu.Item key={item.id} onClick={(() => changeClink(item.title))}>{item.title}</Menu.Item>
+          <Menu.Item key={item.id} onClick={(() => changeClink(item.title, item.id))}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >

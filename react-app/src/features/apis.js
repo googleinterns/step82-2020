@@ -32,8 +32,9 @@ const checkUser = (token) => axios.get(GET_CURR_USER_URL, {
   headers: {'Authorization': token}
 });
 
-const addClink = (title, token) => axios.post(ADD_CLINK_URL, {
+const addClink = (title, privacy, token) => axios.post(ADD_CLINK_URL, {
   title: title,
+  privacy: privacy,
   Authorization: token
 });
 
@@ -53,10 +54,9 @@ const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
   headers: {'Authorization': token}
 });
 
-const fetchBookmarks = (token, clinkId) => axios.get(FETCH_BOOKMARKS_URL, {
+const fetchBookmarks = (token, id) => axios.get(`${FETCH_BOOKMARKS_URL}/${id}`, {
   headers: {
     'Authorization': token,
-    'id': clinkId
   }
 });
 

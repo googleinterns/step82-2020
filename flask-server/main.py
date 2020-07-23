@@ -292,6 +292,7 @@ def add_clink():
         clink_entity.update({
             'title': title,
             'deleted': False,
+            'private': request.json['privacy'],
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
@@ -377,19 +378,17 @@ def fetch_write_clinks():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-bookmarks', methods=['GET'])
-def fetch_bookmarks():
+@app.route('/apis/fetch-bookmarks/<string:clink_id>', methods=['GET'])
+def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-
+    
     if is_valid_instance(resp_token):
-        clink_id = request.headers.get('id')
+        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
+        bookmark_query.order = ['created']
+        all_list = list(bookmark_query.fetch())
         if clink_id == 'All':
-            bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
-            bookmark_query.order = ['created']
-            bookmark_ids = list(bookmark_query.fetch())
             to_return = []
-
-            for bookmark in bookmark_ids:
+            for bookmark in all_list:
                 response_object = {
                     'title': bookmark['title'],
                     'description': bookmark['description'],
@@ -399,8 +398,7 @@ def fetch_bookmarks():
                 to_return.append(response_object)              
             return jsonify(to_return), 200
         else:
-            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', clink_id).fetch())
-            all_list = list(datastore_client.query(kind='bookmark').add_filter('deleted', '=', False).fetch())
+            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
             to_return = []    
 
             for bookmark in all_list:
@@ -412,7 +410,7 @@ def fetch_bookmarks():
                             'link': bookmark['link'],
                             'id': id['bookmark_id']
                         }
-                        to_return.append(response_object)              
+                        to_return.append(response_object)
             return jsonify(to_return), 200
     else:
         response_object = {
