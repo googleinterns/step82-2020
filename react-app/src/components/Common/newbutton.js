@@ -43,8 +43,8 @@ const NewButton = () => {
     if (!values.toAdd) {
       values.toAdd = [];
     }
-    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, currentToken, addSuccess, addFail))
-    bookmarkForm.resetFields()
+    dispatch(addBookmark(values.link, values.title, values.description, values.toAdd, currentToken, addSuccess, addFail));
+    bookmarkForm.resetFields();
     setTimeout(() => {
       setIsLoading(false);
       setIsVisible(false);
@@ -53,7 +53,7 @@ const NewButton = () => {
 
   const onClinkFinish = values => {
     setIsLoading(true);
-    dispatch(addClink(values.clinkTitle, currentToken, addSuccess, addFail))
+    dispatch(addClink(values.clinkTitle, values.privacy || false, currentToken, addSuccess, addFail));
     clinkForm.resetFields();
     setTimeout(() => {
       setIsLoading(false);
@@ -65,13 +65,13 @@ const NewButton = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully added clink.', key, duration: 2} );
     }, 1000);
-  }
+  };
 
   const addFail = (error) => {
     setTimeout(() => {
       message.error({ content: error, key, duration: 2});
     }, 1000);
-  }
+  };
 
   const handleCancel = () => {
     setIsVisible(false);
@@ -199,7 +199,7 @@ const NewButton = () => {
         </Tabs>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default NewButton
+export default NewButton;

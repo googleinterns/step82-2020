@@ -163,6 +163,6 @@ const ClinkMenu = () => {
       </Modal>
     </>
   );
-}
+};
 
 export default ClinkMenu;

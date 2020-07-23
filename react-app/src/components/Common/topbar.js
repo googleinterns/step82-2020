@@ -32,10 +32,10 @@ const Topbar = () => {
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu />;
+  let menuDisplay = <ClinkMenu key={title}/>;
   if (title === "All") {
     menuDisplay = <div />
-  }
+  };
 
   return (
     <Header className="topbar">
@@ -53,7 +53,7 @@ const Topbar = () => {
       </div>
       <h1 className="topbar-title">{title} {menuDisplay}</h1>
     </Header>
-  )
-}
+  );
+};
 
 export default Topbar;
