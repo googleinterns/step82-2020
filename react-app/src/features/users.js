@@ -82,58 +82,54 @@ export const {
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(loginStart())
-    const response = await apis.login(username, password, remember)
-    dispatch(loginSucceeded(response.data.Authorization))
-    callbackSucceed()
+    dispatch(loginStart());
+    const response = await apis.login(username, password, remember);
+    dispatch(loginSucceeded(response.data.Authorization));
+    callbackSucceed();
   } catch (err) {
-    dispatch(loginFailed(err.response.data.message))
-    callbackFailed(err.response.data.message)
+    dispatch(loginFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 }
 
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
-    dispatch(signUpStart())
-    await apis.signUp(email, username, password)
-    dispatch(signUpSucceeded())
-    callbackSucceed()
+    dispatch(signUpStart());
+    await apis.signUp(email, username, password);
+    dispatch(signUpSucceeded());
+    callbackSucceed();
   } catch (err) {
-    console.log(err)
-    dispatch(signUpFailed(err.response.data.message))
-    callbackFailed(err.response.data.message)
+    dispatch(signUpFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 }
 
 export const logOut = (user) => async dispatch => {
   try {
-    dispatch(logout())
-    const response = await apis.logout(user)
-    console.log(response)
-  } catch (err) {
-    console.log(err)
-  }
+    dispatch(logout());
+    const response = await apis.logout(user);
+;  } catch (err) {
+
+;  }
 }
 
 export const checkUser = () => async dispatch => {
   try {
-    dispatch(getCurrentUserStart())
-    const response = await apis.checkUser(localStorage.getItem('currentToken'))
-    console.log(response)
-    dispatch(getCurrentUserSucceeded(response.data.message))
+    dispatch(getCurrentUserStart());
+    const response = await apis.checkUser(localStorage.getItem('currentToken'));
+;    dispatch(getCurrentUserSucceeded(response.data.message));
   } catch (err) {
-    console.log(err.response)
-    dispatch(getCurrentUserFailed(err.response.data.message))
+;    dispatch(getCurrentUserFailed(err.response.data.message));
   }
 }
 
 export const fetchUsers = (token) => async dispatch => {
   try {
-    dispatch(fetchUsersStart())
-    const response = await apis.fetchUsers(token)
-    dispatch(fetchUsersSucceed(response.data))
+    dispatch(fetchUsersStart());
+    const response = await apis.fetchUsers(token);
+    dispatch(fetchUsersSucceed(response.data));
   } catch (err) {
-    dispatch(fetchUsersFailed(err.response.data.message))
+    dispatch(fetchUsersFailed(err.response.data.message));
   }
 }
 

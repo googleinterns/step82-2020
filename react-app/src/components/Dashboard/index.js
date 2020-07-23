@@ -13,28 +13,28 @@ const { Content, Footer } = Layout;
 
 const Dashboard = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkUser())
   }, []);
 
-  const currentToken = localStorage.getItem('currentToken')
-  const currentUser = useSelector(state => state.users.currentUser)
-  const isFetchingUser = useSelector(state => state.users.isFetchingUser)
-  const authorizationError = useSelector(state => state.users.authorizationError)
+  const currentToken = localStorage.getItem('currentToken');
+  const currentUser = useSelector(state => state.users.currentUser);
+  const isFetchingUser = useSelector(state => state.users.isFetchingUser);
+  const authorizationError = useSelector(state => state.users.authorizationError);
 
-  const history = useHistory()
+  const history = useHistory();
 
   if (isFetchingUser) return (
     <div className="center-load">
       <Spin size="large" />
     </div>
-  )
+  );
 
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
     history.push("/get-started/login")
-  }
+  };
 
   return (
     <Layout>
@@ -50,6 +50,6 @@ const Dashboard = () => {
       </Layout>
     </Layout>
   );
-}
+};
 
 export default Dashboard;

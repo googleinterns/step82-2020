@@ -8,16 +8,12 @@ import SignUpPage from '../SignUpPage';
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
-
 const GetStartedPage = () => {
 
-  let { form } = useParams()
+  let { form } = useParams();
 
   return (
-    <Tabs className="center-tabs" defaultActiveKey={form} onChange={callback}>
+    <Tabs className="center-tabs" defaultActiveKey={form}>
       <TabPane tab="Login" key="login">
         <LoginPage />
       </TabPane>
@@ -26,6 +22,6 @@ const GetStartedPage = () => {
       </TabPane>
     </Tabs>
   );
-}
+};
 
 export default GetStartedPage;

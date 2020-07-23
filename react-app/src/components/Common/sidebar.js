@@ -24,8 +24,8 @@ const Sidebar = () => {
   }, []);
 
   const changeClink = (title) => {
-    dispatch(setCurrClink(title))
-  }
+    dispatch(setCurrClink(title));
+  };
 
   return (
     <Sider className="sidebar">
@@ -43,7 +43,7 @@ const Sidebar = () => {
         ))}
       </Menu>
     </Sider >
-  )
-}
+  );
+};
 
 export default Sidebar;

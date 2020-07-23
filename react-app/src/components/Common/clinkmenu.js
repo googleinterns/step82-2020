@@ -15,17 +15,17 @@ const layout = {
 // interactions with clinks
 const ClinkMenu = () => {
 
-  const currentToken = localStorage.getItem('currentToken')
-  const users = useSelector(state => state.users.users)
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched)
-  const dispatch = useDispatch()
+  const currentToken = localStorage.getItem('currentToken');
+  const users = useSelector(state => state.users.users);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const dispatch = useDispatch();
 
-  const [isLoading, setLoading] = useState(false)
-  const [editIsVisible, setEditVisible] = useState(false)
-  const [shareIsVisible, setShareVisible] = useState(false)
+  const [isLoading, setLoading] = useState(false);
+  const [editIsVisible, setEditVisible] = useState(false);
+  const [shareIsVisible, setShareVisible] = useState(false);
 
-  const [shareForm] = Form.useForm()
-  const [editForm] = Form.useForm()
+  const [shareForm] = Form.useForm();
+  const [editForm] = Form.useForm();
 
   useEffect(() => {
     if (isCurrentUserFetched) {
@@ -48,7 +48,7 @@ const ClinkMenu = () => {
       setEditVisible(false);
       setShareVisible(false);
     }, 3000);
-    editForm.resetFields()
+    editForm.resetFields();
   };
 
   const onShareFinish = values => {
@@ -59,7 +59,7 @@ const ClinkMenu = () => {
       setShareVisible(false);
       setEditVisible(false);
     }, 3000);
-    shareForm.resetFields()
+    shareForm.resetFields();
   };
 
   const onFinishFailed = errorInfo => {
@@ -67,8 +67,8 @@ const ClinkMenu = () => {
   };
 
   const handleCancel = () => {
-    shareForm.resetFields()
-    editForm.resetFields()
+    shareForm.resetFields();
+    editForm.resetFields();
     setEditVisible(false);
     setShareVisible(false);
   };
@@ -163,6 +163,6 @@ const ClinkMenu = () => {
       </Modal>
     </>
   );
-}
+};
 
 export default ClinkMenu;
