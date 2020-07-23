@@ -52,7 +52,7 @@ const ClinkMenu = () => {
   };
 
   const onShareFinish = values => {
-    console.log(values)
+    console.log(values);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
