@@ -66,6 +66,7 @@ def fetch_users():
     if is_valid_instance(resp_token):
         shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', str(request.headers.get('clinkId'))).fetch())
         users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
+        print('here she comes')
         print(shared_users)
         array = []
         for user in users:

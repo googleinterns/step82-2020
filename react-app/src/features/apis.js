@@ -60,7 +60,7 @@ const fetchBookmarks = (token, id) => axios.get(`${FETCH_BOOKMARKS_URL}/${id}`, 
   }
 });
 
-const fetchUsers = (token, id) => axios.get(FETCH_USERS_URL, {
+const fetchUsers = (id, token) => axios.get(FETCH_USERS_URL, {
   headers: {
     clinkId: id,
     Authorization: token
