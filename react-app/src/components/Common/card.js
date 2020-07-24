@@ -13,6 +13,7 @@ const Card = () => {
   const [activeKey, setActiveKey] = useState('');
   const currentToken = localStorage.getItem('currentToken');
   const bookmarks = useSelector(state => state.clink.bookmarks);
+  const searchParam = useSelector(state => state.clink.searchParam);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
   const clinkId = useSelector(state => state.clink.currentClinkId);
@@ -26,7 +27,7 @@ const Card = () => {
 
   return(
     <>
-    {bookmarks.map(bmark => (
+    {bookmarks.filter(bmark => bmark.title.toLowerCase().includes(searchParam.toLowerCase())).map(bmark => (
       <>
       <div onMouseEnter={() => {
         setActiveKey(bmark.id)
