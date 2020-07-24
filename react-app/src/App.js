@@ -15,8 +15,9 @@ function App() {
         <Switch>
           <Route exact path="/get-started/:form" component={GetStartedPage} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard/:clink" component={Dashboard} />
           <Route exact path="/" component={Home} />
-          <Route exact path="/users" component={Users} />
+          <Route exact path="/users/:userId" component={Users} />
           <Route component={NotFound} />
         </Switch>
       </div>

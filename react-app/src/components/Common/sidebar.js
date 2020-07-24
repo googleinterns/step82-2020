@@ -18,6 +18,7 @@ const Sidebar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const currentId = useSelector(state => state.clink.currentClinkId);
+  const title = useSelector(state => state.clink.currentClinkTitle);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
@@ -28,8 +29,13 @@ const Sidebar = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id))
     dispatch(setTitle(title))
-    history.push("/dashboard")
+    history.push(`/dashboard/${id}`)
   }
+
+  let key = currentId + "" 
+  if (title === "User Page") {
+    key = ""
+  };
 
   return (
     <Sider className="sidebar">
@@ -37,7 +43,7 @@ const Sidebar = () => {
         <div className="logo" />
         <NewButton />
       </Menu>
-      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={[currentId+""]} >
+      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={[key]} >
         <Menu.Item key="All" onClick={(() => changeClink("All", "All"))}>
           All
         </Menu.Item>

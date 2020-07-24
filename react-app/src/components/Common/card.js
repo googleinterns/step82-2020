@@ -4,11 +4,12 @@ import {fetchBookmarks, clearBookmarks} from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Collapse } from 'antd';
-import BookmarkMenu from './bookmarkmenu'
+import BookmarkMenu from './bookmarkmenu';
+
 
 const { Panel } = Collapse;
 
-const Card = () => {
+const Card = () => {  
   const [activeKey, setActiveKey] = useState('');
   const currentToken = localStorage.getItem('currentToken');
   const bookmarks = useSelector(state => state.clink.bookmarks);

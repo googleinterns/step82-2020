@@ -7,6 +7,7 @@ import '../../index.css';
 import { Layout, Input, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';
+import { useHistory } from 'react-router-dom';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -14,8 +15,9 @@ const { Search } = Input;
 const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const currentUser = useSelector(state => state.users.currentUser);
-  const title = useSelector(state => state.clink.currentClink);
+  const title = useSelector(state => state.clink.currentClinkTitle);
+  const history = useHistory();
+  const currentUser = useSelector(state => state.users.currentUser)
 
   const dispatch = useDispatch();
 
@@ -26,8 +28,8 @@ const Topbar = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="userID">
-        User ID: {currentUser}
+      <Menu.Item key="user-page" onClick={(() => history.push(`/users/${currentUser}`))}>
+        View Profile
       </Menu.Item>
     </Menu>
   );
