@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsersNoWrite } from '../../features/users';
+import { fetchUsersNoWrite, fetchUsersWrite } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -18,6 +18,7 @@ const ClinkMenu = () => {
   const currentToken = localStorage.getItem('currentToken');
   const clinkId = useSelector(state => state.clink.currentClinkId);
   const usersToShare = useSelector(state => state.users.noWriteUsers);
+  const sharedUsers = useSelector(state => state.users.writeUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
 
@@ -31,6 +32,7 @@ const ClinkMenu = () => {
   useEffect(() => {
     if (isCurrentUserFetched && clinkId != 'All') {
       dispatch(fetchUsersNoWrite(clinkId, currentToken));
+      dispatch(fetchUsersWrite(clinkId, currentToken));
     }
   }, [clinkId]);
 
@@ -151,14 +153,21 @@ const ClinkMenu = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Users with write access:" name="owners"
+          <Form.Item label="Remove write access:" name="owners"
             rules={[
               {
                 required: false,
               },
             ]}
           >
-            {/* Users who already have write access show here */}
+            <Select mode="multiple" 
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }>
+              {sharedUsers.map(user => (
+                <Option value={user.id}>{user.username}</Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item label="Share read access by link" name="link"
             rules={[

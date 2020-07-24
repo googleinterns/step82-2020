@@ -93,6 +93,9 @@ def fetch_users_write():
         shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(request.headers.get('clinkId'))).fetch())
         array = []
         for shared_user in shared_users:
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', int(shared_user['user_id']))
+            user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
             array.append({
                 'id': user.id,
                 'username': user['username']
