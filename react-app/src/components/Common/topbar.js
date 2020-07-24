@@ -16,6 +16,7 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const title = useSelector(state => state.clink.currentClinkTitle);
+  const id = useSelector(state => state.clink.currentClinkId);
   const currentUser = useSelector(state => state.users.currentUser);
 
   const dispatch = useDispatch();
@@ -41,7 +42,11 @@ const Topbar = () => {
 
   const onSearchFinished = (value) => {
     dispatch(setSearchBookmarks(value))
-    history.push(`${history.location.pathname}/${value}`) // fix double search routing issue
+    if(title === "User Page")
+      history.push(`/users/${currentUser}/${value}`) // make more adaptive to currentUser
+    else{
+      history.push(`/dashboard/${id}/${value}`)
+    }   
   }
   return (
     <Header className="topbar">
