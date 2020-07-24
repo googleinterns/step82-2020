@@ -64,15 +64,22 @@ def store_user():
 def fetch_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        query = datastore_client.query(kind='user').add_filter('deleted', '=', False)
-        users = list(query.fetch())
+        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', request.headers.get('clinkId')).fetch())
+        users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
+        print('here she comes')
+        print(shared_users)
         array = []
         for user in users:
-            if user.id != str(resp_token):
-                array.append({
-                    'id': user.id,
-                    'username': user['username']
-                })
+            for shared_user in shared_users:
+                if str(user.id) != shared_user.user_id:
+                    array.append({
+                        'id': user.id,
+                        'username': user['username']
+                    })
+                else:
+                    # found the user, don't need to check it again
+                    # as there should not be duplicate users in users
+                    shared_users.remove(shared_user)
         return jsonify(array), 200
     else:
         response_object = {
@@ -292,6 +299,7 @@ def add_clink():
         clink_entity.update({
             'title': title,
             'deleted': False,
+            'private': request.json['privacy'],
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
@@ -377,19 +385,17 @@ def fetch_write_clinks():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-bookmarks', methods=['GET'])
-def fetch_bookmarks():
+@app.route('/apis/fetch-bookmarks/<string:clink_id>', methods=['GET'])
+def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
-
+    
     if is_valid_instance(resp_token):
-        clink_id = request.headers.get('id')
+        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
+        bookmark_query.order = ['created']
+        all_list = list(bookmark_query.fetch())
         if clink_id == 'All':
-            bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
-            bookmark_query.order = ['created']
-            bookmark_ids = list(bookmark_query.fetch())
             to_return = []
-
-            for bookmark in bookmark_ids:
+            for bookmark in all_list:
                 response_object = {
                     'title': bookmark['title'],
                     'description': bookmark['description'],
@@ -399,8 +405,7 @@ def fetch_bookmarks():
                 to_return.append(response_object)              
             return jsonify(to_return), 200
         else:
-            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', clink_id).fetch())
-            all_list = list(datastore_client.query(kind='bookmark').add_filter('deleted', '=', False).fetch())
+            bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
             to_return = []    
 
             for bookmark in all_list:
@@ -412,7 +417,7 @@ def fetch_bookmarks():
                             'link': bookmark['link'],
                             'id': id['bookmark_id']
                         }
-                        to_return.append(response_object)              
+                        to_return.append(response_object)
             return jsonify(to_return), 200
     else:
         response_object = {
@@ -421,37 +426,37 @@ def fetch_bookmarks():
         }
         return response_object, 401
 
-@app.route('/apis/share-clinks', methods=['POST'])
+@app.route('/apis/share-clink', methods=['POST'])
 def share_clink():
     resp_token = decode_auth_token(request.json['Authorization'])
 
     if is_valid_instance(resp_token):
-        for user in request.json['users']:
+        to_return = []
+        for user in request.json['recipients']:
             write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
             read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
             mapping = {
-                'clink_id': request.json['clinkId'],
-                'user_id': user, 
+                'clink_id': request.json['clink_id'],
+                'user_id': user.id
             }
-                
+
             write_entity.update(mapping)
             read_entity.update(mapping)
             datastore_client.put(write_entity)
             datastore_client.put(read_entity)
-
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully shared clink.'
-        }
-        return response_object, 200  
+            response_object = {
+                'clink': request.json['clink_id'],
+                'user': user.id
+            }
+            to_return.append(response_object)
+        return jsonify(to_return), 200
     else:
         response_object = {
             'status': 'fail',
             'message': 'Invalid JWT. Failed to share clink.'
         }
         return response_object, 401
-    
 
 # routing
 @app.route('/', defaults={'path': ''})

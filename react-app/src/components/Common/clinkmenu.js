@@ -16,6 +16,7 @@ const layout = {
 const ClinkMenu = () => {
 
   const currentToken = localStorage.getItem('currentToken');
+  const clinkId = useSelector(state => state.clink.currentClinkId);
   const users = useSelector(state => state.users.users);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
@@ -28,10 +29,10 @@ const ClinkMenu = () => {
   const [editForm] = Form.useForm();
 
   useEffect(() => {
-    if (isCurrentUserFetched) {
-      dispatch(fetchUsers(currentToken));
+    if (isCurrentUserFetched && clinkId != 'All') {
+      dispatch(fetchUsers(clinkId, currentToken));
     }
-  }, []);
+  }, [clinkId]);
 
   const showEdit = () => {
     setEditVisible(true);
