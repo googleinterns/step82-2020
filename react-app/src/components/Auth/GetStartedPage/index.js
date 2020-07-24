@@ -11,7 +11,6 @@ const { TabPane } = Tabs;
 const GetStartedPage = () => {
 
   let { form } = useParams();
-  console.log("this is " + form);
 
   return (
     <Tabs className="center-tabs" defaultActiveKey={form}>
