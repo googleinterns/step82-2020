@@ -16,10 +16,11 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const title = useSelector(state => state.clink.currentClinkTitle);
-  const history = useHistory();
-  const currentUser = useSelector(state => state.users.currentUser)
+  const currentUser = useSelector(state => state.users.currentUser);
+  const currentId = useSelector(state => state.clink.currentClinkId);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const logout = () => {
     dispatch(logOut(currentToken));
@@ -39,6 +40,10 @@ const Topbar = () => {
     menuDisplay = <div />
   };
 
+  const onSearchFinished = (value) => {
+    dispatch(setSearchBookmarks(value))
+    history.push(`/dashboard/${currentId}/${value}`)
+  }
   return (
     <Header className="topbar">
       <div className="topbar-searchbar-wrapper">
@@ -46,7 +51,7 @@ const Topbar = () => {
           <Search
             className="topbar-search"
             placeholder={"Search in " + title + "..."}
-            onSearch={value => dispatch(setSearchBookmarks(value))}
+            onSearch={onSearchFinished}
           />
           <Dropdown.Button className="topbar-dropdown-user-logout-button" overlay={menu} icon={<UserOutlined />} onClick={logout} trigger={['click']}> 
             Log Out
