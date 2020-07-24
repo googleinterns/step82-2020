@@ -151,6 +151,15 @@ const ClinkMenu = () => {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item label="Users with write access:" name="owners"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            {/* Users who already have write access show here */}
+          </Form.Item>
           <Form.Item label="Share read access by link" name="link"
             rules={[
               {
