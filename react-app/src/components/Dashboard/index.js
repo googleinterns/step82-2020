@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { checkUser } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -14,7 +14,6 @@ const { Content, Footer } = Layout;
 const Dashboard = () => {
 
   const dispatch = useDispatch();
-  let clink = useParams();
 
   useEffect(() => {
     dispatch(checkUser());

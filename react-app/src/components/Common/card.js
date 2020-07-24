@@ -5,7 +5,6 @@ import 'antd/dist/antd.css';
 import '../../index.css';
 import { Collapse } from 'antd';
 import BookmarkMenu from './bookmarkmenu';
-import { useParams } from "react-router-dom";
 
 
 const { Panel } = Collapse;
