@@ -60,8 +60,8 @@ def store_user():
         }
         return response_object, 200
 
-@app.route('/apis/fetch-users', methods=['GET'])
-def fetch_users():
+@app.route('/apis/fetch-users-no-write', methods=['GET'])
+def fetch_users_no_write():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
         shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(request.headers.get('clinkId'))).fetch())

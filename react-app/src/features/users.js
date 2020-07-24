@@ -123,10 +123,10 @@ export const checkUser = () => async dispatch => {
   }
 }
 
-export const fetchUsers = (clinkId, token) => async dispatch => {
+export const fetchUsersNoWrite = (clinkId, token) => async dispatch => {
   try {
     dispatch(fetchUsersStart());
-    const response = await apis.fetchUsers(clinkId, token);
+    const response = await apis.fetchUsersNoWrite(clinkId, token);
     dispatch(fetchUsersSucceed(response.data));
   } catch (err) {
     dispatch(fetchUsersFailed(err.response.data.message));
