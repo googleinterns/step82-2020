@@ -9,7 +9,7 @@ import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
 import ClinkMenu from '../Common/clinkmenu';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { setCurrClink, setTitle } from '../../features/clink'
+import { setCurrClink, setTitle, resetSearchBookmarks } from '../../features/clink'
 
 
 const { Content, Footer } = Layout;
@@ -44,6 +44,7 @@ const Users = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
+    dispatch(resetSearchBookmarks());
   };
 
   return (
