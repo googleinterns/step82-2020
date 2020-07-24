@@ -42,7 +42,8 @@ const Topbar = () => {
 
   const onSearchFinished = (value) => {
     dispatch(setSearchBookmarks(value))
-    history.push(`/dashboard/${currentId}/${value}`)
+    console.log(history.location)
+    history.push(`${history.location.pathname}/${value}`)
   }
   return (
     <Header className="topbar">
