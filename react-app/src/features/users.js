@@ -107,10 +107,10 @@ export const signUp = (email, username, password, callbackSucceed, callbackFaile
 export const logOut = (user) => async dispatch => {
   try {
     dispatch(logout());
-    const response = await apis.logout(user);
-;  } catch (err) {
-
-;  }
+    await apis.logout(user);
+  } catch (err) {
+  
+  }
 }
 
 export const checkUser = () => async dispatch => {

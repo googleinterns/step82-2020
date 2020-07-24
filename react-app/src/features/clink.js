@@ -129,7 +129,6 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
   try {
     dispatch(addBookmarkStart());
     const response = await apis.addBookmark(link, title, description, clink, token);
-    console.log(response);
     dispatch(addBookmarkSucceed(response.data));
     callbackSucceed();
   } catch (err) {
@@ -162,7 +161,6 @@ export const fetchBookmarks = (token, id) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart());
     const response = await apis.fetchBookmarks(token, id);
-    console.log(response);
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message));

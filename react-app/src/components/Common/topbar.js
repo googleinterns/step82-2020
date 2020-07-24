@@ -41,7 +41,6 @@ const Topbar = () => {
 
   const onSearchFinished = (value) => {
     dispatch(setSearchBookmarks(value))
-    console.log(history.location)
     history.push(`${history.location.pathname}/${value}`)
   }
   return (
