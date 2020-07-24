@@ -56,7 +56,7 @@ const Users = () => {
             <>
             {!clink.private &&
               <>
-                <Link to="/dashboard" onClick={(() => changeClink(clink.title, clink.id))}>
+                <Link to={"/dashboard/" + clink.id} onClick={(() => changeClink(clink.title, clink.id))}>
                   <div className="clink-card">
                     <div className="card-header">
                       {clink.title} <ClinkMenu  menuClass="ellipsis-card-button"/>

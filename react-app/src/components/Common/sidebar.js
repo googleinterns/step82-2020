@@ -28,7 +28,7 @@ const Sidebar = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id))
     dispatch(setTitle(title))
-    history.push("/dashboard")
+    history.push(`/dashboard/${id}`)
   }
 
   return (
