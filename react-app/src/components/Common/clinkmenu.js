@@ -17,7 +17,7 @@ const ClinkMenu = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const clinkId = useSelector(state => state.clink.currentClinkId);
-  const users = useSelector(state => state.users.users);
+  const usersToShare = useSelector(state => state.users.noWriteUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
 
@@ -146,7 +146,7 @@ const ClinkMenu = () => {
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }>
-              {users.map(user => (
+              {usersToShare.map(user => (
                 <Option value={user.id}>{user.username}</Option>
               ))}
             </Select>

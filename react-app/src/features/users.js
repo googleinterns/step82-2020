@@ -6,8 +6,10 @@ const initialState = {
   isCurrentUserFetched: false,
   isLoggingIn: false,
   isSigningUp: false,
-  isFetchingUsers: false,
-  users: []
+  isFetchingNoWriteUsers: false,
+  isFetchingWriteUsers: false,
+  noWriteUsers: [],
+  writeUsers: []
 };
 
 const usersSlice = createSlice({
@@ -58,17 +60,29 @@ const usersSlice = createSlice({
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
-    fetchUsersStart(state){
-      state.isFetchingUsers = true;
+    fetchNoWriteUsersStart(state){
+      state.isFetchingNoWriteUsers = true;
     },
-    fetchUsersSucceed(state, action){
-      state.isFetchingUsers = false;
-      state.users = action.payload;
-      delete state.FetchUsersError;
+    fetchNoWriteUsersSucceed(state, action){
+      state.isFetchingNoWriteUsers = false;
+      state.noWriteUsers = action.payload;
+      delete state.FetchNoWriteUsersError;
     },
-    fetchUsersFailed(state, action){
-      state.isFetchingUsers = false;
-      state.FetchUsersError = action.payload;
+    fetchNoWriteUsersFailed(state, action){
+      state.isFetchingNoWriteUsers = false;
+      state.FetchNoWriteUsersError = action.payload;
+    },
+    fetchWriteUsersStart(state){
+      state.isFetchingWriteUsers = true;
+    },
+    fetchWriteUsersSucceed(state, action){
+      state.isFetchingWriteUsers = false;
+      state.writeUsers = action.payload;
+      delete state.FetchWriteUsersError;
+    },
+    fetchWriteUsersFailed(state, action){
+      state.isFetchingWriteUsers = false;
+      state.FetchWriteUsersError = action.payload;
     },
   },
 });
@@ -77,7 +91,8 @@ export const {
   getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
-  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed
+  logout, fetchNoWriteUsersStart, fetchNoWriteUsersSucceed, fetchNoWriteUsersFailed,
+  fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -125,11 +140,21 @@ export const checkUser = () => async dispatch => {
 
 export const fetchUsersNoWrite = (clinkId, token) => async dispatch => {
   try {
-    dispatch(fetchUsersStart());
+    dispatch(fetchNoWriteUsersStart());
     const response = await apis.fetchUsersNoWrite(clinkId, token);
-    dispatch(fetchUsersSucceed(response.data));
+    dispatch(fetchNoWriteUsersSucceed(response.data));
   } catch (err) {
-    dispatch(fetchUsersFailed(err.response.data.message));
+    dispatch(fetchNoWriteUsersFailed(err.response.data.message));
+  }
+}
+
+export const fetchUsersWrite = (clinkId, token) => async dispatch => {
+  try {
+    dispatch(fetchWriteUsersStart());
+    const response = await apis.fetchUsersWrite(clinkId, token);
+    dispatch(fetchWriteUsersSucceed(response.data));
+  } catch (err) {
+    dispatch(fetchWriteUsersFailed(err.response.data.message));
   }
 }
 
