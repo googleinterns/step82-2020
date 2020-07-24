@@ -287,6 +287,12 @@ def add_clink():
                 'message': 'Cannot create a clink called \"All\". Failed to add clink.'
             }
             return response_object, 401
+        elif title == 'User Page':
+            response_object = {
+                'status': 'fail',
+                'message': 'Cannot create a clink called \"User Page\". Failed to add clink.'
+            }
+            return response_object, 401
 
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
