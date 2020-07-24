@@ -16,33 +16,35 @@ const { Content, Footer } = Layout;
 
 const Users = () => {
 
-  const dispatch = useDispatch()
-  const currentToken = localStorage.getItem('currentToken')
-  const currentUser = useSelector(state => state.users.currentUser)
-  const isFetchingUser = useSelector(state => state.users.isFetchingUser)
+  const currentToken = localStorage.getItem('currentToken');
+  const currentUser = useSelector(state => state.users.currentUser);
+  const isFetchingUser = useSelector(state => state.users.isFetchingUser);
   const clinks = useSelector(state => state.clink.clinks);
-  const authorizationError = useSelector(state => state.users.authorizationError)
-  const history = useHistory()
+  const authorizationError = useSelector(state => state.users.authorizationError);
+  const searchParam = useSelector(state => state.clink.searchParam);
+  
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
-    dispatch(checkUser())
-    dispatch(setTitle("User Page"))
+    dispatch(checkUser());
+    dispatch(setTitle("User Page"));
   }, []);
 
   if (isFetchingUser) return (
     <div className="center-load">
       <Spin size="large" />
     </div>
-  )
+  );
 
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
-    history.push("/get-started/login")
-  }
+    history.push("/get-started/login");
+  };
 
   const changeClink = (title, id) => {
-    dispatch(setCurrClink(id))
-    dispatch(setTitle(title))
-  }
+    dispatch(setCurrClink(id));
+    dispatch(setTitle(title));
+  };
 
   return (
     <Layout>
@@ -52,7 +54,7 @@ const Users = () => {
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'initial' }}>
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center' }}>
           <h1 className="user-title">Public</h1>
-          {clinks.map(clink => (
+          {clinks.filter(clink => clink.title.toLowerCase().includes(searchParam.toLowerCase())).map(clink => (
             <>
             {!clink.private &&
               <>
@@ -69,7 +71,7 @@ const Users = () => {
            </>
           ))}
           <h1 className="user-title">Private</h1>
-          {clinks.map(clink => (
+          {clinks.filter(clink => clink.title.toLowerCase().includes(searchParam.toLowerCase())).map(clink => (
             <>
             {clink.private &&
               <>
