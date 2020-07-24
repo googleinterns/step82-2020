@@ -41,7 +41,7 @@ const Topbar = () => {
 
   const onSearchFinished = (value) => {
     dispatch(setSearchBookmarks(value))
-    history.push(`${history.location.pathname}/${value}`)
+    history.push(`${history.location.pathname}/${value}`) // fix double search routing issue
   }
   return (
     <Header className="topbar">
