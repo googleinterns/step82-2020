@@ -145,7 +145,7 @@ const ClinkMenu = (props) => {
           >
             <Select mode="multiple" 
               filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase()) >= 0
+                option.children.toLowerCase().includes(input.toLowerCase())
               }>
               {users.map(user => (
                 <Option value={user.id}>{user.username}</Option>
