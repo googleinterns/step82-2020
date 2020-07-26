@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../features/users';
 import { clearClinksAndBookmarks, setSearchBookmarks } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
-import { Layout, Input, Dropdown, Menu } from 'antd';
+import { Layout, Input, Dropdown, Menu, AutoComplete } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';
 import { useHistory } from 'react-router-dom';
@@ -18,6 +18,8 @@ const Topbar = () => {
   const title = useSelector(state => state.clink.currentClinkTitle);
   const id = useSelector(state => state.clink.currentClinkId);
   const currentUser = useSelector(state => state.users.currentUser);
+  const bookmarks = useSelector(state => state.clink.bookmarks);
+  const clinks = useSelector(state => state.clink.clinks);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -35,31 +37,57 @@ const Topbar = () => {
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu key={title}/>;
+  let menuDisplay = <ClinkMenu key={title} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
   };
 
-  const onSearchFinished = (value) => {
-    dispatch(setSearchBookmarks(value))
-    if(title === "User Page")
-      history.push(`/users/${currentUser}/${value}`) // make more adaptive to currentUser
-    else{
-      history.push(`/dashboard/${id}/${value}`)
-    }   
+  const [options, setOptions] = useState([]);
+
+  const setValue = (arr, searchText) => {
+    var filtered = arr.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
+    var value = [];
+    for (var item of filtered) {
+      value = [{ value: item.title }, ...value];
+    };
+    return value;
   }
+
+  const onSearch = (searchText) => {
+    if (title === "User Page") {
+      setOptions(
+        !searchText ? [] : setValue(clinks, searchText),
+      );
+    } else {
+      setOptions(
+        !searchText ? [] : setValue(bookmarks, searchText),
+      );
+    }
+  };
+
+  const onSearchFinished = (value) => {
+    dispatch(setSearchBookmarks(value));
+    if (title === "User Page") {
+      history.push(`/users/${currentUser}/${value}`); // make more adaptive to currentUser
+    }
+    else {
+      history.push(`/dashboard/${id}/${value}`);
+    };
+  };
+
   return (
     <Header className="topbar">
       <div className="topbar-searchbar-wrapper">
         <div className="topbar-searchbar-container">
-          <Search
-            className="topbar-search"
-            placeholder={"Search in " + title + "..."}
-            onSearch={onSearchFinished}
-          />
-          <Dropdown.Button className="topbar-dropdown-user-logout-button" overlay={menu} icon={<UserOutlined />} onClick={logout} trigger={['click']}> 
+          <AutoComplete className="topbar-search" options={options} onSearch={onSearch}>
+            <Search
+              placeholder={"Search in " + title + "..."}
+              onSearch={onSearchFinished}
+            />
+          </AutoComplete>
+          <Dropdown.Button className="topbar-dropdown-user-logout-button" overlay={menu} icon={<UserOutlined />} onClick={logout} trigger={['click']}>
             Log Out
-          </Dropdown.Button> 
+          </Dropdown.Button>
         </div>
       </div>
       <h1 className="topbar-title">{title} {menuDisplay}</h1>
