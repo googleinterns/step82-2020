@@ -79,7 +79,7 @@ const Topbar = () => {
     <Header className="topbar">
       <div className="topbar-searchbar-wrapper">
         <div className="topbar-searchbar-container">
-          <AutoComplete className="topbar-search" options={options} onSearch={onSearch}>
+          <AutoComplete className="topbar-search" options={options} onSearch={onSearch} onSelect={onSearchFinished}>
             <Search
               placeholder={"Search in " + title + "..."}
               onSearch={onSearchFinished}
