@@ -62,7 +62,7 @@ const Topbar = () => {
       setOptions(
         !searchText ? [] : setValue(bookmarks, searchText),
       );
-    }
+    };
   };
 
   const onSearchFinished = (value) => {
