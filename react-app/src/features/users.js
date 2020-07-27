@@ -80,9 +80,7 @@ const usersSlice = createSlice({
     fetchWriteUsersSucceed(state, action){
       state.isFetchingWriteUsers = false;
       state.writeUsers = action.payload;
-      for (var user of action.payload) {
-        state.noWriteUsers = state.noWriteUsers.filter((item) => item.id !== user.id)
-      }
+      state.noWriteUsers = state.noWriteUsers.filter((item) => !action.payload.includes(item))
       delete state.FetchWriteUsersError;
     },
     fetchWriteUsersFailed(state, action){
@@ -95,9 +93,7 @@ const usersSlice = createSlice({
     shareClinkSucceed(state, action) {
       state.isSharingClink = false;
       state.writeUsers = [action.payload, ...state.writeUsers];
-      for (var user of action.payload) {
-        state.noWriteUsers = state.noWriteUsers.filter((item) => item.id !== user.id);
-      }
+      state.noWriteUsers = state.noWriteUsers.filter((item) => !action.payload.includes(item))
       delete state.clinkError;
     },
     shareClinkFailed(state, action) {
