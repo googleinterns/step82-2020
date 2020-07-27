@@ -465,12 +465,7 @@ def share_clink():
             read_entity.update(mapping)
             datastore_client.put(write_entity)
             datastore_client.put(read_entity)
-            response_object = {
-                'clink': request.json['clink_id'],
-                'user': user.id
-            }
-            to_return.append(response_object)
-        return jsonify(to_return), 200
+        return jsonify(request.json['recipients']), 200
     else:
         response_object = {
             'status': 'fail',

@@ -7,7 +7,6 @@ const initialState = {
   isFetchingClinks: false,
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
-  isSharingClink: false,
   clinks: [],
   writeClinks: [],
   bookmarks: [],

@@ -12,6 +12,7 @@ const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_NO_WRITE_URL = `${BASE_URL}/fetch-users-no-write`;
 const FETCH_USERS_WRITE_URL = `${BASE_URL}/fetch-users-write`;
+const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -75,9 +76,15 @@ const fetchUsersWrite = (id, token) => axios.get(FETCH_USERS_WRITE_URL, {
   }
 });
 
+const shareClink = (clink, users) => axios.post(SHARE_CLINK_URL, {
+  clink: clink,
+  users: users
+})
+
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsersNoWrite, fetchUsersWrite
+  fetchUsersNoWrite, fetchUsersWrite,
+  shareClink
 }; 	
