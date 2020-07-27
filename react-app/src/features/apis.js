@@ -75,9 +75,11 @@ const fetchUsersWrite = (id, token) => axios.get(FETCH_USERS_WRITE_URL, {
   }
 });
 
-const shareClink = (clink, users) => axios.post(SHARE_CLINK_URL, {
+const shareClink = (clink, toShare, toRemove, token) => axios.post(SHARE_CLINK_URL, {
   clink: clink,
-  users: users
+  toShare: toShare,
+  toRemove: toRemove,
+  Authorization: token
 })
 
 export default {

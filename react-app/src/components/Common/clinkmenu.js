@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllUsers, fetchUsersWrite } from '../../features/users';
+import { fetchAllUsers, fetchUsersWrite, shareClink } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -33,7 +33,7 @@ const ClinkMenu = () => {
     dispatch(fetchAllUsers(token));
     resolve();
   })
-  
+
   useEffect(() => {
     if (isCurrentUserFetched && clinkId !== 'All') {
       fetchUsers(currentToken).then(() => {
@@ -63,6 +63,7 @@ const ClinkMenu = () => {
   const onShareFinish = values => {
     console.log(values);
     setLoading(true);
+    dispatch(shareClink(clinkId, values.toShare, values.toRemove, currentToken));
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);
@@ -143,7 +144,7 @@ const ClinkMenu = () => {
           }}
           form={shareForm}
         >
-          <Form.Item label="Share write access by username" name="username"
+          <Form.Item label="Share write access by username" name="toShare"
             rules={[
               {
                 required: false,
@@ -159,7 +160,7 @@ const ClinkMenu = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Remove write access:" name="owners"
+          <Form.Item label="Remove write access:" name="toRemove"
             rules={[
               {
                 required: false,

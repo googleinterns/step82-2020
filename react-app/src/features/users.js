@@ -112,7 +112,8 @@ export const {
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
   logout, fetchAllUsersStart, fetchAllUsersSucceed, fetchAllUsersFailed,
-  fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed
+  fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed,
+  shareClinkStart, shareClinkSucceed, shareClinkFailed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -175,6 +176,16 @@ export const fetchUsersWrite = (clinkId, token) => async dispatch => {
     dispatch(fetchWriteUsersSucceed(response.data));
   } catch (err) {
     dispatch(fetchWriteUsersFailed(err.response.data.message));
+  }
+}
+
+export const shareClink = (clinkId, toShare, toRemove, token) => async dispatch => {
+  try {
+    dispatch(shareClinkStart());
+    const response = await apis.shareClink(clinkId, toShare, toRemove, token);
+    dispatch(shareClinkSucceed(response.data));
+  } catch (err) {
+    dispatch(shareClinkFailed(err.response.data.message));
   }
 }
 

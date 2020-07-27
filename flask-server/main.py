@@ -440,20 +440,25 @@ def share_clink():
 
     if is_valid_instance(resp_token):
         to_return = []
-        for user in request.json['recipients']:
+        for user in request.json['toShare']:
             write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
             read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
             mapping = {
-                'clink_id': request.json['clink_id'],
-                'user_id': user.id
+                'clink_id': request.json['clink'],
+                'user_id': user
             }
 
             write_entity.update(mapping)
             read_entity.update(mapping)
             datastore_client.put(write_entity)
             datastore_client.put(read_entity)
-        return jsonify(request.json['recipients']), 200
+            
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', user)
+            user_entity = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+            to_return.append(user_entity_to_return(user_entity))
+        return jsonify(to_return), 200
     else:
         response_object = {
             'status': 'fail',
