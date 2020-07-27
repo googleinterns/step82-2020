@@ -60,24 +60,15 @@ def store_user():
         }
         return response_object, 200
 
-@app.route('/apis/fetch-users-no-write', methods=['GET'])
-def fetch_users_no_write():
+def user_entity_to_return(user):
+    return { 'id': user.id, 'username': user['username']}
+
+@app.route('/apis/fetch-all-users', methods=['GET'])
+def fetch_all_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(request.headers.get('clinkId'))).fetch())
         users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
-        array = []
-        for user in users:
-            for shared_user in shared_users:
-                if str(user.id) != shared_user['user_id']:
-                    array.append({
-                        'id': user.id,
-                        'username': user['username']
-                    })
-                else:
-                    # found the user, don't need to check it again
-                    # as there should not be duplicate users in users
-                    shared_users.remove(shared_user)
+        array = map(user_entity_to_return, users)
         return jsonify(array), 200
     else:
         response_object = {
