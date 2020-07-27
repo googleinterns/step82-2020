@@ -30,7 +30,7 @@ const ClinkMenu = () => {
   const [editForm] = Form.useForm();
 
   useEffect(() => {
-    if (isCurrentUserFetched && clinkId != 'All') {
+    if (isCurrentUserFetched && clinkId !== 'All') {
       dispatch(fetchAllUsers(currentToken));
       dispatch(fetchUsersWrite(clinkId, currentToken));
     }
