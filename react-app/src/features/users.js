@@ -67,7 +67,7 @@ const usersSlice = createSlice({
     },
     fetchAllUsersSucceed(state, action){
       state.isFetchingAllUsers = false;
-      state.AllUsers = action.payload;
+      state.allUsers = action.payload;
       delete state.FetchAllUsersError;
     },
     fetchAllUsersFailed(state, action){
