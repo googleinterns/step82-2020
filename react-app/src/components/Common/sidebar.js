@@ -7,7 +7,6 @@ import { Layout, Menu } from 'antd';
 import NewButton  from './newbutton';
 import { useHistory } from 'react-router-dom';
 
-
 const { Sider } = Layout;
 
 const Sidebar = () => {
