@@ -87,10 +87,7 @@ def fetch_users_write():
             query = datastore_client.query(kind='user')
             key = datastore_client.key('user', int(shared_user['user_id']))
             user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
-            array.append({
-                'id': user.id,
-                'username': user['username']
-            })
+            array.append(user_entity_to_return(user))
         return jsonify(array), 200
     else:
         response_object = {
