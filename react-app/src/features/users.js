@@ -157,7 +157,7 @@ export const checkUser = () => async dispatch => {
 export const fetchAllUsers = (token) => async dispatch => {
   try {
     dispatch(fetchAllUsersStart());
-    const response = await apis.fetchUsersAll(token);
+    const response = await apis.fetchAllUsers(token);
     dispatch(fetchAllUsersSucceed(response.data));
   } catch (err) {
     dispatch(fetchAllUsersFailed(err.response.data.message));
