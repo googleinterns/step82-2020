@@ -10,7 +10,6 @@ const initialState = {
   clinks: [],
   writeClinks: [],
   bookmarks: [],
-  searchParam: '',
   currentClinkTitle: 'All',
   currentClinkId: 'All'
 };
@@ -93,12 +92,6 @@ const clinkSlice = createSlice({
     },
     clearBookmarks(state) {
       state.bookmarks = [];
-    },
-    setSearchParam(state, action) {
-      state.searchParam = action.payload;
-    }, 
-    resetSearchParam(state) {
-      state.searchParam = '';
     }
   }
 });
@@ -109,8 +102,7 @@ export const {
   fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
   fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
-  clearClinks, clearBookmarks, changeTitle,
-  setSearchParam, resetSearchParam
+  clearClinks, clearBookmarks, changeTitle
 } = clinkSlice.actions;
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -173,14 +165,6 @@ export const setCurrClink = (id) => async dispatch => {
 
 export const setTitle = (title) => async dispatch => {
   dispatch(changeTitle(title));
-}
-
-export const setSearchBookmarks = (value) => async dispatch => {
-  dispatch(setSearchParam(value));
-}
-
-export const resetSearchBookmarks = () => async dispatch => {
-  dispatch(resetSearchParam());
 }
 
 export const clearClinksAndBookmarks = () => async dispatch => {

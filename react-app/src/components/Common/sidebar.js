@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks, setCurrClink, setTitle, resetSearchBookmarks} from '../../features/clink'
+import { fetchClinks, setCurrClink, setTitle } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
@@ -15,10 +15,11 @@ const Sidebar = () => {
   const currentToken = localStorage.getItem('currentToken');
   const clinks = useSelector(state => state.clink.clinks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-  const history = useHistory();
-  const dispatch = useDispatch();
   const currentId = useSelector(state => state.clink.currentClinkId);
   const title = useSelector(state => state.clink.currentClinkTitle);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isCurrentUserFetched) {
@@ -29,7 +30,6 @@ const Sidebar = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
-    dispatch(resetSearchBookmarks());
     history.push(`/dashboard/${id}`);
   }
 

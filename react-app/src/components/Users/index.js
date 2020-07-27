@@ -9,7 +9,7 @@ import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
 import ClinkMenu from '../Common/clinkmenu';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { setCurrClink, setTitle, resetSearchBookmarks } from '../../features/clink'
+import { setCurrClink, setTitle } from '../../features/clink'
 
 
 const { Content, Footer } = Layout;
@@ -21,10 +21,12 @@ const Users = () => {
   const isFetchingUser = useSelector(state => state.users.isFetchingUser);
   const clinks = useSelector(state => state.clink.clinks);
   const authorizationError = useSelector(state => state.users.authorizationError);
-  const searchParam = useSelector(state => state.clink.searchParam);
   
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const urlString = new URLSearchParams(history.location.search);
+  const urlParam = urlString.get("search") || "";
 
   useEffect(() => {
     dispatch(checkUser());
@@ -44,7 +46,6 @@ const Users = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
-    dispatch(resetSearchBookmarks());
   };
 
   return (
@@ -55,7 +56,7 @@ const Users = () => {
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'auto', height: '65vh' }}>
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center', minHeight: '65vh' }}>
           <h1 className="user-title">Public</h1>
-          {clinks.filter(clink => clink.title.toLowerCase().includes(searchParam.toLowerCase())).map(clink => (
+          {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (
             <>
             {!clink.private &&
               <>
@@ -72,7 +73,7 @@ const Users = () => {
            </>
           ))}
           <h1 className="user-title">Private</h1>
-          {clinks.filter(clink => clink.title.toLowerCase().includes(searchParam.toLowerCase())).map(clink => (
+          {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (
             <>
             {clink.private &&
               <>

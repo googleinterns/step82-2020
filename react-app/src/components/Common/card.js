@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchBookmarks, clearBookmarks} from '../../features/clink';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { fetchBookmarks, clearBookmarks } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Collapse } from 'antd';
@@ -11,12 +12,17 @@ const { Panel } = Collapse;
 
 const Card = () => {  
   const [activeKey, setActiveKey] = useState('');
+
   const currentToken = localStorage.getItem('currentToken');
   const bookmarks = useSelector(state => state.clink.bookmarks);
-  const searchParam = useSelector(state => state.clink.searchParam);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-  const dispatch = useDispatch();
   const clinkId = useSelector(state => state.clink.currentClinkId);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const urlString = new URLSearchParams(history.location.search);
+  const urlParam = urlString.get("search") || "";
 
   useEffect(() => {
     if (isCurrentUserFetched) {
@@ -27,7 +33,7 @@ const Card = () => {
 
   return(
     <>
-    {bookmarks.filter(bmark => bmark.title.toLowerCase().includes(searchParam.toLowerCase())).map(bmark => (
+    {bookmarks.filter(bmark => bmark.title.toLowerCase().includes(urlParam.toLowerCase())).map(bmark => (
       <>
       <div onMouseEnter={() => {
         setActiveKey(bmark.id)

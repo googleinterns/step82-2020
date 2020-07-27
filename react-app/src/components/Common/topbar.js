@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../features/users';
-import { clearClinksAndBookmarks, setSearchBookmarks } from '../../features/clink';
+import { clearClinksAndBookmarks } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Input, Dropdown, Menu, AutoComplete } from 'antd';
@@ -16,7 +16,6 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const title = useSelector(state => state.clink.currentClinkTitle);
-  const id = useSelector(state => state.clink.currentClinkId);
   const currentUser = useSelector(state => state.users.currentUser);
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const clinks = useSelector(state => state.clink.clinks);
@@ -66,8 +65,7 @@ const Topbar = () => {
   };
 
   const onSearchFinished = (value) => {
-    dispatch(setSearchBookmarks(value));
-    history.location.search = `/search?q=${value}`; 
+    history.location.search = `search=${value}`; 
     history.push(history.location)
   };
 
