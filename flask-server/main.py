@@ -68,7 +68,7 @@ def fetch_all_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
         users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
-        array = map(user_entity_to_return, users)
+        array = list(map(user_entity_to_return, users))
         return jsonify(array), 200
     else:
         response_object = {
