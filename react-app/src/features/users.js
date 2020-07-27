@@ -108,8 +108,6 @@ export const logOut = (user) => async dispatch => {
   try {
     dispatch(logout());
     await apis.logout(user);
-  } catch (err) {
-  
   }
 }
 
