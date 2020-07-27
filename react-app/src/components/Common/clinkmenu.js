@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsersNoWrite, fetchUsersWrite } from '../../features/users';
+import { fetchAllUsers, fetchUsersWrite } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -31,7 +31,7 @@ const ClinkMenu = () => {
 
   useEffect(() => {
     if (isCurrentUserFetched && clinkId != 'All') {
-      dispatch(fetchUsersNoWrite(clinkId, currentToken));
+      dispatch(fetchAllUsers(currentToken));
       dispatch(fetchUsersWrite(clinkId, currentToken));
     }
   }, [clinkId]);
