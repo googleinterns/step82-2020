@@ -29,10 +29,16 @@ const ClinkMenu = () => {
   const [shareForm] = Form.useForm();
   const [editForm] = Form.useForm();
 
+  const fetchUsers = (token) => new Promise((resolve, reject) => {
+    dispatch(fetchAllUsers(token));
+    resolve();
+  })
+  
   useEffect(() => {
     if (isCurrentUserFetched && clinkId !== 'All') {
-      dispatch(fetchAllUsers(currentToken));
-      dispatch(fetchUsersWrite(clinkId, currentToken));
+      fetchUsers(currentToken).then(() => {
+        dispatch(fetchUsersWrite(clinkId, currentToken));
+      })
     }
   }, [clinkId]);
 
