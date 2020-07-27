@@ -18,8 +18,9 @@ const Sidebar = () => {
   const currentId = useSelector(state => state.clink.currentClinkId);
   const title = useSelector(state => state.clink.currentClinkTitle);
 
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
+
 
   useEffect(() => {
     if (isCurrentUserFetched) {
