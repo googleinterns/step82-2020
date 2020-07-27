@@ -67,12 +67,8 @@ const Topbar = () => {
 
   const onSearchFinished = (value) => {
     dispatch(setSearchBookmarks(value));
-    if (title === "User Page") {
-      history.push(`/users/${currentUser}/${value}`); // make more adaptive to currentUser
-    }
-    else {
-      history.push(`/dashboard/${id}/${value}`);
-    };
+    history.location.search = `?=${value}`; 
+    history.push(history.location)
   };
 
   return (
@@ -81,6 +77,7 @@ const Topbar = () => {
         <div className="topbar-searchbar-container">
           <AutoComplete className="topbar-search" options={options} onSearch={onSearch} onSelect={onSearchFinished}>
             <Search
+              allowClear
               placeholder={"Search in " + title + "..."}
               onSearch={onSearchFinished}
             />
