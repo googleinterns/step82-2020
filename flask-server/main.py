@@ -295,10 +295,11 @@ def add_clink():
             return response_object, 401
 
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
+        private = request.json['privacy']
         clink_entity.update({
             'title': title,
             'deleted': False,
-            'private': request.json['privacy'],
+            'private': private,
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
@@ -318,6 +319,7 @@ def add_clink():
 
         response_object = {
             'title': title,
+            'private': private,
             'id': clink_entity.id
         }
         return response_object, 200  
