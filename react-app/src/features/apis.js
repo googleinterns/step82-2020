@@ -10,7 +10,7 @@ const ADD_BOOKMARK_URL = `${BASE_URL}/add-bookmark`;
 const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
 const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
-const FETCH_USERS_NO_WRITE_URL = `${BASE_URL}/fetch-users-no-write`;
+const FETCH_ALL_USERS_URL = `${BASE_URL}/fetch-all-users`;
 const FETCH_USERS_WRITE_URL = `${BASE_URL}/fetch-users-write`;
 const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
 
@@ -62,9 +62,8 @@ const fetchBookmarks = (token, id) => axios.get(`${FETCH_BOOKMARKS_URL}/${id}`, 
   }
 });
 
-const fetchUsersNoWrite = (id, token) => axios.get(FETCH_USERS_NO_WRITE_URL, {
+const fetchAllUsers = (token) => axios.get(FETCH_ALL_USERS_URL, {
   headers: {
-    clinkId: id,
     Authorization: token
   }
 });
@@ -85,6 +84,6 @@ export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsersNoWrite, fetchUsersWrite,
+  fetchAllUsers, fetchUsersWrite,
   shareClink
 }; 	
