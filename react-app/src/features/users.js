@@ -81,7 +81,7 @@ const usersSlice = createSlice({
       state.isFetchingWriteUsers = false;
       state.writeUsers = action.payload;
       state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
-        return JSON.stringify(user) === JSON.stringify(elem);
+        return user.id === elem.id;
       }));
       delete state.FetchWriteUsersError;
     },
@@ -96,7 +96,7 @@ const usersSlice = createSlice({
       state.isSharingClink = false;
       state.writeUsers = [action.payload, ...state.writeUsers];
       state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
-        return JSON.stringify(user) === JSON.stringify(elem);
+        return user.id === elem.id;
       }));
       delete state.clinkError;
     },
