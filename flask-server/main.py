@@ -380,7 +380,7 @@ def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     
     if is_valid_instance(resp_token):
-        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
+        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', int(resp_token)).add_filter('deleted', '=', False)
         bookmark_query.order = ['created']
         all_list = list(bookmark_query.fetch())
         if clink_id == 'All':
