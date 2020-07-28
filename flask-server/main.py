@@ -342,7 +342,7 @@ def fetch_clinks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
 
     if is_valid_instance(resp_token):
-        clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', str(resp_token)).fetch())
+        clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(resp_token)).fetch())
         all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
         all_query.order = ['created']
         all_list = list(all_query.fetch())

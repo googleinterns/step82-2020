@@ -62,30 +62,30 @@ const usersSlice = createSlice({
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
-    fetchAllUsersStart(state){
+    fetchAllUsersStart(state) {
       state.isFetchingAllUsers = true;
     },
-    fetchAllUsersSucceed(state, action){
+    fetchAllUsersSucceed(state, action) {
       state.isFetchingAllUsers = false;
       state.allUsers = action.payload;
       delete state.FetchAllUsersError;
     },
-    fetchAllUsersFailed(state, action){
+    fetchAllUsersFailed(state, action) {
       state.isFetchingAllUsers = false;
       state.FetchAllUsersError = action.payload;
     },
     fetchWriteUsersStart(state){
       state.isFetchingWriteUsers = true;
     },
-    fetchWriteUsersSucceed(state, action){
+    fetchWriteUsersSucceed(state, action) {
       state.isFetchingWriteUsers = false;
       state.writeUsers = action.payload;
-      state.noWriteUsers = state.allUsers.filter((user) => state.writeUsers.some(elem => {
-        return JSON.stringify(user) !== JSON.stringify(elem);
+      state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
+        return JSON.stringify(user) === JSON.stringify(elem);
       }));
       delete state.FetchWriteUsersError;
     },
-    fetchWriteUsersFailed(state, action){
+    fetchWriteUsersFailed(state, action) {
       state.isFetchingWriteUsers = false;
       state.FetchWriteUsersError = action.payload;
     },
@@ -95,8 +95,8 @@ const usersSlice = createSlice({
     shareClinkSucceed(state, action) {
       state.isSharingClink = false;
       state.writeUsers = [action.payload, ...state.writeUsers];
-      state.noWriteUsers = state.allUsers.filter((user) => state.writeUsers.some(elem => {
-        return JSON.stringify(user) !== JSON.stringify(elem);
+      state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
+        return JSON.stringify(user) === JSON.stringify(elem);
       }));
       delete state.clinkError;
     },
