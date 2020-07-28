@@ -19,10 +19,11 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const currentId = useSelector(state => state.clink.currentClinkId);
   const title = useSelector(state => state.clink.currentClinkTitle);
+  const currentUser = useSelector(state => state.users.currentUser);
 
   useEffect(() => {
     if (isCurrentUserFetched) {
-      dispatch(fetchClinks(currentToken));
+      dispatch(fetchClinks(currentUser));
     }
   }, []);
 
