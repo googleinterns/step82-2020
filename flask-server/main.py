@@ -13,7 +13,7 @@ app = Flask(__name__, template_folder='static/react')
 CORS(app)
 bcrypt = Bcrypt()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = list(datastore_client.query(kind='SETTINGS').add_filter('name', '=', 'SECRET_KEY').fetch(limit=1))[0]['value']
 
 # sign-up api
 @app.route('/apis/sign-up', methods=['POST'])
