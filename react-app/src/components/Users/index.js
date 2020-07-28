@@ -9,7 +9,6 @@ import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
 import ClinkMenu from '../Common/clinkmenu';
 import SaveClinkMenu from '../Common/saveclink';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { setCurrClink, setTitle, fetchOtherClinks } from '../../features/clink'
 
 
