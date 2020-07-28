@@ -436,6 +436,6 @@ if __name__ == '__main__':
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
     if os.getenv('DEVELOPMENT_KEY'):
-        app.run(debug=True)
+        app.run(host='127.0.0.1', port=5000, debug=True)
     else:
         app.run(host='127.0.0.1', port=8080, debug=True)
