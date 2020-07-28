@@ -133,9 +133,6 @@ const ClinkMenu = () => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form="share-clink" htmlType="submit" key="submit" type="primary" loading={isLoading} >
-            Submit
-          </Button>,
         ]}
       >
         <Form {...layout} name="share-clink" onFinish={onShareFinish} onFinishFailed={onFinishFailed}
@@ -147,7 +144,7 @@ const ClinkMenu = () => {
           <Form.Item label="Share write access by username" name="toShare"
             rules={[
               {
-                required: false,
+                required: true,
               },
             ]}
           >
@@ -160,10 +157,24 @@ const ClinkMenu = () => {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={isLoading}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+        <Form {...layout} name="unshare-clink" 
+        // onFinish={onUnshareFinish} 
+        onFinishFailed={onFinishFailed}
+          initialValues={{
+            remember: false,
+          }}
+          // form={unshareForm}
+        > 
           <Form.Item label="Remove write access:" name="toRemove"
             rules={[
               {
-                required: false,
+                required: true,
               },
             ]}
           >
@@ -176,16 +187,14 @@ const ClinkMenu = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Share read access by link" name="link"
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-          >
-            {/* clink url goes here */}
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
           </Form.Item>
         </Form>
+          Share read access by link:
+            {/* clink url goes here */}
       </Modal>
     </>
   );
