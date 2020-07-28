@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';
 import ClinkMenu from '../Common/clinkmenu';
+import SaveClinkMenu from '../Common/saveclink';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { setCurrClink, setTitle, fetchOtherClinks } from '../../features/clink'
 
@@ -57,7 +58,10 @@ const Users = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
+    history.push(`/dashboard/${id}`)
   }
+
+  let menuDisplay = <SaveClinkMenu className="ellipsis-card-btn" />
 
   return (
     <Layout>
@@ -71,14 +75,15 @@ const Users = () => {
             <>
             {!clink.private &&
               <>
-                <Link to={"/dashboard/" + clink.id} onClick={(() => changeClink(clink.title, clink.id))}>
                   <div className="clink-card">
-                    <div className="card-header">
-                      {clink.title} <ClinkMenu  menuClass="ellipsis-card-button"/>
+                    <div className="card-header" >
+                      <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
+                        {clink.title} 
+                      </div>
+                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button"/> : <SaveClinkMenu  menuClass="ellipsis-card-button"/>}
                     </div>
                   </div>
                   <br />
-                </Link>
               </>
             }
            </>
@@ -88,14 +93,17 @@ const Users = () => {
             {clinks.map(clink => (
               <>
               {clink.private &&
-                <Link to="/dashboard" onClick={(() => changeClink(clink.title, clink.id))}>
+                <>
                   <div className="clink-card">
                     <div className="card-header">
-                      {clink.title} <ClinkMenu menuClass="ellipsis-card-button"/>
+                      <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
+                        {clink.title} 
+                      </div>
+                      <ClinkMenu menuClass="ellipsis-card-button"/>
                     </div>
                   </div>
                   <br />
-                </Link>
+                </>
               }
             </>
             ))}
