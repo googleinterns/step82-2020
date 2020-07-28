@@ -26,21 +26,21 @@ const Users = () => {
   const authorizationError = useSelector(state => state.users.authorizationError);
   const history = useHistory();
 
-  const param = useParams();
+  const userId = useParams().userId;
 
   useEffect(() => {
     dispatch(checkUser());
     if (isCurrentUserFetched) {
       dispatch(setTitle("User Page"));  
-      if(param.userId !== currentUser) {
-        dispatch(fetchOtherClinks(param.userId));
-        dispatch(fetchUsername(param.userId))
+      if(userId !== currentUser) {
+        dispatch(fetchOtherClinks(userId));
+        dispatch(fetchUsername(userId))
         clinks = otherClinks;
       }
     }
   }, [isCurrentUserFetched]);
 
-  if (param.userId !== currentUser) {
+  if (userId !== currentUser) {
     clinks = otherClinks;
   }
 
@@ -83,13 +83,11 @@ const Users = () => {
             }
            </>
           ))}
-          {(parseInt(param.userId) === parseInt(currentUser)) && <>
-          <h1 className="user-title">Private</h1>
-            <>
-          {clinks.map(clink => (
-            <>
-            {clink.private &&
+          {(parseInt(userId) === parseInt(currentUser)) && <>
+            <h1 className="user-title">Private</h1>
+            {clinks.map(clink => (
               <>
+              {clink.private &&
                 <Link to="/dashboard" onClick={(() => changeClink(clink.title, clink.id))}>
                   <div className="clink-card">
                     <div className="card-header">
@@ -98,11 +96,9 @@ const Users = () => {
                   </div>
                   <br />
                 </Link>
-              </>
-            }
-           </>
-          ))}
-          </>
+              }
+            </>
+            ))}
           </>}
           </div>
         </Content>
