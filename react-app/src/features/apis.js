@@ -11,6 +11,7 @@ const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
 const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
+const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -66,9 +67,15 @@ const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
   }
 });
 
+const fetchUsername = (id) => axios.get(FETCH_USERNAME_URL, {
+  headers: {
+    'UserId': id
+  }
+});
+
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsers
+  fetchUsers, fetchUsername
 }; 	

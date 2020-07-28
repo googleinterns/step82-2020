@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { useHistory, useParams } from 'react-router-dom';
-import { checkUser } from '../../features/users';
+import { checkUser, fetchUsername } from '../../features/users';
 import { Layout, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../Common/sidebar';
@@ -31,9 +31,10 @@ const Users = () => {
   useEffect(() => {
     dispatch(checkUser());
     if (isCurrentUserFetched) {
-      dispatch(setTitle("User Page"))   ;   
+      dispatch(setTitle("User Page"));  
       if(userId !== currentUser) {
         dispatch(fetchOtherClinks(userId));
+        dispatch(fetchUsername(userId))
         clinks = otherClinks;
       }
     }

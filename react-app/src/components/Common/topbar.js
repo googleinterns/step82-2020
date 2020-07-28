@@ -7,7 +7,7 @@ import '../../index.css';
 import { Layout, Input, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -18,13 +18,20 @@ const Topbar = () => {
   const title = useSelector(state => state.clink.currentClinkTitle);
   const history = useHistory();
   const currentUser = useSelector(state => state.users.currentUser)
-
+  var username = useSelector(state => state.users.username);
   const dispatch = useDispatch();
+  const userId = useParams();
 
   const logout = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
   };
+
+  if (userId === currentUser) {
+    username = "My "
+  } else {
+    username += "'s ";
+  }
 
   const menu = (
     <Menu>
@@ -53,7 +60,7 @@ const Topbar = () => {
           </Dropdown.Button> 
         </div>
       </div>
-      <h1 className="topbar-title">{title} {menuDisplay}</h1>
+      <h1 className="topbar-title">{username + title} {menuDisplay}</h1>
     </Header>
   );
 };
