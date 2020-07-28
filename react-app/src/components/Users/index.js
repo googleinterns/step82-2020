@@ -16,27 +16,28 @@ const { Content, Footer } = Layout;
 
 const Users = () => {
 
-  const dispatch = useDispatch()
-  const currentToken = localStorage.getItem('currentToken')
-  const currentUser = useSelector(state => state.users.currentUser)
-  const isFetchingUser = useSelector(state => state.users.isFetchingUser)
+  const dispatch = useDispatch();
+  const currentToken = localStorage.getItem('currentToken');
+  const currentUser = useSelector(state => state.users.currentUser);
+  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const isFetchingUser = useSelector(state => state.users.isFetchingUser);
   var clinks = useSelector(state => state.clink.clinks);
-  const otherClinks = useSelector(state => state.clink.otherClinks)
-  const authorizationError = useSelector(state => state.users.authorizationError)
-  const history = useHistory()
+  const otherClinks = useSelector(state => state.clink.otherClinks);
+  const authorizationError = useSelector(state => state.users.authorizationError);
+  const history = useHistory();
 
   const { userId } = useParams();
-  console.log("USE PARAMS: " + userId)
-  console.log("CURR USER: " + currentUser)
 
   useEffect(() => {
-    dispatch(checkUser())
-    dispatch(setTitle("User Page"))
-    console.log("INSIDEEEE")
-    console.log("USE PARAMS!!: " + userId)
-    console.log("CURR USER: " + currentUser)
-    dispatch(fetchOtherClinks(userId))
-  }, []);
+    dispatch(checkUser());
+    if (isCurrentUserFetched) {
+      dispatch(setTitle("User Page"))   ;   
+      if(userId !== currentUser) {
+        dispatch(fetchOtherClinks(userId));
+        clinks = otherClinks;
+      }
+    }
+  }, [isCurrentUserFetched]);
 
   if (userId !== currentUser) {
     clinks = otherClinks;
@@ -49,12 +50,12 @@ const Users = () => {
   )
 
   if ((!currentUser && !currentToken) || (authorizationError && !isFetchingUser)) {
-    history.push("/get-started/login")
+    history.push("/get-started/login");
   }
 
   const changeClink = (title, id) => {
-    dispatch(setCurrClink(id))
-    dispatch(setTitle(title))
+    dispatch(setCurrClink(id));
+    dispatch(setTitle(title));
   }
 
   return (
