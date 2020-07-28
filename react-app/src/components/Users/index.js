@@ -26,21 +26,21 @@ const Users = () => {
   const authorizationError = useSelector(state => state.users.authorizationError);
   const history = useHistory();
 
-  const { userId } = useParams();
+  const param = useParams();
 
   useEffect(() => {
     dispatch(checkUser());
     if (isCurrentUserFetched) {
       dispatch(setTitle("User Page"));  
-      if(userId !== currentUser) {
-        dispatch(fetchOtherClinks(userId));
-        dispatch(fetchUsername(userId))
+      if(param.userId !== currentUser) {
+        dispatch(fetchOtherClinks(param.userId));
+        dispatch(fetchUsername(param.userId))
         clinks = otherClinks;
       }
     }
   }, [isCurrentUserFetched]);
 
-  if (userId !== currentUser) {
+  if (param.userId !== currentUser) {
     clinks = otherClinks;
   }
 
@@ -83,7 +83,9 @@ const Users = () => {
             }
            </>
           ))}
+          {(parseInt(param.userId) === parseInt(currentUser)) && <>
           <h1 className="user-title">Private</h1>
+            <>
           {clinks.map(clink => (
             <>
             {clink.private &&
@@ -100,6 +102,8 @@ const Users = () => {
             }
            </>
           ))}
+          </>
+          </>}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Clink</Footer>
