@@ -426,8 +426,6 @@ def fetch_username():
     user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
     return user['username'], 200
 
-
-
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
