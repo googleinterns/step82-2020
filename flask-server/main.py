@@ -419,10 +419,10 @@ def fetch_bookmarks(clink_id):
         }
         return response_object, 401
 
-@app.route('/apis/fetch-username', methods=['GET'])
-def fetch_username():
+@app.route('/apis/fetch-username/<string:user_id>', methods=['GET'])
+def fetch_username(user_id):
     query = datastore_client.query(kind='user')
-    key = datastore_client.key('user', int(request.headers.get('UserId')))
+    key = datastore_client.key('user', int(user_id))
     user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
     return user['username'], 200
 

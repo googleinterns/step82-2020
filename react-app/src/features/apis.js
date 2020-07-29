@@ -65,11 +65,7 @@ const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
   }
 });
 
-const fetchUsername = (id) => axios.get(FETCH_USERNAME_URL, {
-  headers: {
-    'UserId': id
-  }
-});
+const fetchUsername = (id) => axios.get(`${FETCH_USERNAME_URL}/${id}`);
 
 export default {
   signUp, login, logout, 
