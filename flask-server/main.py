@@ -331,7 +331,7 @@ def add_clink():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-clinks/<string>:user_id', methods=['GET'])
+@app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
     all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
