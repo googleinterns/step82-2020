@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-var BASE_URL;
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://localhost:5000/apis';		
-} else {
-  BASE_URL = '/apis';	
-}
+const  BASE_URL = '/apis';	
 const SIGNUP_URL = `${BASE_URL}/sign-up`;
 const LOGIN_URL = `${BASE_URL}/login`;	
 const LOGOUT_URL = `${BASE_URL}/logout`;
