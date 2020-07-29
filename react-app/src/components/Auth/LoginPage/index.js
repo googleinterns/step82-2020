@@ -10,16 +10,15 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginPage = () => {
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const key = "loginFeedBack";
-
-  const history = useHistory();
 
   const logInSucceedCallback = () => {
     setTimeout(() => {
       message.success({ content: 'Successfully logged in.', key, duration: 2 });
     }, 1000);
-    history.push("/dashboard");
+    history.push("/dashboard/All");
   };
 
   const logInFailedCallback = (loginError) => {

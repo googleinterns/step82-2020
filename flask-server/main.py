@@ -248,15 +248,15 @@ def add_bookmark():
             'description': request.json['description'],
             'deleted': False,
             'created': datetime.datetime.now(timezone.utc),
-            'creator': str(resp_token)
+            'creator': int(resp_token)
         })
         datastore_client.put(entity)
 
         for clink in request.json['clink']:
             map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
             map_entity.update({
-                'clink_id': clink,
-                'bookmark_id': entity.id
+                'clink_id': int(clink),
+                'bookmark_id': int(entity.id)
             })
             datastore_client.put(map_entity)
 
@@ -294,11 +294,13 @@ def add_clink():
             }
             return response_object, 401
 
+        private = request.json['privacy']
+        
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
             'title': title,
             'deleted': False,
-            'private': request.json['privacy'],
+            'private': private,
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
@@ -307,8 +309,8 @@ def add_clink():
         read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
         mapping = {
-            'clink_id': clink_entity.id,
-            'user_id': str(resp_token)
+            'clink_id': int(clink_entity.id),
+            'user_id': int(resp_token)
         }
             
         write_entity.update(mapping)
@@ -318,6 +320,7 @@ def add_clink():
 
         response_object = {
             'title': title,
+            'private': private,
             'id': clink_entity.id
         }
         return response_object, 200  
@@ -352,7 +355,7 @@ def fetch_write_clinks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
 
     if is_valid_instance(resp_token):
-        clink_ids = list(datastore_client.query(kind='user_write_map').add_filter('user_id', '=', str(resp_token)).fetch())
+        clink_ids = list(datastore_client.query(kind='user_write_map').add_filter('user_id', '=', int(resp_token)).fetch())
         all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
         all_query.order = ['created']
         all_list = list(all_query.fetch())
