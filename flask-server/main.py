@@ -77,11 +77,11 @@ def fetch_all_users():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-users-write', methods=['GET'])
-def fetch_users_write():
+@app.route('/apis/fetch-users-write/<string:clink_id>', methods=['GET'])
+def fetch_users_write(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(request.headers.get('clinkId'))).fetch())
+        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).fetch())
         array = []
         for shared_user in shared_users:
             query = datastore_client.query(kind='user')

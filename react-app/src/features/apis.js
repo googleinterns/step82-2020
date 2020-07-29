@@ -68,9 +68,8 @@ const fetchAllUsers = (token) => axios.get(FETCH_ALL_USERS_URL, {
   }
 });
 
-const fetchUsersWrite = (id, token) => axios.get(FETCH_USERS_WRITE_URL, {
+const fetchUsersWrite = (id, token) => axios.get(`${FETCH_USERS_WRITE_URL}/${id}`, {
   headers: {
-    clinkId: id,
     Authorization: token
   }
 });
