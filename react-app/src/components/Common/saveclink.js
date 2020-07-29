@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers } from '../../features/users';
+import { addReadMap } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -17,6 +18,7 @@ const SaveClinkMenu = (props) => {
   const currentToken = localStorage.getItem('currentToken');
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.users.currentUser)
 
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
@@ -29,11 +31,12 @@ const SaveClinkMenu = (props) => {
     }
   }, []);
 
-  const showEdit = () => {
+  const showSave = () => {
     setEditVisible(true);
   };
 
-  const onEditFinish = values => {
+  const onSaveFinish = values => {
+    dispatch(addReadMap(props.clink, currentUser))
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -41,7 +44,7 @@ const SaveClinkMenu = (props) => {
     }, 3000);
     confirmForm.resetFields();
   };
-
+  console.log(props.clink)
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
@@ -53,7 +56,7 @@ const SaveClinkMenu = (props) => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="edit" onClick={showEdit}>
+      <Menu.Item key="edit" onClick={showSave}>
         Save
       </Menu.Item>
     </Menu>
@@ -74,7 +77,7 @@ const SaveClinkMenu = (props) => {
           </Button>,
         ]}
       >
-        <Form {...layout} name="confirm-save" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
+        <Form {...layout} name="confirm-save" onFinish={onSaveFinish} onFinishFailed={onFinishFailed}
           initialValues={{
             remember: false,
           }}

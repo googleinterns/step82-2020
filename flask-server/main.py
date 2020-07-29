@@ -331,6 +331,18 @@ def add_clink():
         }
         return response_object, 401
 
+@app.route('/apis/add-readmap/<string:user_id>', methods=['POST'])
+def add_readmap(user_id):
+    read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+    mapping = {
+        'clink_id': int(request.json['clink']),
+        'user_id': int(user_id)
+    }
+    print(mapping)
+    read_entity.update(mapping)
+    datastore_client.put(read_entity)
+    return mapping, 200
+
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())

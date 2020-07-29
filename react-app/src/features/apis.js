@@ -12,6 +12,7 @@ const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
 const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
+const ADD_READ_MAP_URL = `${BASE_URL}/add-readmap`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -47,15 +48,21 @@ const addBookmark = (link, title, description, clink, token) => axios.post(ADD_B
   Authorization: token
 });
 
+const addReadMap = (clinkId, userId) => axios.post(`${ADD_READ_MAP_URL}/${userId}`, {
+  clink: clinkId
+});
+
 const fetchClinks = (id) => axios.get(`${FETCH_CLINKS_URL}/${id}`);
 
 const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
-  headers: {'Authorization': token}
+  headers: {
+    'Authorization': token
+  }
 });
 
 const fetchBookmarks = (token, id) => axios.get(`${FETCH_BOOKMARKS_URL}/${id}`, {
   headers: {
-    'Authorization': token,
+    'Authorization': token
   }
 });
 
@@ -71,5 +78,5 @@ export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsers, fetchUsername
+  fetchUsers, fetchUsername, addReadMap
 }; 	

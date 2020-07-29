@@ -83,7 +83,7 @@ const Users = () => {
                       <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
                         {clink.title} 
                       </div>
-                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button"/> : <SaveClinkMenu  menuClass="ellipsis-card-button"/>}
+                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button"/> : <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button"/>}
                     </div>
                   </div>
                   <br />
