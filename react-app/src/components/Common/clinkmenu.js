@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllUsers, fetchUsersWrite, shareClink } from '../../features/users';
+import { fetchAllUsers, fetchUsersWrite, shareClink, unshareClink } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -27,6 +27,7 @@ const ClinkMenu = (props) => {
   const [shareIsVisible, setShareVisible] = useState(false);
 
   const [shareForm] = Form.useForm();
+  const [unshareForm] = Form.useForm();
   const [editForm] = Form.useForm();
 
   const fetchUsers = (token) => new Promise((resolve, reject) => {
@@ -70,6 +71,18 @@ const ClinkMenu = (props) => {
       setEditVisible(false);
     }, 3000);
     shareForm.resetFields();
+  };
+
+  const onUnshareFinish = values => {
+    console.log(values);
+    setLoading(true);
+    dispatch(unshareClink(clinkId, values.toRemove, currentToken));
+    setTimeout(() => {
+      setLoading(false);
+      setShareVisible(false);
+      setEditVisible(false);
+    }, 3000);
+    unshareForm.resetFields();
   };
 
   const onFinishFailed = errorInfo => {
@@ -166,12 +179,12 @@ const ClinkMenu = (props) => {
           </Form.Item>
         </Form>
         <Form {...layout} name="unshare-clink" 
-        // onFinish={onUnshareFinish} 
+        onFinish={onUnshareFinish} 
         onFinishFailed={onFinishFailed}
           initialValues={{
             remember: false,
           }}
-          // form={unshareForm}
+          form={unshareForm}
         > 
           <Form.Item label="Remove write access:" name="toRemove"
             rules={[
