@@ -58,15 +58,15 @@ const usersSlice = createSlice({
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
-    fetchUsersStart(state){
+    fetchUsersStart(state) {
       state.isFetchingUsers = true;
     },
-    fetchUsersSucceed(state, action){
+    fetchUsersSucceed(state, action) {
       state.isFetchingUsers = false;
       state.users = action.payload;
       delete state.FetchUsersError;
     },
-    fetchUsersFailed(state, action){
+    fetchUsersFailed(state, action) {
       state.isFetchingUsers = false;
       state.FetchUsersError = action.payload;
     },
@@ -107,19 +107,19 @@ export const signUp = (email, username, password, callbackSucceed, callbackFaile
 export const logOut = (user) => async dispatch => {
   try {
     dispatch(logout());
-    const response = await apis.logout(user);
-;  } catch (err) {
+    await apis.logout(user);
+  } catch (err) {
 
-;  }
+  }
 }
 
 export const checkUser = () => async dispatch => {
   try {
     dispatch(getCurrentUserStart());
     const response = await apis.checkUser(localStorage.getItem('currentToken'));
-;    dispatch(getCurrentUserSucceeded(response.data.message));
+    dispatch(getCurrentUserSucceeded(response.data.message));
   } catch (err) {
-;    dispatch(getCurrentUserFailed(err.response.data.message));
+    dispatch(getCurrentUserFailed(err.response.data.message));
   }
 }
 
