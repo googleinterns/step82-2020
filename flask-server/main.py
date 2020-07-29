@@ -475,7 +475,7 @@ def share_clink():
         }
         return response_object, 401
 
-@app.route('/apis/unshare-clink', methods=['DELETE'])
+@app.route('/apis/unshare-clink', methods=['POST'])
 def unshare_clink():
     resp_token = decode_auth_token(request.json['Authorization'])
 

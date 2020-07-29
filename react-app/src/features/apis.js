@@ -81,7 +81,7 @@ const shareClink = (clink, toShare, token) => axios.post(SHARE_CLINK_URL, {
   Authorization: token
 })
 
-const unshareClink = (clink, toRemove, token) => axios.delete(UNSHARE_CLINK_URL, {
+const unshareClink = (clink, toRemove, token) => axios.post(UNSHARE_CLINK_URL, {
   clink: clink,
   toRemove: toRemove,
   Authorization: token
