@@ -92,5 +92,5 @@ export default {
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
   fetchAllUsers, fetchUsersWrite,
-  shareClink
+  shareClink, unshareClink
 }; 	

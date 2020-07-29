@@ -9,6 +9,7 @@ const initialState = {
   isFetchingAllUsers: false,
   isFetchingWriteUsers: false,
   isSharingClink: false,
+  isUnsharingClink: false,
   allUsers: [],
   writeUsers: [],
   noWriteUsers: []
@@ -101,7 +102,22 @@ const usersSlice = createSlice({
       delete state.clinkError;
     },
     shareClinkFailed(state, action) {
-      state.isSharingClink = false;
+      state.isUnsharingClink = false;
+      state.clinkError = action.payload;
+    },
+    unshareClinkStart(state) {
+      state.isUnsharingClink = true;
+    },
+    unshareClinkSucceed(state, action) {
+      state.isUnsharingClink = false;
+      state.noWriteUsers = [...state.noWriteUsers, ...action.payload];
+      state.writeUsers = state.allUsers.filter((user) => !state.noWriteUsers.some(elem => {
+        return user.id === elem.id;
+      }));
+      delete state.clinkError;
+    },
+    unshareClinkFailed(state, action) {
+      state.isUnsharingClink = false;
       state.clinkError = action.payload;
     },
   },
@@ -113,7 +129,8 @@ export const {
   loginStart, loginSucceeded, loginFailed,
   logout, fetchAllUsersStart, fetchAllUsersSucceed, fetchAllUsersFailed,
   fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed,
-  shareClinkStart, shareClinkSucceed, shareClinkFailed
+  shareClinkStart, shareClinkSucceed, shareClinkFailed,
+  unshareClinkStart, unshareClinkSucceed, unshareClinkFailed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -186,6 +203,16 @@ export const shareClink = (clinkId, toShare, token) => async dispatch => {
     dispatch(shareClinkSucceed(response.data));
   } catch (err) {
     dispatch(shareClinkFailed(err.response.data.message));
+  }
+}
+
+export const unshareClink = (clinkId, toRemove, token) => async dispatch => {
+  try {
+    dispatch(unshareClinkStart());
+    const response = await apis.unshareClink(clinkId, toRemove, token);
+    dispatch(unshareClinkSucceed(response.data));
+  } catch (err) {
+    dispatch(unshareClinkFailed(err.response.data.message));
   }
 }
 
