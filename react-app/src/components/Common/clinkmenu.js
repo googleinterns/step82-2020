@@ -63,7 +63,7 @@ const ClinkMenu = () => {
   const onShareFinish = values => {
     console.log(values);
     setLoading(true);
-    dispatch(shareClink(clinkId, values.toShare, values.toRemove, currentToken));
+    dispatch(shareClink(clinkId, values.toShare, currentToken));
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);

@@ -179,10 +179,10 @@ export const fetchUsersWrite = (clinkId, token) => async dispatch => {
   }
 }
 
-export const shareClink = (clinkId, toShare, toRemove, token) => async dispatch => {
+export const shareClink = (clinkId, toShare, token) => async dispatch => {
   try {
     dispatch(shareClinkStart());
-    const response = await apis.shareClink(clinkId, toShare, toRemove, token);
+    const response = await apis.shareClink(clinkId, toShare, token);
     dispatch(shareClinkSucceed(response.data));
   } catch (err) {
     dispatch(shareClinkFailed(err.response.data.message));
