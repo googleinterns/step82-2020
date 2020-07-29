@@ -7,6 +7,7 @@ import '../../index.css';
 import { Layout, Input, Dropdown, Menu, AutoComplete } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';
+import SaveClinkMenu from './saveclink';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 const { Header } = Layout;
@@ -24,7 +25,7 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const param = useParams();
   const loc = useLocation();
-
+  console.log("PARAM: " + param.userId)
   const logout = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
@@ -47,7 +48,9 @@ const Topbar = () => {
   let menuDisplay = <ClinkMenu key={title} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
-  };
+  } else if (param.userId) {
+    menuDisplay = <SaveClinkMenu key = {title} />;
+  }
 
   const [options, setOptions] = useState([]);
 

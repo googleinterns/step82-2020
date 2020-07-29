@@ -59,10 +59,12 @@ const Users = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
-    history.push(`/dashboard/${id}`)
+    if (userId === currentUser) {
+      history.push(`/dashboard/${id}`)
+    } else {
+      history.push(`/dashboard/${id}/${userId}`)
+    }
   }
-
-  let menuDisplay = <SaveClinkMenu className="ellipsis-card-btn" />
 
   return (
     <Layout>
