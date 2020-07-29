@@ -47,9 +47,7 @@ const addBookmark = (link, title, description, clink, token) => axios.post(ADD_B
   Authorization: token
 });
 
-const fetchClinks = (id) => axios.get(FETCH_CLINKS_URL, {
-  headers: {'UserId': id}
-});
+const fetchClinks = (id) => axios.get(`${FETCH_CLINKS_URL}/${id}`);
 
 const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
   headers: {'Authorization': token}
