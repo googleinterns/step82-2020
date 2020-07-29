@@ -475,6 +475,40 @@ def share_clink():
         }
         return response_object, 401
 
+@app.route('/apis/unshare-clink', methods=['DELETE'])
+def unshare_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        to_return = []
+        for user in request.json['toRemove']:
+            write_entity = list(datastore_client.query(kind='user_write_map')
+                                .add_filter('user_id', '=', user)
+                                .add_filter('clink_id', '=', request.json['clink'])
+                                .fetch(limit=1))[0]
+            read_entity = list(datastore_client.query(kind='user_read_map')
+                                .add_filter('user_id', '=', user)
+                                .add_filter('clink_id', '=', request.json['clink'])
+                                .fetch(limit=1))[0]
+            write_key = datastore_client.key('user_write_map', write_entity.id)
+            read_key = datastore_client.key('user_read_map', read_entity.id)
+
+            datastore_client.delete(write_key)
+            datastore_client.delete(read_key)
+
+            # return user to update redux store
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', user)
+            user_entity = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+            to_return.append(user_entity_to_return(user_entity))
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to remove permissions.'
+        }
+        return response_object, 401
+
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
