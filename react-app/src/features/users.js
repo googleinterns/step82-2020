@@ -94,7 +94,9 @@ const usersSlice = createSlice({
     },
     shareClinkSucceed(state, action) {
       state.isSharingClink = false;
-      state.writeUsers = [action.payload, ...state.writeUsers];
+      for (const user in action.payload) {
+        state.writeUsers = [...state.writeUsers, user];
+      }
       state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
         return user.id === elem.id;
       }));
