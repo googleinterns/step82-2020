@@ -448,14 +448,26 @@ def share_clink():
     resp_token = decode_auth_token(request.json['Authorization'])
 
     if is_valid_instance(resp_token):
+        shared_entities = list(datastore_client.query(kind='user_write_map')
+                            .add_filter('clink_id', '=', int(request.json['clink']))
+                            .fetch())
+        shared_users = map(lambda entity: entity['user_id'], shared_entities)
+
+        if int(resp_token) not in shared_users:
+            response_object = {
+            'status': 'fail',
+            'message': 'You do not have write permissions. Failed to share clink.'
+            }
+            return response_object, 401
+
         to_return = []
         for user in request.json['toShare']:
             write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
             read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
             mapping = {
-                'clink_id': request.json['clink'],
-                'user_id': user
+                'clink_id': int(request.json['clink']),
+                'user_id': int(user)
             }
 
             write_entity.update(mapping)
