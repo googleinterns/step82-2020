@@ -23,6 +23,7 @@ const ClinkMenu = (props) => {
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
+  const [isUnshareLoading, setUnshareLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
   const [shareIsVisible, setShareVisible] = useState(false);
 
@@ -75,10 +76,10 @@ const ClinkMenu = (props) => {
 
   const onUnshareFinish = values => {
     console.log(values);
-    setLoading(true);
+    setUnshareLoading(true);
     dispatch(unshareClink(clinkId, values.toRemove, currentToken));
     setTimeout(() => {
-      setLoading(false);
+      setUnshareLoading(false);
       setShareVisible(false);
       setEditVisible(false);
     }, 3000);
@@ -203,7 +204,7 @@ const ClinkMenu = (props) => {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isUnshareLoading}>
               Submit
             </Button>
           </Form.Item>
