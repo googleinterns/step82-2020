@@ -70,7 +70,7 @@ code {
   width: 100%;
 }
 
-.center-load {
+.center {
   display: table;
   position: fixed;
   top: 50%;

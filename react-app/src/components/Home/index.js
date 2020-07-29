@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Home = () => {
 
