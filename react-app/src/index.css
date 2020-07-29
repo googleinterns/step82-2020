@@ -55,6 +55,7 @@ code {
 
 .topbar-title {
   color: white!important;
+  font-size: 28px;
 }
 
 .ant-col-rtl .login-form-forgot {
@@ -69,7 +70,7 @@ code {
   width: 100%;
 }
 
-.center-load {
+.center {
   display: table;
   position: fixed;
   top: 50%;
@@ -126,6 +127,15 @@ code {
   background-color: #d9f7be !important;
 }
 
+.clink-card {
+  border-radius: 10px !important;
+  background-color: #d9f7be !important;
+  color: black;
+  text-align: left;
+  display: block;
+  padding: 12px 16px 12px 12px;
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
@@ -146,6 +156,11 @@ code {
 
 .bookmark-link:active {
   color: black;
+}
+
+.user-title {
+  text-align: left;
+  font-size: 24px;
 }
 
 .site-layout .site-layout-background {

@@ -13,7 +13,7 @@ const layout = {
 };
 
 // interactions with clinks
-const ClinkMenu = () => {
+const ClinkMenu = (props) => {
 
   const currentToken = localStorage.getItem('currentToken');
   const clinkId = useSelector(state => state.clink.currentClinkId);
@@ -83,21 +83,23 @@ const ClinkMenu = () => {
     setShareVisible(false);
   };
 
-  const menu = (<Menu>
-    <Menu.Item key="edit" onClick={showEdit}>
-      Edit
-    </Menu.Item>
-    <Menu.Item key="delete">
-      Delete
-    </Menu.Item>
-    <Menu.Item key="share" onClick={showShare}>
-      Share
-    </Menu.Item>
-  </Menu>);
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit" onClick={showEdit}>
+        Edit
+      </Menu.Item>
+      <Menu.Item key="delete">
+        Delete
+      </Menu.Item>
+      <Menu.Item key="share" onClick={showShare}>
+        Share
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <>
-      <Dropdown overlay={menu} trigger={['click']}>
+      <Dropdown overlay={menu} trigger={['click']} className={props.menuClass}>
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
       <Modal visible={editIsVisible} onCancel={handleCancel}
@@ -150,7 +152,7 @@ const ClinkMenu = () => {
           >
             <Select mode="multiple" 
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children.toLowerCase().includes(input.toLowerCase())
               }>
               {usersToShare.map(user => (
                 <Option value={user.id}>{user.username}</Option>

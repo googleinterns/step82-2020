@@ -27,7 +27,7 @@ const Dashboard = () => {
   const history = useHistory();
 
   if (isFetchingUser) return (
-    <div className="center-load">
+    <div className="center">
       <Spin size="large" />
     </div>
   );
