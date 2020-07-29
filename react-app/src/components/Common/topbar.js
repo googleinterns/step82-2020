@@ -25,7 +25,7 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const param = useParams();
   const loc = useLocation();
-  console.log("PARAM: " + param.userId)
+
   const logout = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
