@@ -13,6 +13,7 @@ const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_ALL_USERS_URL = `${BASE_URL}/fetch-all-users`;
 const FETCH_USERS_WRITE_URL = `${BASE_URL}/fetch-users-write`;
 const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
+const UNSHARE_CLINK_URL = `${BASE_URL}/unshare-clink`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -77,6 +78,12 @@ const fetchUsersWrite = (id, token) => axios.get(`${FETCH_USERS_WRITE_URL}/${id}
 const shareClink = (clink, toShare, token) => axios.post(SHARE_CLINK_URL, {
   clink: clink,
   toShare: toShare,
+  Authorization: token
+})
+
+const unshareClink = (clink, toRemove, token) => axios.delete(UNSHARE_CLINK_URL, {
+  clink: clink,
+  toRemove: toRemove,
   Authorization: token
 })
 
