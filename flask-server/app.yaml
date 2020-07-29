@@ -1,1 +1,2 @@
 runtime: python38
+entrypoint: gunicorn -b :8080 -w 2 main:app
