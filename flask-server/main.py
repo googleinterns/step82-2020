@@ -492,6 +492,18 @@ def unshare_clink():
     resp_token = decode_auth_token(request.json['Authorization'])
 
     if is_valid_instance(resp_token):
+        shared_entities = list(datastore_client.query(kind='user_write_map')
+                            .add_filter('clink_id', '=', int(request.json['clink']))
+                            .fetch())
+        shared_users = map(lambda entity: entity['user_id'], shared_entities)
+
+        if int(resp_token) not in shared_users:
+            response_object = {
+            'status': 'fail',
+            'message': 'You do not have write permissions. Failed to remove permissions.'
+            }
+            return response_object, 401
+        
         to_return = []
         for user in request.json['toRemove']:
             write_entity = list(datastore_client.query(kind='user_write_map')
