@@ -338,10 +338,18 @@ def add_readmap(user_id):
         'clink_id': int(request.json['clink']),
         'user_id': int(user_id)
     }
-    print(mapping)
     read_entity.update(mapping)
     datastore_client.put(read_entity)
-    return mapping, 200
+
+    query = datastore_client.query(kind='clink')
+    key = datastore_client.key('clink', int(request.json['clink']))
+    clink = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+    response_object = {
+            'title': clink['title'],
+            'private': clink['private'],
+            'id': request.json['clink']
+        }
+    return response_object, 200  
 
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
