@@ -67,11 +67,11 @@ const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
   }
 });
 
-const editBookmark = (link, title, description, clinkId, token) => axios.post(EDIT_BOOKMARK_URL, {
+const editBookmark = (link, title, description, bookmarkId, token) => axios.post(EDIT_BOOKMARK_URL, {
   link: link,
   title: title,
   description: description,
-  clinkId: clinkId,
+  clinkId: bookmarkId,
   Authorization: token
 });
 

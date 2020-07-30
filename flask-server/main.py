@@ -438,7 +438,7 @@ def edit_bookmark():
         title = request.json['title']
         description = request.json['description']
 
-        key = datastore_client.key('bookmark', int(request.json['clinkId']))
+        key = datastore_client.key('bookmark', int(request.json['bookmarkId']))
         bookmark = list(datastore_client.query(kind='bookmark').add_filter('__key__', '=', key).add_filter('deleted', '=', False).fetch(limit=1))[0]
         
         if link:
