@@ -331,33 +331,24 @@ def add_clink():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-clinks', methods=['GET'])
-def fetch_clinks():
-    resp_token = decode_auth_token(request.headers.get('Authorization'))
-
-    if is_valid_instance(resp_token):
-        clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(resp_token)).fetch())
-        all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
-        all_query.order = ['created']
-        all_list = list(all_query.fetch())
-        to_return = []    
-        for clink in all_list:
-            for id in clink_ids:
-                if id['clink_id'] == clink.id:
-                    response_object = {
-                        'title': clink['title'],
-                        'id': clink.id,
-                        'private': clink['private'] 
-                    }
-                    to_return.append(response_object)
-                    break
-        return jsonify(to_return), 200
-    else:
-        response_object = {
-            'status': 'fail',
-            'message': 'Invalid JWT. Failed to fetch clinks.'
-        }
-        return response_object, 401
+@app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
+def fetch_clinks(user_id):
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
+    all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
+    all_query.order = ['created']
+    all_list = list(all_query.fetch())
+    to_return = []    
+    for clink in all_list:
+        for id in clink_ids:
+            if id['clink_id'] == clink.id:
+                response_object = {
+                    'title': clink['title'],
+                    'id': clink.id,
+                    'private': clink['private'] 
+                }
+                to_return.append(response_object)
+                break
+    return jsonify(to_return), 200
 
 @app.route('/apis/fetch-write-clinks', methods=['GET'])
 def fetch_write_clinks():
@@ -427,6 +418,13 @@ def fetch_bookmarks(clink_id):
             'message': 'Invalid JWT. Failed to fetch clinks.'
         }
         return response_object, 401
+
+@app.route('/apis/fetch-username/<string:user_id>', methods=['GET'])
+def fetch_username(user_id):
+    query = datastore_client.query(kind='user')
+    key = datastore_client.key('user', int(user_id))
+    user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+    return user['username'], 200
 
 # routing
 @app.route('/', defaults={'path': ''})
