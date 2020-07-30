@@ -491,7 +491,6 @@ def edit_clink():
         response_object = {
             'title': clink['title'],
             'id': clink.id,
-            'private': clink['private']
         }
         return response_object, 200
     else: 
