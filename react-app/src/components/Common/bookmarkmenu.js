@@ -24,7 +24,6 @@ const BookmarkMenu = (props) => {
   };
 
   const onFinish = values => {
-    console.log(values)
     dispatch(editBookmark(values.link || "", values.title || "", values.description || "", props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
