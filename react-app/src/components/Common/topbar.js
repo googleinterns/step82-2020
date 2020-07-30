@@ -37,9 +37,14 @@ const Topbar = () => {
     username += "'s ";
   }
 
+  const viewProfile = () => {
+    history.push(`/users/${currentUser}`)
+    window.location.reload();
+  }
+
   const menu = (
     <Menu>
-      <Menu.Item key="user-page" onClick={(() => history.push(`/users/${currentUser}`))}>
+      <Menu.Item key="user-page" onClick={(viewProfile)}>
         View Profile
       </Menu.Item>
     </Menu>

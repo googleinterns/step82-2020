@@ -32,7 +32,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(checkUser());
-    if (isCurrentUserFetched) {
+    if(isCurrentUserFetched) {
       dispatch(setTitle("User Page"));  
       if(userId !== currentUser) {
         dispatch(fetchOtherClinks(userId));

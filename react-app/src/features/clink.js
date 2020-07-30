@@ -100,6 +100,7 @@ const clinkSlice = createSlice({
     },
     clearClinks(state) {
       state.clinks = [];
+      state.otherClinks = [];
       state.currentClinkTitle = 'All';
       state.currentClinkId = 'All'
     },
