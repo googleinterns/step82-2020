@@ -19,6 +19,8 @@ const BookmarkMenu = (props) => {
 
   const dispatch = useDispatch()
 
+  const [editForm] = Form.useForm();
+
   const showModal = () => {
     setVisible(true);
   };
@@ -30,6 +32,7 @@ const BookmarkMenu = (props) => {
       setLoading(false);
       setVisible(false);
     }, 3000);
+    editForm.resetFields()
   };
 
   const onFinishFailed = errorInfo => {
@@ -68,6 +71,7 @@ const BookmarkMenu = (props) => {
       >
         <Form
           {...layout}
+          form={editForm}
           name="edit-bookmark"
           initialValues={{
             remember: false,
