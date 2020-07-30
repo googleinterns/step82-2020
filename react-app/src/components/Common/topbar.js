@@ -7,7 +7,8 @@ import '../../index.css';
 import { Layout, Input, Dropdown, Menu, AutoComplete } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';
-import { useHistory } from 'react-router-dom';
+import SaveClinkMenu from './saveclink';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -16,17 +17,25 @@ const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
   const title = useSelector(state => state.clink.currentClinkTitle);
-  const currentUser = useSelector(state => state.users.currentUser);
+  const history = useHistory();
+  const currentUser = useSelector(state => state.users.currentUser)
+  var username = useSelector(state => state.users.username);
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const clinks = useSelector(state => state.clink.clinks);
-
   const dispatch = useDispatch();
-  const history = useHistory();
+  const param = useParams();
+  const loc = useLocation();
 
   const logout = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
   };
+
+  if (parseInt(param.userId) === parseInt(currentUser)) {
+    username = "My "
+  } else {
+    username += "'s ";
+  }
 
   const menu = (
     <Menu>
@@ -39,7 +48,9 @@ const Topbar = () => {
   let menuDisplay = <ClinkMenu key={title} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
-  };
+  } else if (param.userId) {
+    menuDisplay = <SaveClinkMenu key = {title} />;
+  }
 
   const [options, setOptions] = useState([]);
 
@@ -85,7 +96,7 @@ const Topbar = () => {
           </Dropdown.Button>
         </div>
       </div>
-      <h1 className="topbar-title">{title} {menuDisplay}</h1>
+      <h1 className="topbar-title"> {(loc.pathname).includes("users") && username} {title} {menuDisplay}</h1>
     </Header>
   );
 };

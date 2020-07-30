@@ -7,7 +7,8 @@ const initialState = {
   isLoggingIn: false,
   isSigningUp: false,
   isFetchingUsers: false,
-  users: []
+  users: [],
+  username: ""
 };
 
 const usersSlice = createSlice({
@@ -70,6 +71,9 @@ const usersSlice = createSlice({
       state.isFetchingUsers = false;
       state.FetchUsersError = action.payload;
     },
+    fetchUsernameSucceed(state, action){
+      state.username = action.payload;
+    }
   },
 });
 
@@ -77,7 +81,7 @@ export const {
   getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
-  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed
+  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed, fetchUsernameSucceed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -131,6 +135,11 @@ export const fetchUsers = (token) => async dispatch => {
   } catch (err) {
     dispatch(fetchUsersFailed(err.response.data.message));
   }
+}
+
+export const fetchUsername = (id) => async dispatch => {
+  const response = await apis.fetchUsername(id);
+  dispatch(fetchUsernameSucceed(response.data));
 }
 
 export default usersSlice.reducer;
