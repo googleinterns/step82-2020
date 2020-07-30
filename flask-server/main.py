@@ -443,15 +443,15 @@ def edit_bookmark():
         
         if link:
             bookmark.update({
-            'link': link
+                'link': link
             })
         if title:
             bookmark.update({
-            'title': title
+                'title': title
             })
         if description: 
             bookmark.update({
-            'description': description
+                'description': description
             })
 
         datastore_client.put(bookmark)
@@ -483,7 +483,7 @@ def edit_clink():
         
         if title:
             clink.update({
-            'title': title
+                'title': title
             })
 
             datastore_client.put(clink)

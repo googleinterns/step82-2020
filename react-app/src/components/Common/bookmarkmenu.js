@@ -24,6 +24,7 @@ const BookmarkMenu = (props) => {
   };
 
   const onFinish = values => {
+    console.log(values)
     dispatch(editBookmark(values.link || "", values.title || "", values.description || "", props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
@@ -61,7 +62,7 @@ const BookmarkMenu = (props) => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading} onClick={onFinish} >
+          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading}>
             Submit
           </Button>,
         ]}
