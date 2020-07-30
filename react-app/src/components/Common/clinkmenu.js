@@ -63,7 +63,6 @@ const ClinkMenu = (props) => {
   };
 
   const onShareFinish = values => {
-    console.log(values);
     setLoading(true);
     dispatch(shareClink(clinkId, values.toShare, currentToken));
     setTimeout(() => {
@@ -75,7 +74,6 @@ const ClinkMenu = (props) => {
   };
 
   const onUnshareFinish = values => {
-    console.log(values);
     setUnshareLoading(true);
     dispatch(unshareClink(clinkId, values.toRemove, currentToken));
     setTimeout(() => {
