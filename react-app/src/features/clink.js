@@ -145,7 +145,7 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
 }
 
 export const addReadMap = (clinkId, userId) => async dispatch => {
-  const response = await apis.addReadMap(clinkId, userId); 
+  await apis.addReadMap(clinkId, userId); 
 }
 
 export const fetchClinks = (id) => async dispatch => {

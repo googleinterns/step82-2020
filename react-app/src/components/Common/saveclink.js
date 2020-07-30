@@ -5,14 +5,13 @@ import { addReadMap } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, Button, Modal, Form, Input } from 'antd';
+import { Menu, Dropdown, Button, Modal, Form } from 'antd';
 
 
 const layout = {
   layout: 'vertical'
 };
 
-// interactions with clinks
 const SaveClinkMenu = (props) => {
 
   const currentToken = localStorage.getItem('currentToken');

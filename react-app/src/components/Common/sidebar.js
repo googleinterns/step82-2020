@@ -11,7 +11,6 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
 
-  const currentToken = localStorage.getItem('currentToken');
   const clinks = useSelector(state => state.clink.clinks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const currentId = useSelector(state => state.clink.currentClinkId);
