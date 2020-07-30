@@ -335,7 +335,7 @@ def clink_entity_to_return(clink):
     return { 'title': clink['title'], 'private': clink['private'], 'id': clink.id }
 
 def bookmark_entity_to_return(bookmark):
-    return { 'title': bookmark['title'], 'description': bookmark['description'], bookmark['link'], 'id': bookmark.id }
+    return { 'title': bookmark['title'], 'description': bookmark['description'], 'link': bookmark['link'], 'id': bookmark.id }
 
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
@@ -438,7 +438,7 @@ def edit_bookmark():
             })
 
         datastore_client.put(bookmark)
-        
+
         return bookmark_entity_to_return(bookmark), 200
     else: 
         response_object = {
