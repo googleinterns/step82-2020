@@ -13,6 +13,8 @@ const initialState = {
   allUsers: [],
   writeUsers: [],
   noWriteUsers: []
+  users: [],
+  username: ""
 };
 
 const usersSlice = createSlice({
@@ -120,6 +122,9 @@ const usersSlice = createSlice({
       state.isUnsharingClink = false;
       state.clinkError = action.payload;
     },
+    fetchUsernameSucceed(state, action){
+      state.username = action.payload;
+    }
   },
 });
 
@@ -130,7 +135,8 @@ export const {
   logout, fetchAllUsersStart, fetchAllUsersSucceed, fetchAllUsersFailed,
   fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed,
   shareClinkStart, shareClinkSucceed, shareClinkFailed,
-  unshareClinkStart, unshareClinkSucceed, unshareClinkFailed
+  unshareClinkStart, unshareClinkSucceed, unshareClinkFailed,
+  logout, fetchUsernameSucceed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -214,6 +220,11 @@ export const unshareClink = (clinkId, toRemove, token) => async dispatch => {
   } catch (err) {
     dispatch(unshareClinkFailed(err.response.data.message));
   }
+}
+
+export const fetchUsername = (id) => async dispatch => {
+  const response = await apis.fetchUsername(id);
+  dispatch(fetchUsernameSucceed(response.data));
 }
 
 export default usersSlice.reducer;

@@ -8,6 +8,7 @@ const initialState = {
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
   clinks: [],
+  otherClinks: [],
   writeClinks: [],
   bookmarks: [],
   currentClinkTitle: 'All',
@@ -54,6 +55,18 @@ const clinkSlice = createSlice({
     fetchClinksFailed(state, action) {
       state.isFetchingClinks = false;
       state.clinkError = action.payload;
+    },
+    fetchOtherClinksStart(state) {
+      state.isFetchingOtherClinks = true;
+    },
+    fetchOtherClinksSucceed(state, action) {
+      state.isFetchingOtherClinks = false;
+      state.otherClinks = action.payload
+      delete state.otherClinkError;
+    },
+    fetchOtherClinksFailed(state, action) {
+      state.isFetchingOtherClinks = false;
+      state.otherClinkError = action.payload;
     },
     fetchWriteClinksStart(state) {
       state.isFetchingWriteClinks = true;
@@ -102,6 +115,7 @@ export const {
   fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
   fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
+  fetchOtherClinksStart, fetchOtherClinksSucceed, fetchOtherClinksFailed, 
   clearClinks, clearBookmarks, changeTitle
 } = clinkSlice.actions;
 
@@ -129,13 +143,23 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
   }
 }
 
-export const fetchClinks = (token) => async dispatch => {
+export const fetchClinks = (id) => async dispatch => {
   try {
-    dispatch(fetchClinksStart());
-    const response = await apis.fetchClinks(token);
-    dispatch(fetchClinksSucceed(response.data));
+    dispatch(fetchClinksStart())
+    const response = await apis.fetchClinks(id)
+    dispatch(fetchClinksSucceed(response.data))
   } catch (err) {
     dispatch(fetchClinksFailed(err.response.data.message));
+  }
+}
+
+export const fetchOtherClinks = (id) => async dispatch => {
+  try {
+    dispatch(fetchOtherClinksStart())
+    const response = await apis.fetchClinks(id)
+    dispatch(fetchOtherClinksSucceed(response.data))
+  } catch (err) {
+    dispatch(fetchOtherClinksFailed(err.response.data.message))
   }
 }
 

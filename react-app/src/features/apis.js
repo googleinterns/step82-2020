@@ -14,6 +14,7 @@ const FETCH_ALL_USERS_URL = `${BASE_URL}/fetch-all-users`;
 const FETCH_USERS_WRITE_URL = `${BASE_URL}/fetch-users-write`;
 const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
 const UNSHARE_CLINK_URL = `${BASE_URL}/unshare-clink`;
+const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -49,9 +50,7 @@ const addBookmark = (link, title, description, clink, token) => axios.post(ADD_B
   Authorization: token
 });
 
-const fetchClinks = (token) => axios.get(FETCH_CLINKS_URL, {
-  headers: {'Authorization': token}
-});
+const fetchClinks = (id) => axios.get(`${FETCH_CLINKS_URL}/${id}`);
 
 const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
   headers: {'Authorization': token}
@@ -87,10 +86,12 @@ const unshareClink = (clink, toRemove, token) => axios.post(UNSHARE_CLINK_URL, {
   Authorization: token
 })
 
+const fetchUsername = (id) => axios.get(`${FETCH_USERNAME_URL}/${id}`);
+
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
   fetchAllUsers, fetchUsersWrite,
-  shareClink, unshareClink
+  shareClink, unshareClink, fetchUsername
 }; 	
