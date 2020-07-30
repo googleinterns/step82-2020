@@ -414,8 +414,9 @@ def fetch_username(user_id):
 @app.route('/apis/edit-bookmark', methods=['POST'])
 def edit_bookmark():
     resp_token = decode_auth_token(request.json['Authorization'])
+    clink_id = request.json['clinkId']
 
-    if is_valid_instance(resp_token):
+    if is_valid_instance(resp_token) and has_write_access(clink_id, resp_token):
         link = request.json['link']
         title = request.json['title']
         description = request.json['description']
@@ -444,11 +445,12 @@ def edit_bookmark():
 @app.route('/apis/edit-clink', methods=['POST'])
 def edit_clink():
     resp_token = decode_auth_token(request.json['Authorization'])
+    clink_id = request.json['clinkId']
 
-    if is_valid_instance(resp_token):
+    if is_valid_instance(resp_token) and has_write_access(clink_id, resp_token):
         title = request.json['title']
 
-        key = datastore_client.key('clink', int(request.json['clinkId']))
+        key = datastore_client.key('clink', int(clink_id))
         clink = datastore_client.get(key)
         
         if title:
@@ -466,7 +468,7 @@ def edit_clink():
 
 # write access api
 def has_write_access(clink_id, user_id):
-    access = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))[0]
+    access = True if clink_id == "All" else list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))[0]
     if access:
         return True
     return False

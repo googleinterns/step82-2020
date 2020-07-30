@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -13,6 +13,7 @@ const layout = {
 const BookmarkMenu = (props) => {
 
   const currentToken = localStorage.getItem('currentToken');
+  const currentClinkId = useSelector(state => state.clink.currentClinkId)
 
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ const BookmarkMenu = (props) => {
   };
 
   const onFinish = values => {
-    dispatch(editBookmark(values.link || "", values.title || "", values.description || "", props.id, currentToken));
+    dispatch(editBookmark(values.link || "", values.title || "", values.description || "", currentClinkId, props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

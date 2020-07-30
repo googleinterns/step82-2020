@@ -223,10 +223,10 @@ export const fetchBookmarks = (token, id) => async dispatch => {
   }
 };
 
-export const editBookmark = (link, title, description, bookmarkId, token) => async dispatch => {
+export const editBookmark = (link, title, description, clinkId, bookmarkId, token) => async dispatch => {
   try {
     dispatch(editBookmarkStart());
-    const response = await apis.editBookmark(link, title, description, bookmarkId, token);
+    const response = await apis.editBookmark(link, title, description, clinkId, bookmarkId, token);
     dispatch(editBookmarkSucceed(response.data));
   } catch (err) {
     dispatch(editBookmarkFailed(err.response.data.message));
