@@ -8,6 +8,7 @@ const initialState = {
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
   isEditingBookmark: false,
+  isEditingClink: false,
   clinks: [],
   writeClinks: [],
   bookmarks: [],
@@ -153,7 +154,7 @@ export const addClink = (title, privacy, token, callbackSucceed, callbackFailed)
     dispatch(addClinkFailed(err.response.data.message));
     callbackFailed(err.response.data.message);
   }
-}
+};
 
 export const addBookmark = (link, title, description, clink, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
@@ -165,7 +166,7 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
     dispatch(addBookmarkFailed(err.response.data.message));
     callbackFailed(err.response.data.message);
   }
-}
+};
 
 export const fetchClinks = (token) => async dispatch => {
   try {
@@ -175,7 +176,7 @@ export const fetchClinks = (token) => async dispatch => {
   } catch (err) {
     dispatch(fetchClinksFailed(err.response.data.message));
   }
-}
+};
 
 export const fetchWriteClinks = (token) => async dispatch => {
   try {
@@ -185,17 +186,17 @@ export const fetchWriteClinks = (token) => async dispatch => {
   } catch (err) {
     dispatch(fetchWriteClinksFailed(err.response.data.message));
   }
-}
+};
 
 export const fetchBookmarks = (token, id) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart());
     const response = await apis.fetchBookmarks(token, id);
-    dispatch(fetchBookmarksSucceed(response.data))
+    dispatch(fetchBookmarksSucceed(response.data));
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message));
   }
-}
+};
 
 export const editBookmark = (link, title, description, bookmarkId, token) => async dispatch => {
   try {
@@ -205,22 +206,22 @@ export const editBookmark = (link, title, description, bookmarkId, token) => asy
   } catch (err) {
     dispatch(editBookmarkFailed(err.response.data.message));
   }
-}
+};
 
 export const editClink = (title, clinkId, token) => async dispatch => {
   try {
     dispatch(editClinkStart());
     const response = await apis.editClink(title, clinkId, token);
     dispatch(editClinkSucceed(response.data));
-    dispatch(changeTitle(title))
+    dispatch(changeTitle(title));
   } catch (err) {
     dispatch(editClinkFailed(err.response.data.message));
   }
-}
+};
 
 export const setCurrClink = (id) => async dispatch => {
   dispatch(changeCurrClink(id));
-}
+};
 
 export const setTitle = (title) => async dispatch => {
   dispatch(changeTitle(title));
@@ -229,6 +230,6 @@ export const setTitle = (title) => async dispatch => {
 export const clearClinksAndBookmarks = () => async dispatch => {
   dispatch(clearClinks());
   dispatch(clearBookmarks());
-}
+};
 
 export default clinkSlice.reducer;
