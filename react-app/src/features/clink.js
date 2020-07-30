@@ -7,6 +7,7 @@ const initialState = {
   isFetchingClinks: false,
   isFetchingWriteClinks: false,
   isFetchingBookmarks: false,
+  isEditingBookmark: false,
   clinks: [],
   writeClinks: [],
   bookmarks: [],
@@ -78,7 +79,25 @@ const clinkSlice = createSlice({
     fetchBookmarksFailed(state, action) {
       state.isFetchingBookmarks = false;
       state.bookmarkError = action.payload;
-    } ,
+    },
+    editBookmarkStart(state) {
+      state.isEditingBookmark = true;
+    },
+    editBookmarkSucceed(state, action) {
+      state.isEditingBookmark = false;
+      for(var bookmark of state.bookmarks) {
+        if(bookmark.id === action.payload.id){
+          bookmark.link = action.payload.link;
+          bookmark.title = action.payload.title;
+          bookmark.description = action.payload.description;
+        }
+      }
+      delete state.clinkError;
+    },
+    editBookmarkFailed(state, action) {
+      state.isEditingBookmark = false;
+      state.bookmarkError = action.payload;
+    },
     changeCurrClink(state, action) {
       state.currentClinkId = action.payload
     },
@@ -97,18 +116,20 @@ const clinkSlice = createSlice({
 });
 
 export const {
-  addClinkStart, addClinkSucceed, addClinkFailed, 
+  addClinkStart, addClinkSucceed, addClinkFailed,
   addBookmarkStart, addBookmarkSucceed, addBookmarkFailed,
-  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed, 
-  fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed, changeCurrClink,
+  fetchClinksStart, fetchClinksSucceed, fetchClinksFailed,
+  fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
-  clearClinks, clearBookmarks, changeTitle
+  editBookmarkStart, editBookmarkSucceed, editBookmarkFailed,
+  clearClinks, clearBookmarks, changeTitle,
+  changeCurrClink
 } = clinkSlice.actions;
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
   try {
     dispatch(addClinkStart());
-    const response = await apis.addClink(title, privacy, token); 
+    const response = await apis.addClink(title, privacy, token);
     dispatch(addClinkSucceed(response.data));
     callbackSucceed();
   } catch (err) {
@@ -156,6 +177,26 @@ export const fetchBookmarks = (token, id) => async dispatch => {
     dispatch(fetchBookmarksSucceed(response.data))
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message));
+  }
+}
+
+export const editBookmark = (link, title, description, clinkId, token) => async dispatch => {
+  try {
+    dispatch(editBookmarkStart());
+    const response = await apis.editBookmark(link, title, description, clinkId, token);
+    dispatch(editBookmarkSucceed(response.data));
+  } catch (err) {
+    dispatch(editBookmarkFailed(err.response.data.message));
+  }
+}
+
+export const editClink = (link, title, description, clinkId, token) => async dispatch => {
+  try {
+    dispatch(editBookmarkStart());
+    const response = await apis.editBookmark(link, title, description, clinkId, token);
+    dispatch(editBookmarkSucceed(response.data));
+  } catch (err) {
+    dispatch(editBookmarkFailed(err.response.data.message));
   }
 }
 

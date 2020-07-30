@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { editBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -8,15 +10,22 @@ const layout = {
   layout: 'vertical'
 };
 
-const BookmarkMenu = () => {
+const BookmarkMenu = (props) => {
+
+  const currentToken = localStorage.getItem('currentToken');
+
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
 
   const showModal = () => {
     setVisible(true);
   };
 
   const onFinish = values => {
+    console.log(values)
+    dispatch(editBookmark(values.link || "", values.title || "", values.description || "", props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -53,7 +62,7 @@ const BookmarkMenu = () => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading} >
+          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading} onClick={onFinish} >
             Submit
           </Button>,
         ]}
@@ -73,10 +82,12 @@ const BookmarkMenu = () => {
             rules={[
               {
                 required: false,
+                message: 'Please input a valid link for your bookmark!',
+                pattern: new RegExp('^(?:[a-z]+:)?//', 'i'),
               },
             ]}
           >
-            <Input />
+            <Input defaultValue="https://www."/>
           </Form.Item>
           <Form.Item
             label="Title"

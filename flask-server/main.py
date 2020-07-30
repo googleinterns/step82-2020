@@ -428,6 +428,50 @@ def fetch_bookmarks(clink_id):
         }
         return response_object, 401
 
+# edit bookmark api
+@app.route('/apis/edit-bookmark', methods=['POST'])
+def edit_bookmark():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        link = request.json['link']
+        title = request.json['title']
+        description = request.json['description']
+
+        key = datastore_client.key('bookmark', int(request.json['clinkId']))
+        bookmark = list(datastore_client.query(kind='bookmark').add_filter('__key__', '=', key).add_filter('deleted', '=', False).fetch(limit=1))[0]
+        
+        if link:
+            bookmark.update({
+            'link': request.json['link']
+            })
+        if title:
+            bookmark.update({
+            'title': request.json['title']
+            })
+        if description: 
+            bookmark.update({
+            'description': request.json['description']
+            })
+
+        datastore_client.put(bookmark)
+
+        response_object = {
+            'link': bookmark['link'],
+            'title': bookmark['title'],
+            'description': bookmark['description'],
+            'id': bookmark.id
+        }
+        return response_object, 200
+    else: 
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to edit bookmark.'
+        }
+        return response_object, 401
+
+# edit bookmark api
+
 # routing
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
