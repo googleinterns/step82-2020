@@ -99,7 +99,7 @@ const clinkSlice = createSlice({
     },
     editBookmarkSucceed(state, action) {
       state.isEditingBookmark = false;
-      for(var bookmark of state.bookmarks) {
+      for (var bookmark of state.bookmarks) {
         if(bookmark.id === action.payload.id){
           bookmark.link = action.payload.link;
           bookmark.title = action.payload.title;
@@ -117,9 +117,10 @@ const clinkSlice = createSlice({
     },
     editClinkSucceed(state, action) {
       state.isEditingClink = false;
-      for(var clink of state.clinks) {
+      for (var clink of state.clinks) {
         if(clink.id === action.payload.id){
           clink.title = action.payload.title;
+          clink.privacy = action.payload.privacy;
         }
       }
       delete state.clinkError;

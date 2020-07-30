@@ -331,6 +331,12 @@ def add_clink():
         }
         return response_object, 401
 
+def clink_entity_to_return(clink):
+    return { 'title': clink['title'], 'private': clink['private'], 'id': clink.id }
+
+def bookmark_entity_to_return(bookmark):
+    return { 'title': bookmark['title'], 'description': bookmark['description'], bookmark['link'], 'id': bookmark.id }
+
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
@@ -341,12 +347,7 @@ def fetch_clinks(user_id):
     for clink in all_list:
         for id in clink_ids:
             if id['clink_id'] == clink.id:
-                response_object = {
-                    'title': clink['title'],
-                    'id': clink.id,
-                    'private': clink['private'] 
-                }
-                to_return.append(response_object)
+                to_return.append(clink_entity_to_return(clink))
                 break
     return jsonify(to_return), 200
 
@@ -364,11 +365,7 @@ def fetch_write_clinks():
         for clink in all_list:
             for id in clink_ids:
                 if id['clink_id'] == clink.id:
-                    response_object = {
-                        'title': clink['title'],
-                        'id': clink.id 
-                    }
-                    to_return.append(response_object)
+                    to_return.append(clink_entity_to_return(clink))
                     break
         return jsonify(to_return), 200
     else:
@@ -389,13 +386,7 @@ def fetch_bookmarks(clink_id):
         if clink_id == 'All':
             to_return = []
             for bookmark in all_list:
-                response_object = {
-                    'title': bookmark['title'],
-                    'description': bookmark['description'],
-                    'link': bookmark['link'],
-                    'id': bookmark.id
-                }
-                to_return.append(response_object)              
+                to_return.append(bookmark_entity_to_return(bookmark))              
             return jsonify(to_return), 200
         else:
             bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
@@ -404,13 +395,7 @@ def fetch_bookmarks(clink_id):
             for bookmark in all_list:
                 for id in bookmark_ids:
                     if id['bookmark_id'] == bookmark.id:
-                        response_object = {
-                            'title': bookmark['title'],
-                            'description': bookmark['description'],
-                            'link': bookmark['link'],
-                            'id': id['bookmark_id']
-                        }
-                        to_return.append(response_object)
+                        to_return.append(bookmark_entity_to_return(bookmark))
             return jsonify(to_return), 200
     else:
         response_object = {
@@ -425,7 +410,7 @@ def fetch_username(user_id):
     key = datastore_client.key('user', int(user_id))
     user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
     return user['username'], 200
-    
+
 # edit bookmark api
 @app.route('/apis/edit-bookmark', methods=['POST'])
 def edit_bookmark():
@@ -453,14 +438,8 @@ def edit_bookmark():
             })
 
         datastore_client.put(bookmark)
-
-        response_object = {
-            'link': bookmark['link'],
-            'title': bookmark['title'],
-            'description': bookmark['description'],
-            'id': bookmark.id
-        }
-        return response_object, 200
+        
+        return bookmark_entity_to_return(bookmark), 200
     else: 
         response_object = {
             'status': 'fail',
@@ -486,11 +465,7 @@ def edit_clink():
 
             datastore_client.put(clink)
 
-        response_object = {
-            'title': clink['title'],
-            'id': clink.id,
-        }
-        return response_object, 200
+        return clink_entity_to_return(clink), 200
     else: 
         response_object = {
             'status': 'fail',
