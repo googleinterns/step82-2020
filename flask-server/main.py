@@ -406,9 +406,8 @@ def fetch_bookmarks(clink_id):
 
 @app.route('/apis/fetch-username/<string:user_id>', methods=['GET'])
 def fetch_username(user_id):
-    query = datastore_client.query(kind='user')
     key = datastore_client.key('user', int(user_id))
-    user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+    user = list(datastore_client.query(kind='user').add_filter('__key__', '=', key).fetch(limit=1))[0]
     return user['username'], 200
 
 # edit bookmark api
@@ -464,6 +463,13 @@ def edit_clink():
             'message': 'Invalid JWT. Failed to edit clink.'
         }
         return response_object, 401
+
+# write access api
+def has_write_access(clink_id, user_id):
+    access = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))[0]
+    if access:
+        return True
+    return False
 
 # routing
 @app.route('/', defaults={'path': ''})
