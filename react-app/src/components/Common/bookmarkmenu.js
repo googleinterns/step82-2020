@@ -86,7 +86,7 @@ const BookmarkMenu = (props) => {
               },
             ]}
           >
-            <Input defaultValue="https://www."/>
+            <Input />
           </Form.Item>
           <Form.Item
             label="Title"
