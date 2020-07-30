@@ -422,20 +422,14 @@ def edit_bookmark():
         description = request.json['description']
 
         key = datastore_client.key('bookmark', int(request.json['bookmarkId']))
-        bookmark = list(datastore_client.query(kind='bookmark').add_filter('__key__', '=', key).add_filter('deleted', '=', False).fetch(limit=1))[0]
+        bookmark = datastore_client.get(key)
         
         if link:
-            bookmark.update({
-                'link': link
-            })
+            bookmark['link'] = link
         if title:
-            bookmark.update({
-                'title': title
-            })
+            bookmark['title'] = title
         if description: 
-            bookmark.update({
-                'description': description
-            })
+            bookmark['description'] = description
 
         datastore_client.put(bookmark)
 
@@ -456,12 +450,10 @@ def edit_clink():
         title = request.json['title']
 
         key = datastore_client.key('clink', int(request.json['clinkId']))
-        clink = list(datastore_client.query(kind='clink').add_filter('__key__', '=', key).add_filter('deleted', '=', False).fetch(limit=1))[0]
+        clink = datastore_client.get(key)
         
         if title:
-            clink.update({
-                'title': title
-            })
+            clink['title'] = title
 
             datastore_client.put(clink)
 
