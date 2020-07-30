@@ -32,9 +32,9 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(checkUser());
-    if(isCurrentUserFetched) {
-      dispatch(setTitle("User Page"));  
-      if(userId !== currentUser) {
+    if (isCurrentUserFetched) {
+      dispatch(setTitle("User Page"));
+      if (userId !== currentUser) {
         dispatch(fetchOtherClinks(userId));
         dispatch(fetchUsername(userId))
         clinks = otherClinks;
@@ -42,7 +42,7 @@ const Users = () => {
     }
   }, [isCurrentUserFetched]);
 
-  if (userId !== currentUser) {
+  if (parseInt(userId) !== parseInt(currentUser)) {
     clinks = otherClinks;
   }
 
@@ -73,40 +73,36 @@ const Users = () => {
         <Topbar />
         <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'auto', height: '65vh' }}>
           <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center', minHeight: '65vh' }}>
-          <h1 className="user-title">Public</h1>
-          {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (
-            <>
-            {!clink.private &&
-              <>
-                  <div className="clink-card">
-                    <div className="card-header" >
-                      <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
-                        {clink.title} 
-                      </div>
-                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button"/> : <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button"/>}
-                    </div>
-                  </div>
-                  <br />
-              </>
-            }
-           </>
-          ))}
-          {(parseInt(userId) === parseInt(currentUser)) && <>
-            <h1 className="user-title">Private</h1>
+            <h1 className="user-title">Public</h1>
             {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (
-              <>
-              {clink.private &&
-                  <>
-                    <div className="clink-card">
-                      <div className="card-header">
-                        <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
-                          {clink.title} 
-                        </div>
-                        <ClinkMenu menuClass="ellipsis-card-button"/>
-                      </div>
+              <div key={clink.id}>
+                <div className="clink-card">
+                  <div className="card-header" >
+                    <div style={{ width: "100%", cursor: "pointer" }} onClick={() => changeClink(clink.title, clink.id)}>
+                      {clink.title}
                     </div>
-                    <br /> </>
-                }</>
+                    {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button" /> : <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" />}
+                  </div>
+                </div>
+                <br />
+              </div>
+            ))}
+            {(parseInt(userId) === parseInt(currentUser)) && <>
+              <h1 className="user-title">Private</h1>
+              {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (
+                <>
+                  {clink.private &&
+                    <>
+                      <div className="clink-card">
+                        <div className="card-header">
+                          <div style={{ width: "100%", cursor: "pointer" }} onClick={() => changeClink(clink.title, clink.id)}>
+                            {clink.title}
+                          </div>
+                          <ClinkMenu menuClass="ellipsis-card-button" />
+                        </div>
+                      </div>
+                      <br /> </>
+                  }</>
               ))}</>
             }
           </div>

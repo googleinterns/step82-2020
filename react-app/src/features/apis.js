@@ -8,6 +8,7 @@ const GET_CURR_USER_URL = `${BASE_URL}/get-curr-user`;
 const ADD_CLINK_URL = `${BASE_URL}/add-clink`;
 const ADD_BOOKMARK_URL = `${BASE_URL}/add-bookmark`;
 const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
+const FETCH_PUBLIC_CLINKS_URL = `${BASE_URL}/fetch-public-clinks`;
 const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
@@ -54,6 +55,8 @@ const addReadMap = (clinkId, userId) => axios.post(`${ADD_READ_MAP_URL}/${userId
 
 const fetchClinks = (id) => axios.get(`${FETCH_CLINKS_URL}/${id}`);
 
+const fetchPublicClinks = (id) => axios.get(`${FETCH_PUBLIC_CLINKS_URL}/${id}`);
+
 const fetchWriteClinks = (token) => axios.get(FETCH_WRITE_CLINKS_URL, {
   headers: {
     'Authorization': token
@@ -78,5 +81,5 @@ export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsers, fetchUsername, addReadMap
+  fetchUsers, fetchUsername, addReadMap, fetchPublicClinks
 }; 	

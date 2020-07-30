@@ -35,6 +35,7 @@ const SaveClinkMenu = (props) => {
   };
 
   const onSaveFinish = values => {
+
     dispatch(addReadMap(props.clink, currentUser))
     setLoading(true);
     setTimeout(() => {
@@ -43,7 +44,6 @@ const SaveClinkMenu = (props) => {
     }, 3000);
     confirmForm.resetFields();
   };
-  console.log(props.clink)
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };

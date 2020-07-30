@@ -167,7 +167,7 @@ export const fetchClinks = (id) => async dispatch => {
 export const fetchOtherClinks = (id) => async dispatch => {
   try {
     dispatch(fetchOtherClinksStart())
-    const response = await apis.fetchClinks(id)
+    const response = await apis.fetchPublicClinks(id)
     dispatch(fetchOtherClinksSucceed(response.data))
   } catch (err) {
     dispatch(fetchOtherClinksFailed(err.response.data.message))

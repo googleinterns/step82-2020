@@ -370,6 +370,26 @@ def fetch_clinks(user_id):
                 break
     return jsonify(to_return), 200
 
+
+@app.route('/apis/fetch-public-clinks/<string:user_id>', methods=['GET'])
+def fetch_public_clinks(user_id):
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
+    all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
+    all_query.order = ['created']
+    all_list = list(all_query.fetch())
+    to_return = []    
+    for clink in all_list:
+        for id in clink_ids:
+            if (id['clink_id'] == clink.id) and not clink['private']:
+                response_object = {
+                    'title': clink['title'],
+                    'id': clink.id,
+                    'private': clink['private'] 
+                }
+                to_return.append(response_object)
+                break
+    return jsonify(to_return), 200
+
 @app.route('/apis/fetch-write-clinks', methods=['GET'])
 def fetch_write_clinks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
