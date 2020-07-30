@@ -443,15 +443,15 @@ def edit_bookmark():
         
         if link:
             bookmark.update({
-            'link': request.json['link']
+            'link': link
             })
         if title:
             bookmark.update({
-            'title': request.json['title']
+            'title': title
             })
         if description: 
             bookmark.update({
-            'description': request.json['description']
+            'description': description
             })
 
         datastore_client.put(bookmark)
@@ -470,7 +470,36 @@ def edit_bookmark():
         }
         return response_object, 401
 
-# edit bookmark api
+# edit clink api
+@app.route('/apis/edit-clink', methods=['POST'])
+def edit_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        title = request.json['title']
+
+        key = datastore_client.key('clink', int(request.json['clinkId']))
+        clink = list(datastore_client.query(kind='clink').add_filter('__key__', '=', key).add_filter('deleted', '=', False).fetch(limit=1))[0]
+        
+        if title:
+            clink.update({
+            'title': title
+            })
+
+            datastore_client.put(clink)
+
+        response_object = {
+            'title': clink['title'],
+            'id': clink.id,
+            'private': clink['private']
+        }
+        return response_object, 200
+    else: 
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to edit clink.'
+        }
+        return response_object, 401
 
 # routing
 @app.route('/', defaults={'path': ''})

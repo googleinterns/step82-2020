@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { editClink } from '../../features/clink';
 import { fetchUsers } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -18,6 +19,8 @@ const ClinkMenu = (props) => {
   const currentToken = localStorage.getItem('currentToken');
   const users = useSelector(state => state.users.users);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const currentClinkId = useSelector(state => state.clink.currentClinkId)
+  
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
@@ -42,6 +45,7 @@ const ClinkMenu = (props) => {
   };
 
   const onEditFinish = values => {
+    dispatch(editClink(values.title, currentClinkId, currentToken))
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

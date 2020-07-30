@@ -12,6 +12,7 @@ const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
 const EDIT_BOOKMARK_URL = `${BASE_URL}/edit-bookmark`;
+const EDIT_CLINK_URL = `${BASE_URL}/edit-clink`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -71,7 +72,13 @@ const editBookmark = (link, title, description, bookmarkId, token) => axios.post
   link: link,
   title: title,
   description: description,
-  clinkId: bookmarkId,
+  bookmarkId: bookmarkId,
+  Authorization: token
+});
+
+const editClink = (title, clinkId, token) => axios.post(EDIT_CLINK_URL, {
+  title: title,
+  clinkId: clinkId,
   Authorization: token
 });
 
@@ -79,5 +86,5 @@ export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsers, editBookmark
+  fetchUsers, editBookmark, editClink
 }; 	

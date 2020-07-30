@@ -38,7 +38,7 @@ const clinkSlice = createSlice({
     addBookmarkSucceed(state, action) {
       state.isAddingBookmark = false;
       state.bookmarks = [action.payload, ...state.bookmarks];
-      delete state.clinkError;
+      delete state.bookmarkError;
     },
     addBookmarkFailed(state, action) {
       state.isAddingBookmark = false;
@@ -92,11 +92,27 @@ const clinkSlice = createSlice({
           bookmark.description = action.payload.description;
         }
       }
-      delete state.clinkError;
+      delete state.bookmarkError;
     },
     editBookmarkFailed(state, action) {
       state.isEditingBookmark = false;
       state.bookmarkError = action.payload;
+    },
+    editClinkStart(state) {
+      state.isEditingClink = true;
+    },
+    editClinkSucceed(state, action) {
+      state.isEditingClink = false;
+      for(var clink of state.clinks) {
+        if(clink.id === action.payload.id){
+          clink.title = action.payload.title;
+        }
+      }
+      delete state.clinkError;
+    },
+    editClinkFailed(state, action) {
+      state.isEditingClink = false;
+      state.clinkError = action.payload;
     },
     changeCurrClink(state, action) {
       state.currentClinkId = action.payload
@@ -122,6 +138,7 @@ export const {
   fetchWriteClinksStart, fetchWriteClinksSucceed, fetchWriteClinksFailed,
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
   editBookmarkStart, editBookmarkSucceed, editBookmarkFailed,
+  editClinkStart, editClinkSucceed, editClinkFailed,
   clearClinks, clearBookmarks, changeTitle,
   changeCurrClink
 } = clinkSlice.actions;
@@ -190,13 +207,14 @@ export const editBookmark = (link, title, description, bookmarkId, token) => asy
   }
 }
 
-export const editClink = (link, clinkId, token) => async dispatch => {
+export const editClink = (title, clinkId, token) => async dispatch => {
   try {
-    dispatch(editBookmarkStart());
-    const response = await apis.editBookmark(link, title, description, clinkId, token);
-    dispatch(editBookmarkSucceed(response.data));
+    dispatch(editClinkStart());
+    const response = await apis.editClink(title, clinkId, token);
+    dispatch(editClinkSucceed(response.data));
+    dispatch(changeTitle(title))
   } catch (err) {
-    dispatch(editBookmarkFailed(err.response.data.message));
+    dispatch(editClinkFailed(err.response.data.message));
   }
 }
 
