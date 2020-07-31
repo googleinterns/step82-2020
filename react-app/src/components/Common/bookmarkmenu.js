@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editBookmark } from '../../features/clink';
+import { editBookmark, deleteBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -26,7 +26,11 @@ const BookmarkMenu = (props) => {
     setVisible(true);
   };
 
-  const onFinish = values => {
+  const onDeleteFinish = () => {
+    dispatch(deleteBookmark(currentClinkId, props.id, currentToken))
+  }
+
+  const onEditFinish = values => {
     console.log(props.id)
     dispatch(editBookmark(values.link || "", values.title || "", values.description || "", currentClinkId, props.id, currentToken));
     setLoading(true);
@@ -49,7 +53,7 @@ const BookmarkMenu = (props) => {
     <Menu.Item key="edit" onClick={showModal}>
       Edit
     </Menu.Item>
-    <Menu.Item key="delete">
+    <Menu.Item key="delete" onClick={onDeleteFinish}>
       Delete
     </Menu.Item>
   </Menu>);
@@ -78,7 +82,7 @@ const BookmarkMenu = (props) => {
           initialValues={{
             remember: false,
           }}
-          onFinish={onFinish}
+          onFinish={onEditFinish}
           onFinishFailed={onFinishFailed}
         >
           <Form.Item

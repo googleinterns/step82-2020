@@ -13,6 +13,8 @@ const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
 const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
 const EDIT_BOOKMARK_URL = `${BASE_URL}/edit-bookmark`;
 const EDIT_CLINK_URL = `${BASE_URL}/edit-clink`;
+const DELETE_BOOKMARK_URL = `${BASE_URL}/delete-bookmark`;
+const DELETE_CLINK_URL = `${BASE_URL}/delete-clink`;
 const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
@@ -82,6 +84,17 @@ const editClink = (title, clinkId, token) => axios.post(EDIT_CLINK_URL, {
   Authorization: token
 });
 
+const deleteBookmark = (clinkId, bookmarkId, token) => axios.post(DELETE_BOOKMARK_URL, {
+  clinkId: clinkId,
+  bookmarkId: bookmarkId,
+  Authorization: token
+});
+
+const deleteClink = (clinkId, token) => axios.post(DELETE_CLINK_URL, {
+  clinkId: clinkId,
+  Authorization: token
+});
+
 const fetchUsername = (id) => axios.get(`${FETCH_USERNAME_URL}/${id}`);
 
 export default {
@@ -89,5 +102,5 @@ export default {
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
   fetchUsers, editBookmark, editClink, 
-  fetchUsername
+  deleteBookmark, deleteClink, fetchUsername
 }; 	

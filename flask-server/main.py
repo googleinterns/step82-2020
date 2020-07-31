@@ -426,7 +426,7 @@ def edit_bookmark():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid JWT. Failed to edit bookmark.'
+            'message': 'Invalid Authorization. Failed to edit bookmark.'
         }
         return response_object, 401
 
@@ -451,7 +451,53 @@ def edit_clink():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid JWT. Failed to edit clink.'
+            'message': 'Invalid Authorization. Failed to edit clink.'
+        }
+        return response_object, 401
+
+# delete bookmark api
+@app.route('/apis/delete-bookmark', methods=['POST'])
+def delete_bookmark():
+    resp_token = decode_auth_token(request.json['Authorization'])
+    clink_id = request.json['clinkId']
+
+    if is_valid_instance(resp_token) and has_write_access(clink_id, resp_token):
+
+        key = datastore_client.key('bookmark', int(request.json['bookmarkId']))
+        bookmark = datastore_client.get(key)
+        
+        bookmark['deleted'] = True
+
+        datastore_client.put(bookmark)
+
+        return bookmark_entity_to_return(bookmark), 200
+    else: 
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid Authorization. Failed to edit bookmark.'
+        }
+        return response_object, 401
+
+# delete clink api
+@app.route('/apis/delete-clink', methods=['POST'])
+def delete_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+    clink_id = request.json['clinkId']
+
+    if is_valid_instance(resp_token) and has_write_access(clink_id, resp_token):
+
+        key = datastore_client.key('clink', int(clink_id))
+        clink = datastore_client.get(key)
+        
+        clink['deleted'] = True
+
+        datastore_client.put(clink)
+
+        return clink_entity_to_return(clink), 200
+    else: 
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid Authorization. Failed to edit clink.'
         }
         return response_object, 401
 

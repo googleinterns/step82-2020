@@ -9,6 +9,8 @@ const initialState = {
   isFetchingBookmarks: false,
   isEditingBookmark: false,
   isEditingClink: false,
+  isDeletingBookmark: false,
+  isDeletingClink: false,
   clinks: [],
   otherClinks: [],
   writeClinks: [],
@@ -100,7 +102,7 @@ const clinkSlice = createSlice({
     editBookmarkSucceed(state, action) {
       state.isEditingBookmark = false;
       for (var bookmark of state.bookmarks) {
-        if(bookmark.id === action.payload.id){
+        if (bookmark.id === action.payload.id) {
           bookmark.link = action.payload.link;
           bookmark.title = action.payload.title;
           bookmark.description = action.payload.description;
@@ -118,7 +120,7 @@ const clinkSlice = createSlice({
     editClinkSucceed(state, action) {
       state.isEditingClink = false;
       for (var clink of state.clinks) {
-        if(clink.id === action.payload.id){
+        if (clink.id === action.payload.id) {
           clink.title = action.payload.title;
           clink.privacy = action.payload.privacy;
         }
@@ -129,16 +131,48 @@ const clinkSlice = createSlice({
       state.isEditingClink = false;
       state.clinkError = action.payload;
     },
+    deleteBookmarkStart(state) {
+      state.isDeletingBookmark = true;
+    },
+    deleteBookmarkSucceed(state, action) {
+      state.isDeletingBookmark = false;
+      for (var i = 0; i < state.bookmarks.length; i++) {
+        if (state.bookmarks[i].id === action.payload.id) {
+          state.bookmarks.splice(i, 1);
+        }
+      }
+      delete state.bookmarkError;
+    },
+    deleteBookmarkFailed(state, action) {
+      state.isDeletingBookmark = false;
+      state.bookmarkError = action.payload;
+    },
+    deleteClinkStart(state) {
+      state.isDeletingClink = true;
+    },
+    deleteClinkSucceed(state, action) {
+      state.isDeletingClink = false;
+      for (var i = 0; i < state.clinks.length; i++) {
+        if (state.clinks[i].id === action.payload.id) {
+          state.clinks.splice(i, 1);
+        }
+      }
+      delete state.clinkError;
+    },
+    deleteClinkFailed(state, action) {
+      state.isDeletingClink = false;
+      state.clinkError = action.payload;
+    },
     changeCurrClink(state, action) {
-      state.currentClinkId = action.payload
+      state.currentClinkId = action.payload;
     },
     changeTitle(state, action) {
-      state.currentClinkTitle = action.payload
+      state.currentClinkTitle = action.payload;
     },
     clearClinks(state) {
       state.clinks = [];
       state.currentClinkTitle = 'All';
-      state.currentClinkId = 'All'
+      state.currentClinkId = 'All';
     },
     clearBookmarks(state) {
       state.bookmarks = [];
@@ -154,9 +188,11 @@ export const {
   fetchBookmarksStart, fetchBookmarksSucceed, fetchBookmarksFailed,
   editBookmarkStart, editBookmarkSucceed, editBookmarkFailed,
   editClinkStart, editClinkSucceed, editClinkFailed,
+  deleteBookmarkStart, deleteBookmarkSucceed, deleteBookmarkFailed,
+  deleteClinkStart, deleteClinkSucceed, deleteClinkFailed,
   clearClinks, clearBookmarks, changeTitle,
-  changeCurrClink, fetchOtherClinksStart, fetchOtherClinksSucceed, 
-  fetchOtherClinksFailed, 
+  changeCurrClink, fetchOtherClinksStart, fetchOtherClinksSucceed,
+  fetchOtherClinksFailed
 } = clinkSlice.actions;
 
 export const addClink = (title, privacy, token, callbackSucceed, callbackFailed) => async dispatch => {
@@ -185,9 +221,9 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
 
 export const fetchClinks = (id) => async dispatch => {
   try {
-    dispatch(fetchClinksStart())
-    const response = await apis.fetchClinks(id)
-    dispatch(fetchClinksSucceed(response.data))
+    dispatch(fetchClinksStart());
+    const response = await apis.fetchClinks(id);
+    dispatch(fetchClinksSucceed(response.data));
   } catch (err) {
     dispatch(fetchClinksFailed(err.response.data.message));
   }
@@ -195,11 +231,11 @@ export const fetchClinks = (id) => async dispatch => {
 
 export const fetchOtherClinks = (id) => async dispatch => {
   try {
-    dispatch(fetchOtherClinksStart())
-    const response = await apis.fetchClinks(id)
-    dispatch(fetchOtherClinksSucceed(response.data))
+    dispatch(fetchOtherClinksStart());
+    const response = await apis.fetchClinks(id);
+    dispatch(fetchOtherClinksSucceed(response.data));
   } catch (err) {
-    dispatch(fetchOtherClinksFailed(err.response.data.message))
+    dispatch(fetchOtherClinksFailed(err.response.data.message));
   }
 }
 
@@ -241,6 +277,28 @@ export const editClink = (title, clinkId, token) => async dispatch => {
     dispatch(changeTitle(title));
   } catch (err) {
     dispatch(editClinkFailed(err.response.data.message));
+  }
+};
+
+export const deleteBookmark = (clinkId, bookmarkId, token) => async dispatch => {
+  try {
+    dispatch(deleteBookmarkStart());
+    const response = await apis.deleteBookmark(clinkId, bookmarkId, token);
+    dispatch(deleteBookmarkSucceed(response.data));
+  } catch (err) {
+    dispatch(deleteBookmarkFailed(err.response.data.message));
+  }
+};
+
+export const deleteClink = (clinkId, token) => async dispatch => {
+  try {
+    dispatch(deleteClinkStart());
+    const response = await apis.deleteClink(clinkId, token);
+    dispatch(deleteClinkSucceed(response.data));
+    dispatch(changeCurrClink('All'));
+    dispatch(changeTitle('All'));
+  } catch (err) {
+    dispatch(deleteClinkFailed(err.response.data.message));
   }
 };
 

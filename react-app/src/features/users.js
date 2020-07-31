@@ -81,7 +81,8 @@ export const {
   getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
-  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed, fetchUsernameSucceed
+  logout, fetchUsersStart, fetchUsersSucceed, 
+  fetchUsersFailed, fetchUsernameSucceed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {

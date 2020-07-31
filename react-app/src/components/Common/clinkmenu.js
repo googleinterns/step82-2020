@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editClink } from '../../features/clink';
+import { editClink, deleteClink } from '../../features/clink';
 import { fetchUsers } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -20,7 +20,7 @@ const ClinkMenu = (props) => {
   const users = useSelector(state => state.users.users);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const currentClinkId = useSelector(state => state.clink.currentClinkId)
-  
+
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
@@ -44,7 +44,11 @@ const ClinkMenu = (props) => {
     setShareVisible(true);
   };
 
-  const onEditFinish = values => {
+  const onDeleteFinish = () => {
+    dispatch(deleteClink(currentClinkId, currentToken))
+  }
+
+  const onEditFinish = (values) => {
     dispatch(editClink(values.title, currentClinkId, currentToken));
     setLoading(true);
     setTimeout(() => {
@@ -55,7 +59,7 @@ const ClinkMenu = (props) => {
     editForm.resetFields();
   };
 
-  const onShareFinish = values => {
+  const onShareFinish = (values) => {
     console.log(values);
     setLoading(true);
     setTimeout(() => {
@@ -66,7 +70,7 @@ const ClinkMenu = (props) => {
     shareForm.resetFields();
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
@@ -82,7 +86,7 @@ const ClinkMenu = (props) => {
       <Menu.Item key="edit" onClick={showEdit}>
         Edit
       </Menu.Item>
-      <Menu.Item key="delete">
+      <Menu.Item key="delete" onClick={onDeleteFinish}>
         Delete
       </Menu.Item>
       <Menu.Item key="share" onClick={showShare}>
@@ -147,7 +151,7 @@ const ClinkMenu = (props) => {
               },
             ]}
           >
-            <Select mode="multiple" 
+            <Select mode="multiple"
               filterOption={(input, option) =>
                 option.children.toLowerCase().includes(input.toLowerCase())
               }>

@@ -19,12 +19,14 @@ const Topbar = () => {
   const title = useSelector(state => state.clink.currentClinkTitle);
   const history = useHistory();
   const currentUser = useSelector(state => state.users.currentUser)
-  var username = useSelector(state => state.users.username);
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const clinks = useSelector(state => state.clink.clinks);
+  
   const dispatch = useDispatch();
   const param = useParams();
   const loc = useLocation();
+  
+  var username = useSelector(state => state.users.username);
 
   const logout = () => {
     dispatch(logOut(currentToken));
