@@ -104,9 +104,6 @@ const NewButton = () => {
               layout="vertical"
               form={bookmarkForm}
               name="bookmark"
-              initialValues={{
-                remember: false,
-              }}
               onFinish={onBookmarkFinish}
             >
               <Form.Item
@@ -167,9 +164,6 @@ const NewButton = () => {
               layout="vertical"
               form={clinkForm}
               name="clink"
-              initialValues={{
-                remember: false,
-              }}
               onFinish={onClinkFinish}
             >
               <Form.Item

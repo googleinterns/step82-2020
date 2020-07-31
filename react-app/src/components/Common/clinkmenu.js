@@ -20,7 +20,8 @@ const ClinkMenu = (props) => {
   const usersToShare = useSelector(state => state.users.noWriteUsers);
   const sharedUsers = useSelector(state => state.users.writeUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-  const currentClinkId = useSelector(state => state.clink.currentClinkId)
+  const currentClinkId = useSelector(state => state.clink.currentClinkId);
+  const currentClinkTitle = useSelector(state => state.clink.currentClinkTitle);
 
   const dispatch = useDispatch();
 
@@ -133,7 +134,7 @@ const ClinkMenu = (props) => {
       >
         <Form {...layout} name="edit-clink" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
           initialValues={{
-            remember: false,
+            title: currentClinkTitle
           }}
           form={editForm}
         >
@@ -157,9 +158,6 @@ const ClinkMenu = (props) => {
         ]}
       >
         <Form {...layout} name="share-clink" onFinish={onShareFinish} onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
           form={shareForm}
         >
           <Form.Item label="Share write access by username" name="toShare"
@@ -184,14 +182,11 @@ const ClinkMenu = (props) => {
             </Button>
           </Form.Item>
         </Form>
-        <Form {...layout} name="unshare-clink" 
-        onFinish={onUnshareFinish} 
-        onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
+        <Form {...layout} name="unshare-clink"
+          onFinish={onUnshareFinish}
+          onFinishFailed={onFinishFailed}
           form={unshareForm}
-        > 
+        >
           <Form.Item label="Remove write access:" name="toRemove"
             rules={[
               {
@@ -199,7 +194,7 @@ const ClinkMenu = (props) => {
               },
             ]}
           >
-            <Select mode="multiple" 
+            <Select mode="multiple"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }>

@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllUsers, fetchUsersWrite } from '../../features/users';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -23,7 +21,7 @@ const SaveClinkMenu = (props) => {
     setEditVisible(true);
   };
 
-  const onEditFinish = values => {
+  const onEditFinish = (values) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -32,7 +30,7 @@ const SaveClinkMenu = (props) => {
     confirmForm.resetFields();
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
@@ -65,9 +63,6 @@ const SaveClinkMenu = (props) => {
         ]}
       >
         <Form {...layout} name="confirm-save" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
           form={confirmForm}
           style={{textAlign: "center"}}
         >
