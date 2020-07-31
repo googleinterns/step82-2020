@@ -45,7 +45,7 @@ const ClinkMenu = (props) => {
   };
 
   const onDeleteFinish = () => {
-    dispatch(deleteClink(currentClinkId, currentToken))
+    dispatch(deleteClink(currentClinkId, currentToken));
   }
 
   const onEditFinish = (values) => {
