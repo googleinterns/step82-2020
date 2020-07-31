@@ -39,8 +39,6 @@ const Sidebar = () => {
     key = ""
   };
 
-  console.log(key);
-
   return (
     <Sider className="sidebar">
       <Menu theme="dark" mode="inline">
