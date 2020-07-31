@@ -38,7 +38,7 @@ const BookmarkMenu = (props) => {
       setVisible(false);
     }, 3000);
     editForm.resetFields();
-    window.location.reload(false);
+    window.location.reload();
   };
 
   const onFinishFailed = (errorInfo) => {
