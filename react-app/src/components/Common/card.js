@@ -44,7 +44,7 @@ const Card = () => {
       }
       }> 
         <Collapse accordion activeKey={activeKey} className="card" bordered={false}>
-          <Panel style={{ border: '0px'}} showArrow={false} header={<a className="bookmark-link" href={bmark.link} target="_blank">{<div className="card-header">{bmark.title}<BookmarkMenu key={bmark.id} id={bmark.id} /></div>}</a>} key={bmark.id}>
+          <Panel style={{ border: '0px'}} showArrow={false} header={<a className="bookmark-link" href={bmark.link} target="_blank">{<div className="card-header">{bmark.title}<BookmarkMenu id={bmark.id} /></div>}</a>} key={bmark.id}>
             <p>{bmark.description}</p>
           </Panel>
         </Collapse>
