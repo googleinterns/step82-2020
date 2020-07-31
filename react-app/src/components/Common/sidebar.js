@@ -20,7 +20,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchClinks(currentUser));
