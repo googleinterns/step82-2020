@@ -21,7 +21,6 @@ const ClinkMenu = (props) => {
   const sharedUsers = useSelector(state => state.users.writeUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const currentClinkId = useSelector(state => state.clink.currentClinkId);
-  const currentClinkTitle = useSelector(state => state.clink.currentClinkTitle);
 
   const dispatch = useDispatch();
 
@@ -134,7 +133,7 @@ const ClinkMenu = (props) => {
       >
         <Form {...layout} name="edit-clink" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
           initialValues={{
-            title: currentClinkTitle
+            title: props.title
           }}
           form={editForm}
         >

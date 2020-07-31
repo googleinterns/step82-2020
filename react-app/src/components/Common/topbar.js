@@ -47,11 +47,11 @@ const Topbar = () => {
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu key={title} />;
+  let menuDisplay = <ClinkMenu key={title} title={title} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
   } else if (param.userId) {
-    menuDisplay = <SaveClinkMenu key = {title} />;
+    menuDisplay = <SaveClinkMenu key={title} />;
   }
 
   const [options, setOptions] = useState([]);
