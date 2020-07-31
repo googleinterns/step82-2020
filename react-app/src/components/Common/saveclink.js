@@ -21,14 +21,7 @@ const SaveClinkMenu = (props) => {
 
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
-
   const [confirmForm] = Form.useForm();
-
-  useEffect(() => {
-    if (isCurrentUserFetched) {
-      dispatch(fetchUsers(currentToken));
-    }
-  }, []);
 
   const showSave = () => {
     setEditVisible(true);
@@ -53,13 +46,23 @@ const SaveClinkMenu = (props) => {
     setEditVisible(false);
   };
 
-  const menu = (
+  var menu = (
     <Menu>
       <Menu.Item key="edit" onClick={showSave}>
         Save
       </Menu.Item>
     </Menu>
   );
+
+  if (props.display === "unsave") {
+    menu = (
+      <Menu>
+        <Menu.Item key="edit" onClick={showSave}>
+          Unsave
+        </Menu.Item>
+      </Menu>
+    );
+  }
 
   return (
     <>
