@@ -10,11 +10,14 @@ const ADD_BOOKMARK_URL = `${BASE_URL}/add-bookmark`;
 const FETCH_CLINKS_URL = `${BASE_URL}/fetch-clinks`;
 const FETCH_WRITE_CLINKS_URL = `${BASE_URL}/fetch-write-clinks`;
 const FETCH_BOOKMARKS_URL = `${BASE_URL}/fetch-bookmarks`;
-const FETCH_USERS_URL = `${BASE_URL}/fetch-users`;
 const EDIT_BOOKMARK_URL = `${BASE_URL}/edit-bookmark`;
 const EDIT_CLINK_URL = `${BASE_URL}/edit-clink`;
 const DELETE_BOOKMARK_URL = `${BASE_URL}/delete-bookmark`;
 const DELETE_CLINK_URL = `${BASE_URL}/delete-clink`;
+const FETCH_ALL_USERS_URL = `${BASE_URL}/fetch-all-users`;
+const FETCH_USERS_WRITE_URL = `${BASE_URL}/fetch-users-write`;
+const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
+const UNSHARE_CLINK_URL = `${BASE_URL}/unshare-clink`;
 const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
@@ -63,9 +66,9 @@ const fetchBookmarks = (token, id) => axios.get(`${FETCH_BOOKMARKS_URL}/${id}`, 
   }
 });
 
-const fetchUsers = (token) => axios.get(FETCH_USERS_URL, {
+const fetchAllUsers = (token) => axios.get(FETCH_ALL_USERS_URL, {
   headers: {
-    'Authorization': token
+    Authorization: token
   }
 });
 
@@ -77,6 +80,26 @@ const editBookmark = (link, title, description, clinkId, bookmarkId, token) => a
   bookmarkId: bookmarkId,
   Authorization: token
 });
+
+const fetchUsersWrite = (id, token) => axios.get(`${FETCH_USERS_WRITE_URL}/${id}`, {
+  headers: {
+    Authorization: token
+  }
+});
+
+const shareClink = (clink, toShare, token) => axios.post(SHARE_CLINK_URL, {
+  clink: clink,
+  toShare: toShare,
+  Authorization: token
+})
+
+const unshareClink = (clink, toRemove, token) => axios.post(UNSHARE_CLINK_URL, {
+  clink: clink,
+  toRemove: toRemove,
+  Authorization: token
+})
+
+const fetchUsername = (id) => axios.get(`${FETCH_USERNAME_URL}/${id}`);
 
 const editClink = (title, clinkId, token) => axios.post(EDIT_CLINK_URL, {
   title: title,
@@ -95,12 +118,12 @@ const deleteClink = (clinkId, token) => axios.post(DELETE_CLINK_URL, {
   Authorization: token
 });
 
-const fetchUsername = (id) => axios.get(`${FETCH_USERNAME_URL}/${id}`);
-
 export default {
   signUp, login, logout, 
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
-  fetchUsers, editBookmark, editClink, 
-  deleteBookmark, deleteClink, fetchUsername
+  editBookmark, editClink, 
+  deleteBookmark, deleteClink,
+  fetchAllUsers, fetchUsersWrite,
+  shareClink, unshareClink, fetchUsername
 }; 	

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers } from '../../features/users';
+import { fetchAllUsers, fetchUsersWrite } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -14,20 +14,10 @@ const layout = {
 // interactions with clinks
 const SaveClinkMenu = (props) => {
 
-  const currentToken = localStorage.getItem('currentToken');
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
-  const dispatch = useDispatch();
-
   const [isLoading, setLoading] = useState(false);
   const [editIsVisible, setEditVisible] = useState(false);
 
   const [confirmForm] = Form.useForm();
-
-  useEffect(() => {
-    if (isCurrentUserFetched) {
-      dispatch(fetchUsers(currentToken));
-    }
-  }, []);
 
   const showEdit = () => {
     setEditVisible(true);
