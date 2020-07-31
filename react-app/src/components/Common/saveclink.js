@@ -14,17 +14,21 @@ const layout = {
 
 const SaveClinkMenu = (props) => {
 
-  const currentToken = localStorage.getItem('currentToken');
-  const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.users.currentUser)
 
   const [isLoading, setLoading] = useState(false);
-  const [editIsVisible, setEditVisible] = useState(false);
+  const [saveIsVisible, setSaveVisible] = useState(false);
+  const [unsaveIsVisible, setUnsaveVisible] = useState(false);
   const [confirmForm] = Form.useForm();
+  const [confirmUnsaveForm] = Form.useForm();
 
   const showSave = () => {
-    setEditVisible(true);
+    setSaveVisible(true);
+  };
+
+  const showUnsave = () => {
+    setUnsaveVisible(true);
   };
 
   const onSaveFinish = () => {
@@ -32,18 +36,31 @@ const SaveClinkMenu = (props) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setEditVisible(false);
+      setSaveVisible(false);
     }, 3000);
     confirmForm.resetFields();
     window.location.reload(false);
   };
+
+  const onUnsaveFinish = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setUnsaveVisible(false);
+    }, 3000);
+    confirmUnsaveForm.resetFields();
+    window.location.reload(false);
+  };
+
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
 
   const handleCancel = () => {
     confirmForm.resetFields();
-    setEditVisible(false);
+    confirmUnsaveForm.resetFields();
+    setSaveVisible(false);
+    setUnsaveVisible(false);
   };
 
   var menu = (
@@ -57,7 +74,7 @@ const SaveClinkMenu = (props) => {
   if (props.display === "unsave") {
     menu = (
       <Menu>
-        <Menu.Item key="edit" onClick={showSave}>
+        <Menu.Item key="edit" onClick={showUnsave}>
           Unsave
         </Menu.Item>
       </Menu>
@@ -69,7 +86,7 @@ const SaveClinkMenu = (props) => {
       <Dropdown overlay={menu} trigger={['click']} className={props.menuClass}>
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
-      <Modal visible={editIsVisible} onCancel={handleCancel}
+      <Modal visible={saveIsVisible} onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             No
@@ -87,6 +104,26 @@ const SaveClinkMenu = (props) => {
           style={{textAlign: "center"}}
         >
           <h1>Confirm save?</h1>
+        </Form>
+      </Modal>
+      <Modal visible={unsaveIsVisible} onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            No
+          </Button>,
+          <Button form="confirm-unsave" htmlType="submit" key="submit" type="primary" loading={isLoading} >
+            Yes
+          </Button>,
+        ]}
+      >
+        <Form {...layout} name="confirm-unsave" onFinish={onUnsaveFinish} onFinishFailed={onFinishFailed}
+          initialValues={{
+            remember: false,
+          }}
+          form={confirmUnsaveForm}
+          style={{textAlign: "center"}}
+        >
+          <h1>Confirm unsave?</h1>
         </Form>
       </Modal>
     </>
