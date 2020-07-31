@@ -20,8 +20,6 @@ const BookmarkMenu = (props) => {
 
   const dispatch = useDispatch()
 
-  const [editForm] = Form.useForm();
-
   const showModal = () => {
     setVisible(true);
   };
@@ -31,13 +29,12 @@ const BookmarkMenu = (props) => {
   }
 
   const onEditFinish = (values) => {
-    dispatch(editBookmark(values.link || "", values.title || "", values.description || "", currentClinkId, props.id, currentToken));
+    dispatch(editBookmark(values.link, values.title, values.description || " ", currentClinkId, props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
     }, 3000);
-    editForm.resetFields();
     window.location.reload();
   };
 
@@ -77,10 +74,11 @@ const BookmarkMenu = (props) => {
       >
         <Form
           {...layout}
-          form={editForm}
           name="edit-bookmark"
           initialValues={{
-            remember: false,
+            link: props.link,
+            title: props.title,
+            description: props.description
           }}
           onFinish={onEditFinish}
           onFinishFailed={onFinishFailed}
@@ -90,9 +88,9 @@ const BookmarkMenu = (props) => {
             name="link"
             rules={[
               {
-                required: false,
+                required: true,
                 message: 'Please input a valid link for your bookmark!',
-                pattern: new RegExp('^(?:[a-z]+:)?//', 'i'),
+                pattern: new RegExp('^(?:[a-z]+:)?//', 'i')
               },
             ]}
           >
@@ -103,7 +101,8 @@ const BookmarkMenu = (props) => {
             name="title"
             rules={[
               {
-                required: false,
+                required: true,
+                message: 'Please input a title for your bookmark!'
               },
             ]}
           >
