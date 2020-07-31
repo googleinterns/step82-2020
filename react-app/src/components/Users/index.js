@@ -16,12 +16,12 @@ const { Content, Footer } = Layout;
 
 const Users = () => {
 
-  const dispatch = useDispatch();
+  var clinks = useSelector(state => state.clink.clinks);
+
   const currentToken = localStorage.getItem('currentToken');
   const currentUser = useSelector(state => state.users.currentUser);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const isFetchingUser = useSelector(state => state.users.isFetchingUser);
-  var clinks = useSelector(state => state.clink.clinks);
   const otherClinks = useSelector(state => state.clink.otherClinks);
   const authorizationError = useSelector(state => state.users.authorizationError);
   const history = useHistory();
@@ -29,6 +29,8 @@ const Users = () => {
   const urlString = new URLSearchParams(history.location.search);
   const urlParam = urlString.get("search") || "";
   const userId = useParams().userId;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkUser());
@@ -59,7 +61,7 @@ const Users = () => {
   const changeClink = (title, id) => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
-    if (userId === currentUser) {
+    if (parseInt(userId) === parseInt(currentUser)) {
       history.push(`/dashboard/${id}`)
     } else {
       history.push(`/dashboard/${id}/${userId}`)
