@@ -233,7 +233,13 @@ def check_denylist(token):
     if token_query:
         return True
     else:
-        return False        
+        return False 
+
+def clink_entity_to_return(clink):
+    return { 'title': clink['title'], 'private': clink['private'], 'id': clink.id }
+
+def bookmark_entity_to_return(bookmark):
+    return { 'title': bookmark['title'], 'description': bookmark['description'], 'link': bookmark['link'], 'id': bookmark.id }               
 
 # add bookmark api
 @app.route('/apis/add-bookmark', methods=['POST'])
@@ -241,8 +247,8 @@ def add_bookmark():
     resp_token = decode_auth_token(request.json['Authorization'])
 
     if is_valid_instance(resp_token):
-        entity = datastore.Entity(key=datastore_client.key('bookmark'))
-        entity.update({
+        bookmark_entity = datastore.Entity(key=datastore_client.key('bookmark'))
+        bookmark_entity.update({
             'link': request.json['link'],
             'title': request.json['title'],
             'description': request.json['description'],
@@ -250,7 +256,7 @@ def add_bookmark():
             'created': datetime.datetime.now(timezone.utc),
             'creator': int(resp_token)
         })
-        datastore_client.put(entity)
+        datastore_client.put(bookmark_entity)
 
         for clink in request.json['clink']:
             map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
@@ -260,13 +266,7 @@ def add_bookmark():
             })
             datastore_client.put(map_entity)
 
-        response_object = {
-            'link': request.json['link'],
-            'title': request.json['title'],
-            'description': request.json['description'],
-            'id': entity.id
-        }
-        return response_object, 200
+        return bookmark_entity_to_return(bookmark_entity), 200
     else: 
         response_object = {
             'status': 'fail',
@@ -318,24 +318,13 @@ def add_clink():
         datastore_client.put(write_entity)
         datastore_client.put(read_entity)
 
-        response_object = {
-            'title': title,
-            'private': private,
-            'id': clink_entity.id
-        }
-        return response_object, 200  
+        return clink_entity_to_return(clink_entity), 200  
     else:
         response_object = {
             'status': 'fail',
             'message': 'Invalid JWT. Failed to add clink.'
         }
         return response_object, 401
-
-def clink_entity_to_return(clink):
-    return { 'title': clink['title'], 'private': clink['private'], 'id': clink.id }
-
-def bookmark_entity_to_return(bookmark):
-    return { 'title': bookmark['title'], 'description': bookmark['description'], 'link': bookmark['link'], 'id': bookmark.id }
 
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
