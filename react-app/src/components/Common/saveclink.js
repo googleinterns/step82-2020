@@ -34,8 +34,7 @@ const SaveClinkMenu = (props) => {
     setEditVisible(true);
   };
 
-  const onSaveFinish = values => {
-
+  const onSaveFinish = () => {
     dispatch(addReadMap(props.clink, currentUser))
     setLoading(true);
     setTimeout(() => {
@@ -43,6 +42,7 @@ const SaveClinkMenu = (props) => {
       setEditVisible(false);
     }, 3000);
     confirmForm.resetFields();
+    window.location.reload(false);
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
