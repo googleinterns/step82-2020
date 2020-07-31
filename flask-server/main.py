@@ -245,10 +245,7 @@ def save_token(token):
 
 def check_denylist(token):
     token_query = list(datastore_client.query(kind='denylist_token').add_filter('jwt', '=', token).fetch())
-    if token_query:
-        return True
-    else:
-        return False 
+    return bool(token_query)
 
 def clink_entity_to_return(clink):
     return { 'title': clink['title'], 'private': clink['private'], 'id': clink.id }
