@@ -136,7 +136,7 @@ export const {
   fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed,
   shareClinkStart, shareClinkSucceed, shareClinkFailed,
   unshareClinkStart, unshareClinkSucceed, unshareClinkFailed,
-  logout, fetchUsernameSucceed
+  fetchUsernameSucceed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
