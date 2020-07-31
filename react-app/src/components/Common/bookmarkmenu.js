@@ -46,16 +46,18 @@ const BookmarkMenu = (props) => {
     setVisible(false);
   };
 
-  const menu = (<Menu>
-    <Menu.Item key="edit" onClick={showModal}>
-      Edit
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit" onClick={showModal}>
+        Edit
     </Menu.Item>
-    <Menu.Item key="delete" onClick={onDeleteFinish}>
-      Delete
+      <Menu.Item key="delete" onClick={onDeleteFinish}>
+        Delete
     </Menu.Item>
-  </Menu>);
+    </Menu>
+  );
 
-  return(
+  return (
     <div>
       <Dropdown overlay={menu} trigger={['click']} className="ellipsis-card-button">
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
