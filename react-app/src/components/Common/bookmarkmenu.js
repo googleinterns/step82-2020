@@ -30,18 +30,18 @@ const BookmarkMenu = (props) => {
     dispatch(deleteBookmark(currentClinkId, props.id, currentToken))
   }
 
-  const onEditFinish = values => {
-    console.log(props.id)
+  const onEditFinish = (values) => {
     dispatch(editBookmark(values.link || "", values.title || "", values.description || "", currentClinkId, props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
     }, 3000);
-    editForm.resetFields()
+    editForm.resetFields();
+    window.location.reload(false);
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
