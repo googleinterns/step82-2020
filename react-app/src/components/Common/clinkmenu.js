@@ -17,7 +17,6 @@ const layout = {
 const ClinkMenu = (props) => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const clinkId = useSelector(state => state.clink.currentClinkId);
   const usersToShare = useSelector(state => state.users.noWriteUsers);
   const sharedUsers = useSelector(state => state.users.writeUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
@@ -40,12 +39,12 @@ const ClinkMenu = (props) => {
   })
 
   useEffect(() => {
-    if (isCurrentUserFetched && clinkId !== 'All') {
+    if (isCurrentUserFetched && currentClinkId !== 'All') {
       fetchUsers(currentToken).then(() => {
-        dispatch(fetchUsersWrite(clinkId, currentToken));
+        dispatch(fetchUsersWrite(currentClinkId, currentToken));
       })
     }
-  }, [clinkId]);
+  }, [currentClinkId]);
 
   const showEdit = () => {
     setEditVisible(true);
@@ -72,7 +71,7 @@ const ClinkMenu = (props) => {
 
   const onShareFinish = values => {
     setLoading(true);
-    dispatch(shareClink(clinkId, values.toShare, currentToken));
+    dispatch(shareClink(currentClinkId, values.toShare, currentToken));
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);
@@ -83,7 +82,7 @@ const ClinkMenu = (props) => {
 
   const onUnshareFinish = values => {
     setUnshareLoading(true);
-    dispatch(unshareClink(clinkId, values.toRemove, currentToken));
+    dispatch(unshareClink(currentClinkId, values.toRemove, currentToken));
     setTimeout(() => {
       setUnshareLoading(false);
       setShareVisible(false);
