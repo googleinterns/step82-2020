@@ -39,7 +39,6 @@ const SaveClinkMenu = (props) => {
       setSaveVisible(false);
     }, 3000);
     confirmForm.resetFields();
-    window.location.reload(false);
   };
 
   const onUnsaveFinish = () => {
@@ -50,7 +49,6 @@ const SaveClinkMenu = (props) => {
       setUnsaveVisible(false);
     }, 3000);
     confirmUnsaveForm.resetFields();
-    window.location.reload(false);
   };
 
   const onFinishFailed = errorInfo => {
@@ -87,7 +85,7 @@ const SaveClinkMenu = (props) => {
       <Dropdown overlay={menu} trigger={['click']} className={props.menuClass}>
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
-      <Modal visible={saveIsVisible} onCancel={handleCancel}
+      <Modal visible={saveIsVisible} onCancel={handleCancel} destroyOnClose
         footer={[
           <Button key="back" onClick={handleCancel}>
             No
@@ -107,7 +105,7 @@ const SaveClinkMenu = (props) => {
           <h1>Confirm save?</h1>
         </Form>
       </Modal>
-      <Modal visible={unsaveIsVisible} onCancel={handleCancel}
+      <Modal visible={unsaveIsVisible} onCancel={handleCancel} destroyOnClose
         footer={[
           <Button key="back" onClick={handleCancel}>
             No
