@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const  BASE_URL = '/apis';	
+const BASE_URL = '/apis';	
 const SIGNUP_URL = `${BASE_URL}/sign-up`;
 const LOGIN_URL = `${BASE_URL}/login`;	
 const LOGOUT_URL = `${BASE_URL}/logout`;
