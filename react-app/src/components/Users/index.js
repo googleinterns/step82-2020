@@ -66,9 +66,9 @@ const Users = () => {
       history.push(`/dashboard/${id}/${userId}`)
     }
   }
-  console.log("CHECK" +Array.isArray(writeClinks))
-  const checkClink = (clinkTitle) => {
-    var filtered = writeClinks.filter(item => item.title.toLowerCase().includes(clinkTitle.toLowerCase()));
+
+  const checkClink = (clinkId) => {
+    var filtered = writeClinks.filter(item => (item.id) === (clinkId));
     return isMyPage && (filtered.length > 0);
   }
 
@@ -88,8 +88,8 @@ const Users = () => {
                       <div style={{ width: "100%", cursor: "pointer" }} onClick={() => changeClink(clink.title, clink.id)}>
                         {clink.title}
                       </div>
-                      {(checkClink(clink.title)) && <ClinkMenu menuClass="ellipsis-card-button" />}
-                      {(!checkClink(clink.title)) && <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" display="unsave"/>}
+                      {(checkClink(clink.id)) && <ClinkMenu menuClass="ellipsis-card-button" />}
+                      {(!checkClink(clink.id)) && <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" display="unsave"/>}
                       {!isMyPage && <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" />}
                     </div>
                   </div>
