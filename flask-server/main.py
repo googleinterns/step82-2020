@@ -351,6 +351,16 @@ def add_readmap(user_id):
         }
     return response_object, 200  
 
+@app.route('/apis/unsave-clink/<string:user_id>', methods=['POST'])
+def unsave_clink(user_id):
+    query = datastore_client.query(kind='user_read_map')
+    clink = query.add_filter('clink_id', '=', int(request.json['clink'])).add_filter('user_id', '=', int(user_id))
+    result = list(clink.fetch(limit=1))[0]
+
+    key = datastore_client.key('user_read_map', result.id)
+    datastore_client.delete(key)
+    return "", 200  
+
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())

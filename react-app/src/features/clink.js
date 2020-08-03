@@ -154,6 +154,10 @@ export const addReadMap = (clinkId, userId) => async dispatch => {
   }
 }
 
+export const unsave = (clinkId, userId) => async dispatch => {
+  await apis.unsaveClink(clinkId, userId); 
+}
+
 export const fetchClinks = (id) => async dispatch => {
   try {
     dispatch(fetchClinksStart())
@@ -188,7 +192,7 @@ export const fetchBookmarks = (token, id) => async dispatch => {
   try {
     dispatch(fetchBookmarksStart());
     const response = await apis.fetchBookmarks(token, id);
-    dispatch(fetchBookmarksSucceed(response.data))
+    dispatch(fetchBookmarksSucceed(response.data));
   } catch (err) {
     dispatch(fetchBookmarksFailed(err.response.data.message));
   }

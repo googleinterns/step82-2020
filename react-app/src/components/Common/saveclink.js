@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers } from '../../features/users';
-import { addReadMap } from '../../features/clink'
+import { addReadMap, unsave } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -43,6 +43,7 @@ const SaveClinkMenu = (props) => {
   };
 
   const onUnsaveFinish = () => {
+    dispatch(unsave(props.clink, currentUser))
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

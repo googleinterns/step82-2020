@@ -89,7 +89,7 @@ const Users = () => {
                         {clink.title}
                       </div>
                       {(checkClink(clink.title)) && <ClinkMenu menuClass="ellipsis-card-button" />}
-                      {(!checkClink(clink.title)) && <SaveClinkMenu menuClass="ellipsis-card-button" display="unsave"/>}
+                      {(!checkClink(clink.title)) && <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" display="unsave"/>}
                       {!isMyPage && <SaveClinkMenu clink={clink.id} menuClass="ellipsis-card-button" />}
                     </div>
                   </div>
