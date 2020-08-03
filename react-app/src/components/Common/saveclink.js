@@ -30,11 +30,21 @@ const SaveClinkMenu = (props) => {
     }
   }, []);
 
-  const showSave = () => {
-    setEditVisible(true);
-  };
+  function showConfirm() {
+    confirm({
+      title: 'Do you Want to delete these items?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Some descriptions',
+      onOk() {
+        saveClink();
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
 
-  const onSaveFinish = () => {
+  const saveClink = () => {
     dispatch(addReadMap(props.clink, currentUser))
     setLoading(true);
     setTimeout(() => {
@@ -60,32 +70,15 @@ const SaveClinkMenu = (props) => {
       </Menu.Item>
     </Menu>
   );
+  
+      <Button onClick={showConfirm}>Confirm</Button>
+
 
   return (
     <>
       <Dropdown overlay={menu} trigger={['click']} className={props.menuClass}>
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
-      <Modal visible={editIsVisible} onCancel={handleCancel}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            No
-          </Button>,
-          <Button form="confirm-save" htmlType="submit" key="submit" type="primary" loading={isLoading} >
-            Yes
-          </Button>,
-        ]}
-      >
-        <Form {...layout} name="confirm-save" onFinish={onSaveFinish} onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
-          form={confirmForm}
-          style={{textAlign: "center"}}
-        >
-          <h1>Confirm save?</h1>
-        </Form>
-      </Modal>
     </>
   );
 };
