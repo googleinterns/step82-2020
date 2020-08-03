@@ -35,11 +35,6 @@ const BookmarkMenu = (props) => {
       setLoading(false);
       setVisible(false);
     }, 3000);
-    window.location.reload();
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
 
   const handleCancel = () => {
@@ -63,6 +58,7 @@ const BookmarkMenu = (props) => {
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
       <Modal
+        destroyOnClose
         visible={isVisible}
         onCancel={handleCancel}
         footer={[
@@ -83,7 +79,6 @@ const BookmarkMenu = (props) => {
             description: props.description
           }}
           onFinish={onEditFinish}
-          onFinishFailed={onFinishFailed}
         >
           <Form.Item
             label="Link"
