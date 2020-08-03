@@ -59,19 +59,34 @@ def store_user():
         }
         return response_object, 200
 
-@app.route('/apis/fetch-users', methods=['GET'])
-def fetch_users():
+def user_entity_to_return(user):
+    return { 'id': user.id, 'username': user['username']}
+
+@app.route('/apis/fetch-all-users', methods=['GET'])
+def fetch_all_users():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     if is_valid_instance(resp_token):
-        query = datastore_client.query(kind='user').add_filter('deleted', '=', False)
-        users = list(query.fetch())
+        users = list(datastore_client.query(kind='user').add_filter('deleted', '=', False).fetch())
+        array = list(map(user_entity_to_return, users))
+        return jsonify(array), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to fetch users.'
+        }
+        return response_object, 401
+
+@app.route('/apis/fetch-users-write/<string:clink_id>', methods=['GET'])
+def fetch_users_write(clink_id):
+    resp_token = decode_auth_token(request.headers.get('Authorization'))
+    if is_valid_instance(resp_token):
+        shared_users = list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).fetch())
         array = []
-        for user in users:
-            if user.id != resp_token:
-                array.append({
-                    'id': user.id,
-                    'username': user['username']
-                })
+        for shared_user in shared_users:
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', int(shared_user['user_id']))
+            user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+            array.append(user_entity_to_return(user))
         return jsonify(array), 200
     else:
         response_object = {
@@ -247,15 +262,15 @@ def add_bookmark():
             'description': request.json['description'],
             'deleted': False,
             'created': datetime.datetime.now(timezone.utc),
-            'creator': str(resp_token)
+            'creator': int(resp_token)
         })
         datastore_client.put(entity)
 
         for clink in request.json['clink']:
             map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
             map_entity.update({
-                'clink_id': clink,
-                'bookmark_id': entity.id
+                'clink_id': int(clink),
+                'bookmark_id': int(entity.id)
             })
             datastore_client.put(map_entity)
 
@@ -293,11 +308,13 @@ def add_clink():
             }
             return response_object, 401
 
+        private = request.json['privacy']
+        
         clink_entity = datastore.Entity(key=datastore_client.key('clink'))
         clink_entity.update({
             'title': title,
             'deleted': False,
-            'private': request.json['privacy'],
+            'private': private,
             'created': datetime.datetime.now(timezone.utc)
         })  
         datastore_client.put(clink_entity)
@@ -306,8 +323,8 @@ def add_clink():
         read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
 
         mapping = {
-            'clink_id': clink_entity.id,
-            'user_id': str(resp_token)
+            'clink_id': int(clink_entity.id),
+            'user_id': int(resp_token)
         }
             
         write_entity.update(mapping)
@@ -317,6 +334,7 @@ def add_clink():
 
         response_object = {
             'title': title,
+            'private': private,
             'id': clink_entity.id
         }
         return response_object, 200  
@@ -327,40 +345,31 @@ def add_clink():
         }
         return response_object, 401
 
-@app.route('/apis/fetch-clinks', methods=['GET'])
-def fetch_clinks():
-    resp_token = decode_auth_token(request.headers.get('Authorization'))
-
-    if is_valid_instance(resp_token):
-        clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', str(resp_token)).fetch())
-        all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
-        all_query.order = ['created']
-        all_list = list(all_query.fetch())
-        to_return = []    
-        for clink in all_list:
-            for id in clink_ids:
-                if id['clink_id'] == clink.id:
-                    response_object = {
-                        'title': clink['title'],
-                        'id': clink.id,
-                        'private': clink['private'] 
-                    }
-                    to_return.append(response_object)
-                    break
-        return jsonify(to_return), 200
-    else:
-        response_object = {
-            'status': 'fail',
-            'message': 'Invalid JWT. Failed to fetch clinks.'
-        }
-        return response_object, 401
+@app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
+def fetch_clinks(user_id):
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
+    all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
+    all_query.order = ['created']
+    all_list = list(all_query.fetch())
+    to_return = []    
+    for clink in all_list:
+        for id in clink_ids:
+            if id['clink_id'] == clink.id:
+                response_object = {
+                    'title': clink['title'],
+                    'id': clink.id,
+                    'private': clink['private'] 
+                }
+                to_return.append(response_object)
+                break
+    return jsonify(to_return), 200
 
 @app.route('/apis/fetch-write-clinks', methods=['GET'])
 def fetch_write_clinks():
     resp_token = decode_auth_token(request.headers.get('Authorization'))
 
     if is_valid_instance(resp_token):
-        clink_ids = list(datastore_client.query(kind='user_write_map').add_filter('user_id', '=', str(resp_token)).fetch())
+        clink_ids = list(datastore_client.query(kind='user_write_map').add_filter('user_id', '=', int(resp_token)).fetch())
         all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
         all_query.order = ['created']
         all_list = list(all_query.fetch())
@@ -388,7 +397,7 @@ def fetch_bookmarks(clink_id):
     resp_token = decode_auth_token(request.headers.get('Authorization'))
     
     if is_valid_instance(resp_token):
-        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', str(resp_token)).add_filter('deleted', '=', False)
+        bookmark_query = datastore_client.query(kind='bookmark').add_filter('creator', '=', int(resp_token)).add_filter('deleted', '=', False)
         bookmark_query.order = ['created']
         all_list = list(bookmark_query.fetch())
         if clink_id == 'All':
@@ -423,6 +432,104 @@ def fetch_bookmarks(clink_id):
             'message': 'Invalid JWT. Failed to fetch clinks.'
         }
         return response_object, 401
+
+@app.route('/apis/share-clink', methods=['POST'])
+def share_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        shared_entities = list(datastore_client.query(kind='user_write_map')
+                            .add_filter('clink_id', '=', int(request.json['clink']))
+                            .fetch())
+        shared_users = map(lambda entity: entity['user_id'], shared_entities)
+
+        if int(resp_token) not in shared_users:
+            response_object = {
+            'status': 'fail',
+            'message': 'You do not have write permissions. Failed to share clink.'
+            }
+            return response_object, 401
+
+        to_return = []
+        for user in request.json['toShare']:
+            write_entity = datastore.Entity(key=datastore_client.key('user_write_map'))
+            read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+
+            mapping = {
+                'clink_id': int(request.json['clink']),
+                'user_id': int(user)
+            }
+
+            write_entity.update(mapping)
+            read_entity.update(mapping)
+            datastore_client.put(write_entity)
+            datastore_client.put(read_entity)
+            
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', user)
+            user_entity = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+            to_return.append(user_entity_to_return(user_entity))
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to share clink.'
+        }
+        return response_object, 401
+
+@app.route('/apis/unshare-clink', methods=['POST'])
+def unshare_clink():
+    resp_token = decode_auth_token(request.json['Authorization'])
+
+    if is_valid_instance(resp_token):
+        shared_entities = list(datastore_client.query(kind='user_write_map')
+                            .add_filter('clink_id', '=', int(request.json['clink']))
+                            .fetch())
+        shared_users = map(lambda entity: entity['user_id'], shared_entities)
+
+        if int(resp_token) not in shared_users:
+            response_object = {
+            'status': 'fail',
+            'message': 'You do not have write permissions. Failed to remove permissions.'
+            }
+            return response_object, 401
+        
+        to_return = []
+        for user in request.json['toRemove']:
+            write_entity = list(datastore_client.query(kind='user_write_map')
+                                .add_filter('user_id', '=', user)
+                                .add_filter('clink_id', '=', request.json['clink'])
+                                .fetch(limit=1))[0]
+            read_entity = list(datastore_client.query(kind='user_read_map')
+                                .add_filter('user_id', '=', user)
+                                .add_filter('clink_id', '=', request.json['clink'])
+                                .fetch(limit=1))[0]
+            write_key = datastore_client.key('user_write_map', write_entity.id)
+            read_key = datastore_client.key('user_read_map', read_entity.id)
+
+            datastore_client.delete(write_key)
+            datastore_client.delete(read_key)
+
+            # return user to update redux store
+            query = datastore_client.query(kind='user')
+            key = datastore_client.key('user', user)
+            user_entity = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+            to_return.append(user_entity_to_return(user_entity))
+        return jsonify(to_return), 200
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid JWT. Failed to remove permissions.'
+        }
+        return response_object, 401
+
+@app.route('/apis/fetch-username/<string:user_id>', methods=['GET'])
+def fetch_username(user_id):
+    query = datastore_client.query(kind='user')
+    key = datastore_client.key('user', int(user_id))
+    user = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
+    return user['username'], 200
+
 
 # routing
 @app.route('/', defaults={'path': ''})
