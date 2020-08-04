@@ -171,6 +171,7 @@ const clinkSlice = createSlice({
     },
     clearClinks(state) {
       state.clinks = [];
+      state.otherClinks = [];
       state.currentClinkTitle = 'All';
       state.currentClinkId = 'All';
     },
@@ -219,6 +220,16 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
   }
 };
 
+export const addReadMap = (clinkId, userId) => async dispatch => {
+  try {
+    dispatch(addClinkStart());
+    const response = await apis.addReadMap(clinkId, userId); 
+    dispatch(addClinkSucceed(response.data));
+  } catch (err) {
+    dispatch(addClinkFailed(err.response.data.message));
+  }
+}
+
 export const fetchClinks = (id) => async dispatch => {
   try {
     dispatch(fetchClinksStart());
@@ -231,9 +242,9 @@ export const fetchClinks = (id) => async dispatch => {
 
 export const fetchOtherClinks = (id) => async dispatch => {
   try {
-    dispatch(fetchOtherClinksStart());
-    const response = await apis.fetchClinks(id);
-    dispatch(fetchOtherClinksSucceed(response.data));
+    dispatch(fetchOtherClinksStart())
+    const response = await apis.fetchPublicClinks(id)
+    dispatch(fetchOtherClinksSucceed(response.data))
   } catch (err) {
     dispatch(fetchOtherClinksFailed(err.response.data.message));
   }

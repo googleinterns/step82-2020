@@ -34,17 +34,17 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(checkUser());
-    if (isCurrentUserFetched) {
-      dispatch(setTitle("User Page"));  
-      if(userId !== currentUser) {
+    if(isCurrentUserFetched) {
+      dispatch(setTitle("User Page"));
+      if(parseInt(userId) !== parseInt(currentUser)) {
         dispatch(fetchOtherClinks(userId));
-        dispatch(fetchUsername(userId))
+        dispatch(fetchUsername(userId));
         clinks = otherClinks;
       }
     }
   }, [isCurrentUserFetched]);
 
-  if (userId !== currentUser) {
+  if (parseInt(userId) !== parseInt(currentUser)) {
     clinks = otherClinks;
   }
 
@@ -62,9 +62,9 @@ const Users = () => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
     if (parseInt(userId) === parseInt(currentUser)) {
-      history.push(`/dashboard/${id}`)
+      history.push(`/dashboard/${id}`);
     } else {
-      history.push(`/dashboard/${id}/${userId}`)
+      history.push(`/dashboard/${id}/${userId}`);
     }
   }
 
@@ -85,7 +85,7 @@ const Users = () => {
                       <div style={{width: "100%", cursor: "pointer"}} onClick={() => changeClink(clink.title, clink.id)}>
                         {clink.title} 
                       </div>
-                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button" title={clink.title} /> : <SaveClinkMenu  menuClass="ellipsis-card-button" />}
+                      {(parseInt(userId) === parseInt(currentUser)) ? <ClinkMenu menuClass="ellipsis-card-button" title={clink.title} /> : <SaveClinkMenu  menuClass="ellipsis-card-button" clink={clink.id}/>}
                     </div>
                   </div>
                   <br />
