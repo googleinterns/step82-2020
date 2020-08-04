@@ -360,7 +360,10 @@ def unsave_clink(user_id):
 
     key = datastore_client.key('user_read_map', result.id)
     datastore_client.delete(key)
-    return "", 200  
+    
+    return_key = datastore_client.key('clink', int(request.json['clink']))
+    return_clink = datastore_client.get(return_key)
+    return clink_entity_to_return(return_clink), 200  
 
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):

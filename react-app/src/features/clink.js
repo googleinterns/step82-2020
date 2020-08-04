@@ -231,7 +231,15 @@ export const addReadMap = (clinkId, userId) => async dispatch => {
 }
 
 export const unsave = (clinkId, userId) => async dispatch => {
-  await apis.unsaveClink(clinkId, userId); 
+  try {
+    dispatch(deleteClinkStart)
+    const response = await apis.unsaveClink(clinkId, userId); 
+    dispatch(deleteClinkSucceed(response.data));
+    dispatch(changeCurrClink('All'));
+    dispatch(changeTitle('All'));
+  } catch (err) {
+    dispatch(deleteClinkFailed(err.response.data.message));
+  }
 }
 
 export const fetchClinks = (id) => async dispatch => {

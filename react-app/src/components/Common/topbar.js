@@ -33,7 +33,7 @@ const Topbar = () => {
     dispatch(clearClinksAndBookmarks());
   };
 
-  if (parseInt(param.id) === parseInt(currentUser)) {
+  if (parseInt(param.userId) === parseInt(currentUser)) {
     username = "My "
   } else {
     username += "'s ";
