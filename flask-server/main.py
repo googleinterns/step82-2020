@@ -351,12 +351,7 @@ def add_readmap(user_id):
     query = datastore_client.query(kind='clink')
     key = datastore_client.key('clink', int(request.json['clink']))
     clink = list(query.add_filter('__key__', '=', key).fetch(limit=1))[0]
-    response_object = {
-            'title': clink['title'],
-            'private': clink['private'],
-            'id': request.json['clink']
-        }
-    return response_object, 200  
+    return clink_entity_to_return(clink), 200  
 
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
@@ -383,12 +378,7 @@ def fetch_public_clinks(user_id):
     for clink in all_list:
         for id in clink_ids:
             if (id['clink_id'] == clink.id) and not clink['private']:
-                response_object = {
-                    'title': clink['title'],
-                    'id': clink.id,
-                    'private': clink['private'] 
-                }
-                to_return.append(response_object)
+                to_return.append(clink_entity_to_return(clink))
                 break
     return jsonify(to_return), 200
 
