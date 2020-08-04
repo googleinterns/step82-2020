@@ -66,7 +66,6 @@ const ClinkMenu = (props) => {
       setEditVisible(false);
       setShareVisible(false);
     }, 3000);
-    editForm.resetFields();
   };
 
   const onShareFinish = values => {
