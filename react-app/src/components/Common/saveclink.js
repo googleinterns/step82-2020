@@ -36,13 +36,10 @@ const SaveClinkMenu = (props) => {
       content: contentText,
       onOk() {
         if (props.display === "unsave") {
-          dispatch(unsave(props.clink, currentUser))
+          return dispatch(unsave(props.clink, currentUser))
         } else {
-          dispatch(addReadMap(props.clink, currentUser));
+          return dispatch(addReadMap(props.clink, currentUser));
         }
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
     });

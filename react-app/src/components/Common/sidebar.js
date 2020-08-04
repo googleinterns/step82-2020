@@ -4,7 +4,7 @@ import { fetchClinks, setCurrClink, setTitle } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { Layout, Menu } from 'antd';
-import NewButton  from './newbutton';
+import NewButton from './newbutton';
 import { useHistory } from 'react-router-dom';
 
 const { Sider } = Layout;
@@ -20,7 +20,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
   useEffect(() => {
     if (isCurrentUserFetched) {
       dispatch(fetchClinks(currentUser));
@@ -33,7 +32,7 @@ const Sidebar = () => {
     history.push(`/dashboard/${id}`);
   }
 
-  let key = currentId + "" 
+  let key = currentId + ""
   if (title === "User Page") {
     key = ""
   };
@@ -44,13 +43,13 @@ const Sidebar = () => {
         <div className="logo" />
         <NewButton />
       </Menu>
-      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={[key]} >
+      <Menu className="sidebar-scroll" theme="dark" mode="inline" defaultSelectedKeys={[key]} selectedKeys={[key]}>
         <Menu.Item key="All" onClick={(() => changeClink("All", "All"))}>
           All
         </Menu.Item>
-        
+
         {clinks.map(item => (
-            <Menu.Item key={item.id} onClick={(() => changeClink(item.title, item.id))}>{item.title}</Menu.Item>
+          <Menu.Item key={item.id} onClick={(() => changeClink(item.title, item.id))}>{item.title}</Menu.Item>
         ))}
       </Menu>
     </Sider >
