@@ -6,7 +6,13 @@ const initialState = {
   isCurrentUserFetched: false,
   isLoggingIn: false,
   isSigningUp: false,
-  isFetchingUsers: false,
+  isFetchingAllUsers: false,
+  isFetchingWriteUsers: false,
+  isSharingClink: false,
+  isUnsharingClink: false,
+  allUsers: [],
+  writeUsers: [],
+  noWriteUsers: [],
   users: [],
   username: ""
 };
@@ -59,17 +65,62 @@ const usersSlice = createSlice({
       localStorage.removeItem('currentToken');
       delete state.currentUser;
     },
-    fetchUsersStart(state) {
-      state.isFetchingUsers = true;
+    fetchAllUsersStart(state) {
+      state.isFetchingAllUsers = true;
     },
-    fetchUsersSucceed(state, action) {
-      state.isFetchingUsers = false;
-      state.users = action.payload;
-      delete state.FetchUsersError;
+    fetchAllUsersSucceed(state, action) {
+      state.isFetchingAllUsers = false;
+      state.allUsers = action.payload;
+      delete state.FetchAllUsersError;
     },
-    fetchUsersFailed(state, action) {
-      state.isFetchingUsers = false;
-      state.FetchUsersError = action.payload;
+    fetchAllUsersFailed(state, action) {
+      state.isFetchingAllUsers = false;
+      state.FetchAllUsersError = action.payload;
+    },
+    fetchWriteUsersStart(state){
+      state.isFetchingWriteUsers = true;
+    },
+    fetchWriteUsersSucceed(state, action) {
+      state.isFetchingWriteUsers = false;
+      state.writeUsers = action.payload;
+      state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
+        return user.id === elem.id;
+      }));
+      delete state.FetchWriteUsersError;
+    },
+    fetchWriteUsersFailed(state, action) {
+      state.isFetchingWriteUsers = false;
+      state.FetchWriteUsersError = action.payload;
+    },
+    shareClinkStart(state) {
+      state.isSharingClink = true;
+    },
+    shareClinkSucceed(state, action) {
+      state.isSharingClink = false;
+      state.writeUsers = [...state.writeUsers, ...action.payload];
+      state.noWriteUsers = state.allUsers.filter((user) => !state.writeUsers.some(elem => {
+        return user.id === elem.id;
+      }));
+      delete state.clinkError;
+    },
+    shareClinkFailed(state, action) {
+      state.isUnsharingClink = false;
+      state.clinkError = action.payload;
+    },
+    unshareClinkStart(state) {
+      state.isUnsharingClink = true;
+    },
+    unshareClinkSucceed(state, action) {
+      state.isUnsharingClink = false;
+      state.noWriteUsers = [...state.noWriteUsers, ...action.payload];
+      state.writeUsers = state.allUsers.filter((user) => !state.noWriteUsers.some(elem => {
+        return user.id === elem.id;
+      }));
+      delete state.clinkError;
+    },
+    unshareClinkFailed(state, action) {
+      state.isUnsharingClink = false;
+      state.clinkError = action.payload;
     },
     fetchUsernameSucceed(state, action){
       state.username = action.payload;
@@ -81,7 +132,11 @@ export const {
   getCurrentUserStart, getCurrentUserSucceeded, getCurrentUserFailed,
   signUpStart, signUpSucceeded, signUpFailed,
   loginStart, loginSucceeded, loginFailed,
-  logout, fetchUsersStart, fetchUsersSucceed, fetchUsersFailed, fetchUsernameSucceed
+  logout, fetchAllUsersStart, fetchAllUsersSucceed, fetchAllUsersFailed,
+  fetchWriteUsersStart, fetchWriteUsersSucceed, fetchWriteUsersFailed,
+  shareClinkStart, shareClinkSucceed, shareClinkFailed,
+  unshareClinkStart, unshareClinkSucceed, unshareClinkFailed,
+  fetchUsernameSucceed
 } = usersSlice.actions;
 
 export const login = (username, password, remember, callbackSucceed, callbackFailed) => async dispatch => {
@@ -127,13 +182,43 @@ export const checkUser = () => async dispatch => {
   }
 }
 
-export const fetchUsers = (token) => async dispatch => {
+export const fetchAllUsers = (token) => async dispatch => {
   try {
-    dispatch(fetchUsersStart());
-    const response = await apis.fetchUsers(token);
-    dispatch(fetchUsersSucceed(response.data));
+    dispatch(fetchAllUsersStart());
+    const response = await apis.fetchAllUsers(token);
+    dispatch(fetchAllUsersSucceed(response.data));
   } catch (err) {
-    dispatch(fetchUsersFailed(err.response.data.message));
+    dispatch(fetchAllUsersFailed(err.response.data.message));
+  }
+}
+
+export const fetchUsersWrite = (clinkId, token) => async dispatch => {
+  try {
+    dispatch(fetchWriteUsersStart());
+    const response = await apis.fetchUsersWrite(clinkId, token);
+    dispatch(fetchWriteUsersSucceed(response.data));
+  } catch (err) {
+    dispatch(fetchWriteUsersFailed(err.response.data.message));
+  }
+}
+
+export const shareClink = (clinkId, toShare, token) => async dispatch => {
+  try {
+    dispatch(shareClinkStart());
+    const response = await apis.shareClink(clinkId, toShare, token);
+    dispatch(shareClinkSucceed(response.data));
+  } catch (err) {
+    dispatch(shareClinkFailed(err.response.data.message));
+  }
+}
+
+export const unshareClink = (clinkId, toRemove, token) => async dispatch => {
+  try {
+    dispatch(unshareClinkStart());
+    const response = await apis.unshareClink(clinkId, toRemove, token);
+    dispatch(unshareClinkSucceed(response.data));
+  } catch (err) {
+    dispatch(unshareClinkFailed(err.response.data.message));
   }
 }
 
