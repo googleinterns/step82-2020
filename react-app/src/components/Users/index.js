@@ -38,7 +38,7 @@ const Users = () => {
       dispatch(setTitle("User Page"));
       if(parseInt(userId) !== parseInt(currentUser)) {
         dispatch(fetchOtherClinks(userId));
-        dispatch(fetchUsername(userId))
+        dispatch(fetchUsername(userId));
         clinks = otherClinks;
       }
     }
@@ -62,9 +62,9 @@ const Users = () => {
     dispatch(setCurrClink(id));
     dispatch(setTitle(title));
     if (parseInt(userId) === parseInt(currentUser)) {
-      history.push(`/dashboard/${id}`)
+      history.push(`/dashboard/${id}`);
     } else {
-      history.push(`/dashboard/${id}/${userId}`)
+      history.push(`/dashboard/${id}/${userId}`);
     }
   }
 
