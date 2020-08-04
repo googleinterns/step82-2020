@@ -271,10 +271,10 @@ def add_bookmark():
         datastore_client.put(bookmark_entity)
 
         for clink in request.json['clink']:
-            map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
+            map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'))
             map_entity.update({
                 'clink_id': int(clink),
-                'bookmark_id': int(entity.id)
+                'bookmark_id': int(bookmark_entity.id)
             })
             datastore_client.put(map_entity)
 
