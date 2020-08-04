@@ -28,10 +28,10 @@ const SaveClinkMenu = (props) => {
       icon: <ExclamationCircleOutlined />,
       content: 'You will have read access to this clink.',
       onOk() {
-        dispatch(addReadMap(props.clink, currentUser));
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        return dispatch(addReadMap(props.clink, currentUser));
+        // return new Promise((resolve, reject) => {
+        //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        // }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
     });
