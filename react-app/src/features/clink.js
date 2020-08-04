@@ -269,12 +269,14 @@ export const editBookmark = (link, title, description, clinkId, bookmarkId, toke
   }
 };
 
-export const editClink = (title, clinkId, token) => async dispatch => {
+export const editClink = (title, clinkId, token, users) => async dispatch => {
   try {
     dispatch(editClinkStart());
     const response = await apis.editClink(title, clinkId, token);
     dispatch(editClinkSucceed(response.data));
-    dispatch(changeTitle(title));
+    if (!users) {
+      dispatch(changeTitle(title));
+    }
   } catch (err) {
     dispatch(editClinkFailed(err.response.data.message));
   }

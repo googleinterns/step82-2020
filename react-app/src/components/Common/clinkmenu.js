@@ -59,7 +59,7 @@ const ClinkMenu = (props) => {
   }
 
   const onEditFinish = (values) => {
-    dispatch(editClink(values.title, currentClinkId, currentToken));
+    dispatch(editClink(values.title, props.id || currentClinkId, currentToken, props.users || false));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
