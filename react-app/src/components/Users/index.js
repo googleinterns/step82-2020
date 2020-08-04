@@ -34,9 +34,9 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(checkUser());
-    if (isCurrentUserFetched) {
+    if(isCurrentUserFetched) {
       dispatch(setTitle("User Page"));
-      if (userId !== currentUser) {
+      if(parseInt(userId) !== parseInt(currentUser)) {
         dispatch(fetchOtherClinks(userId));
         dispatch(fetchUsername(userId))
         clinks = otherClinks;
