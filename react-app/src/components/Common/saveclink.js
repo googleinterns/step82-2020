@@ -1,77 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addReadMap } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, Button, Modal, Form, Input } from 'antd';
+import { Menu, Dropdown, Button, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 
-const layout = {
-  layout: 'vertical'
-};
-
-// interactions with clinks
 const SaveClinkMenu = (props) => {
 
-  const [isLoading, setLoading] = useState(false);
-  const [editIsVisible, setEditVisible] = useState(false);
-
-  const [confirmForm] = Form.useForm();
-
-  const showEdit = () => {
-    setEditVisible(true);
-  };
-
-  const onEditFinish = values => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setEditVisible(false);
-    }, 3000);
-    confirmForm.resetFields();
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const handleCancel = () => {
-    confirmForm.resetFields();
-    setEditVisible(false);
-  };
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.users.currentUser)
+  const { confirm } = Modal;
 
   const menu = (
     <Menu>
-      <Menu.Item key="edit" onClick={showEdit}>
+      <Menu.Item key="save" onClick={showConfirm}>
         Save
       </Menu.Item>
-    </Menu>
+    </Menu>  
   );
+
+  function showConfirm() {
+    confirm({
+      title: 'Do you want to save this clink?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You will have read access to this clink.',
+      onOk() {
+        return dispatch(addReadMap(props.clink, currentUser));
+      },
+      onCancel() {},
+    });
+  }
 
   return (
     <>
       <Dropdown overlay={menu} trigger={['click']} className={props.menuClass}>
-        <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
+        <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={(e) => e.preventDefault()} />
       </Dropdown>
-      <Modal visible={editIsVisible} onCancel={handleCancel}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            No
-          </Button>,
-          <Button form="confirm-save" htmlType="submit" key="submit" type="primary" loading={isLoading} >
-            Yes
-          </Button>,
-        ]}
-      >
-        <Form {...layout} name="confirm-save" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
-          form={confirmForm}
-          style={{textAlign: "center"}}
-        >
-          <h1>Confirm save?</h1>
-        </Form>
-      </Modal>
     </>
   );
 };

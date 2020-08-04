@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { editClink, deleteClink } from '../../features/clink';
 import { fetchAllUsers, fetchUsersWrite, shareClink, unshareClink } from '../../features/users';
 import 'antd/dist/antd.css';
 import '../../index.css';
@@ -16,10 +17,11 @@ const layout = {
 const ClinkMenu = (props) => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const clinkId = useSelector(state => state.clink.currentClinkId);
   const usersToShare = useSelector(state => state.users.noWriteUsers);
   const sharedUsers = useSelector(state => state.users.writeUsers);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
+  const currentClinkId = useSelector(state => state.clink.currentClinkId);
+
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
@@ -37,12 +39,12 @@ const ClinkMenu = (props) => {
   })
 
   useEffect(() => {
-    if (isCurrentUserFetched && clinkId !== 'All') {
+    if (isCurrentUserFetched && currentClinkId !== 'All') {
       fetchUsers(currentToken).then(() => {
-        dispatch(fetchUsersWrite(clinkId, currentToken));
+        dispatch(fetchUsersWrite(currentClinkId, currentToken));
       })
     }
-  }, [clinkId]);
+  }, [currentClinkId]);
 
   const showEdit = () => {
     setEditVisible(true);
@@ -52,7 +54,12 @@ const ClinkMenu = (props) => {
     setShareVisible(true);
   };
 
-  const onEditFinish = values => {
+  const onDeleteFinish = () => {
+    dispatch(deleteClink(currentClinkId, currentToken));
+  }
+
+  const onEditFinish = (values) => {
+    dispatch(editClink(values.title, currentClinkId, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -64,7 +71,7 @@ const ClinkMenu = (props) => {
 
   const onShareFinish = values => {
     setLoading(true);
-    dispatch(shareClink(clinkId, values.toShare, currentToken));
+    dispatch(shareClink(currentClinkId, values.toShare, currentToken));
     setTimeout(() => {
       setLoading(false);
       setShareVisible(false);
@@ -75,7 +82,7 @@ const ClinkMenu = (props) => {
 
   const onUnshareFinish = values => {
     setUnshareLoading(true);
-    dispatch(unshareClink(clinkId, values.toRemove, currentToken));
+    dispatch(unshareClink(currentClinkId, values.toRemove, currentToken));
     setTimeout(() => {
       setUnshareLoading(false);
       setShareVisible(false);
@@ -84,7 +91,7 @@ const ClinkMenu = (props) => {
     unshareForm.resetFields();
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
@@ -100,7 +107,7 @@ const ClinkMenu = (props) => {
       <Menu.Item key="edit" onClick={showEdit}>
         Edit
       </Menu.Item>
-      <Menu.Item key="delete">
+      <Menu.Item key="delete" onClick={onDeleteFinish}>
         Delete
       </Menu.Item>
       <Menu.Item key="share" onClick={showShare}>
@@ -126,7 +133,7 @@ const ClinkMenu = (props) => {
       >
         <Form {...layout} name="edit-clink" onFinish={onEditFinish} onFinishFailed={onFinishFailed}
           initialValues={{
-            remember: false,
+            title: props.title
           }}
           form={editForm}
         >
@@ -150,9 +157,6 @@ const ClinkMenu = (props) => {
         ]}
       >
         <Form {...layout} name="share-clink" onFinish={onShareFinish} onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
           form={shareForm}
         >
           <Form.Item label="Share write access by username" name="toShare"
@@ -162,7 +166,7 @@ const ClinkMenu = (props) => {
               },
             ]}
           >
-            <Select mode="multiple" 
+            <Select mode="multiple"
               filterOption={(input, option) =>
                 option.children.toLowerCase().includes(input.toLowerCase())
               }>
@@ -177,14 +181,11 @@ const ClinkMenu = (props) => {
             </Button>
           </Form.Item>
         </Form>
-        <Form {...layout} name="unshare-clink" 
-        onFinish={onUnshareFinish} 
-        onFinishFailed={onFinishFailed}
-          initialValues={{
-            remember: false,
-          }}
+        <Form {...layout} name="unshare-clink"
+          onFinish={onUnshareFinish}
+          onFinishFailed={onFinishFailed}
           form={unshareForm}
-        > 
+        >
           <Form.Item label="Remove write access:" name="toRemove"
             rules={[
               {
@@ -192,7 +193,7 @@ const ClinkMenu = (props) => {
               },
             ]}
           >
-            <Select mode="multiple" 
+            <Select mode="multiple"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }>

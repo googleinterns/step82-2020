@@ -19,12 +19,14 @@ const Topbar = () => {
   const title = useSelector(state => state.clink.currentClinkTitle);
   const history = useHistory();
   const currentUser = useSelector(state => state.users.currentUser)
-  var username = useSelector(state => state.users.username);
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const clinks = useSelector(state => state.clink.clinks);
+  
   const dispatch = useDispatch();
   const param = useParams();
   const loc = useLocation();
+  
+  var username = useSelector(state => state.users.username);
 
   const logout = () => {
     dispatch(logOut(currentToken));
@@ -37,19 +39,24 @@ const Topbar = () => {
     username += "'s ";
   }
 
+  const viewProfile = () => {
+    history.push(`/users/${currentUser}`)
+    window.location.reload();
+  }
+
   const menu = (
     <Menu>
-      <Menu.Item key="user-page" onClick={(() => history.push(`/users/${currentUser}`))}>
+      <Menu.Item key="user-page" onClick={(viewProfile)}>
         View Profile
       </Menu.Item>
     </Menu>
   );
 
-  let menuDisplay = <ClinkMenu key={title} />;
+  let menuDisplay = <ClinkMenu key={title} title={title} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
   } else if (param.userId) {
-    menuDisplay = <SaveClinkMenu key = {title} />;
+    menuDisplay = <SaveClinkMenu key={title} />;
   }
 
   const [options, setOptions] = useState([]);
