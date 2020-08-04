@@ -271,10 +271,10 @@ def add_bookmark():
         datastore_client.put(bookmark_entity)
 
         for clink in request.json['clink']:
-            map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'));
+            map_entity = datastore.Entity(key=datastore_client.key('bookmark_clink_map'))
             map_entity.update({
                 'clink_id': int(clink),
-                'bookmark_id': int(entity.id)
+                'bookmark_id': int(bookmark_entity.id)
             })
             datastore_client.put(map_entity)
 
@@ -338,6 +338,20 @@ def add_clink():
         }
         return response_object, 401
 
+@app.route('/apis/add-readmap/<string:user_id>', methods=['POST'])
+def add_readmap(user_id):
+    read_entity = datastore.Entity(key=datastore_client.key('user_read_map'))
+    mapping = {
+        'clink_id': int(request.json['clink']),
+        'user_id': int(user_id)
+    }
+    read_entity.update(mapping)
+    datastore_client.put(read_entity)
+
+    key = datastore_client.key('clink', int(request.json['clink']))
+    clink = datastore_client.get(key)
+    return clink_entity_to_return(clink), 200  
+
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
@@ -348,6 +362,21 @@ def fetch_clinks(user_id):
     for clink in all_list:
         for id in clink_ids:
             if id['clink_id'] == clink.id:
+                to_return.append(clink_entity_to_return(clink))
+                break
+    return jsonify(to_return), 200
+
+
+@app.route('/apis/fetch-public-clinks/<string:user_id>', methods=['GET'])
+def fetch_public_clinks(user_id):
+    clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
+    all_query = datastore_client.query(kind='clink').add_filter('deleted', '=', False)
+    all_query.order = ['created']
+    all_list = list(all_query.fetch())
+    to_return = []    
+    for clink in all_list:
+        for id in clink_ids:
+            if (id['clink_id'] == clink.id) and not clink['private']:
                 to_return.append(clink_entity_to_return(clink))
                 break
     return jsonify(to_return), 200
