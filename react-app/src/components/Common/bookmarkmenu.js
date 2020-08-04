@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editBookmark, deleteBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -8,15 +10,26 @@ const layout = {
   layout: 'vertical'
 };
 
-const BookmarkMenu = () => {
+const BookmarkMenu = (props) => {
+
+  const currentToken = localStorage.getItem('currentToken');
+  const currentClinkId = useSelector(state => state.clink.currentClinkId)
+
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const onFinish = values => {
+  const onDeleteFinish = () => {
+    dispatch(deleteBookmark(currentClinkId, props.id, currentToken))
+  }
+
+  const onEditFinish = (values) => {
+    dispatch(editBookmark(values.link, values.title, values.description || " ", currentClinkId, props.id, currentToken));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -24,36 +37,35 @@ const BookmarkMenu = () => {
     }, 3000);
   };
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
   const handleCancel = () => {
     setVisible(false);
   };
 
-  const menu = (<Menu>
-    <Menu.Item key="edit" onClick={showModal}>
-      Edit
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit" onClick={showModal}>
+        Edit
     </Menu.Item>
-    <Menu.Item key="delete">
-      Delete
+      <Menu.Item key="delete" onClick={onDeleteFinish}>
+        Delete
     </Menu.Item>
-  </Menu>);
+    </Menu>
+  );
 
-  return(
+  return (
     <div>
       <Dropdown overlay={menu} trigger={['click']} className="ellipsis-card-button">
         <Button icon={<EllipsisOutlined />} type="link" className="ant-dropdown-link" onClick={e => e.preventDefault()} />
       </Dropdown>
       <Modal
+        destroyOnClose
         visible={isVisible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading} >
+          <Button form="edit-bookmark" htmlType="submit" key="submit" type="primary" loading={isLoading}>
             Submit
           </Button>,
         ]}
@@ -62,17 +74,20 @@ const BookmarkMenu = () => {
           {...layout}
           name="edit-bookmark"
           initialValues={{
-            remember: false,
+            link: props.link,
+            title: props.title,
+            description: props.description
           }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          onFinish={onEditFinish}
         >
           <Form.Item
             label="Link"
             name="link"
             rules={[
               {
-                required: false,
+                required: true,
+                message: 'Please input a valid link for your bookmark!',
+                pattern: new RegExp('^(?:[a-z]+:)?//', 'i')
               },
             ]}
           >
@@ -83,7 +98,8 @@ const BookmarkMenu = () => {
             name="title"
             rules={[
               {
-                required: false,
+                required: true,
+                message: 'Please input a title for your bookmark!'
               },
             ]}
           >
