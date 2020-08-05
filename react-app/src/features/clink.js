@@ -88,7 +88,6 @@ const clinkSlice = createSlice({
       state.isFetchingBookmarks = true;
     },
     fetchBookmarksSucceed(state, action) {
-      console.log("payload: " + action.payload)
       state.isFetchingBookmarks = false;
       state.bookmarks = action.payload;
       delete state.bookmarkError;
