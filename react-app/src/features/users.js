@@ -149,7 +149,7 @@ export const login = (username, password, remember, callbackSucceed, callbackFai
     dispatch(loginFailed(err.response.data.message));
     callbackFailed(err.response.data.message);
   }
-}
+};
 
 export const signUp = (email, username, password, callbackSucceed, callbackFailed) => async dispatch => {
   try {
@@ -161,7 +161,7 @@ export const signUp = (email, username, password, callbackSucceed, callbackFaile
     dispatch(signUpFailed(err.response.data.message));
     callbackFailed(err.response.data.message);
   }
-}
+};
 
 export const logOut = (user) => async dispatch => {
   try {
@@ -170,7 +170,7 @@ export const logOut = (user) => async dispatch => {
   } catch (err) {
 
   }
-}
+};
 
 export const checkUser = () => async dispatch => {
   try {
@@ -180,7 +180,7 @@ export const checkUser = () => async dispatch => {
   } catch (err) {
     dispatch(getCurrentUserFailed(err.response.data.message));
   }
-}
+};
 
 export const fetchAllUsers = (token) => async dispatch => {
   try {
@@ -190,7 +190,7 @@ export const fetchAllUsers = (token) => async dispatch => {
   } catch (err) {
     dispatch(fetchAllUsersFailed(err.response.data.message));
   }
-}
+};
 
 export const fetchUsersWrite = (clinkId, token) => async dispatch => {
   try {
@@ -200,7 +200,7 @@ export const fetchUsersWrite = (clinkId, token) => async dispatch => {
   } catch (err) {
     dispatch(fetchWriteUsersFailed(err.response.data.message));
   }
-}
+};
 
 export const shareClink = (clinkId, toShare, token) => async dispatch => {
   try {
@@ -210,7 +210,7 @@ export const shareClink = (clinkId, toShare, token) => async dispatch => {
   } catch (err) {
     dispatch(shareClinkFailed(err.response.data.message));
   }
-}
+};
 
 export const unshareClink = (clinkId, toRemove, token) => async dispatch => {
   try {
@@ -220,11 +220,11 @@ export const unshareClink = (clinkId, toRemove, token) => async dispatch => {
   } catch (err) {
     dispatch(unshareClinkFailed(err.response.data.message));
   }
-}
+};
 
 export const fetchUsername = (id) => async dispatch => {
   const response = await apis.fetchUsername(id);
   dispatch(fetchUsernameSucceed(response.data));
-}
+};
 
 export default usersSlice.reducer;

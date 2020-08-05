@@ -1,6 +1,5 @@
 import datetime
 import jwt
-import os
 
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
@@ -13,7 +12,7 @@ app = Flask(__name__, template_folder='static/react')
 CORS(app)
 bcrypt = Bcrypt()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = list(datastore_client.query(kind='SETTINGS').add_filter('name', '=', 'SECRET_KEY').fetch(limit=1))[0]['value']
 
 # sign-up api
 @app.route('/apis/sign-up', methods=['POST'])
@@ -637,4 +636,8 @@ def has_write_access(clink_id, user_id):
 def catch_all(path):
   return render_template("index.html")
 
-app.run(debug=True)
+if __name__ == '__main__':
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app. This
+    # can be configured by adding an `entrypoint` to app.yaml.
+    app.run(host='127.0.0.1', port=5000, debug=True)
