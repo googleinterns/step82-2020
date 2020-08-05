@@ -432,6 +432,9 @@ def fetch_bookmarks(clink_id):
                 to_return.append(bookmark_entity_to_return(bookmark))              
             return jsonify(to_return), 200
         else:
+            new_query = datastore_client.query(kind='bookmark').add_filter('deleted', '=', False)
+            new_query.order = ['created']
+            all_list = list(new_query.fetch())
             bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
             to_return = []    
 

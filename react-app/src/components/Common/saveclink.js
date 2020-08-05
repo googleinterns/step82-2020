@@ -10,6 +10,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const SaveClinkMenu = (props) => {
 
+  const currentToken = localStorage.getItem('currentToken');
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.users.currentUser)
   const { confirm } = Modal;
@@ -38,7 +39,7 @@ const SaveClinkMenu = (props) => {
         if (props.display === "unsave") {
           return dispatch(unsave(props.clink, currentUser))
         } else {
-          return dispatch(addReadMap(props.clink, currentUser));
+          return dispatch(addReadMap(currentToken, props.clink, currentUser));
         }
       },
       onCancel() {},

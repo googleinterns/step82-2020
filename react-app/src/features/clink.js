@@ -88,6 +88,7 @@ const clinkSlice = createSlice({
       state.isFetchingBookmarks = true;
     },
     fetchBookmarksSucceed(state, action) {
+      console.log("payload: " + action.payload)
       state.isFetchingBookmarks = false;
       state.bookmarks = action.payload;
       delete state.bookmarkError;
@@ -220,10 +221,11 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
   }
 };
 
-export const addReadMap = (clinkId, userId) => async dispatch => {
+export const addReadMap = (token, clinkId, userId) => async dispatch => {
   try {
     dispatch(addClinkStart());
     const response = await apis.addReadMap(clinkId, userId); 
+    const fetchResponse = await apis.fetchBookmarks(token, clinkId);
     dispatch(addClinkSucceed(response.data));
   } catch (err) {
     dispatch(addClinkFailed(err.response.data.message));

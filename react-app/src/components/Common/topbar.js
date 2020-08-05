@@ -16,7 +16,7 @@ const { Search } = Input;
 const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const title = useSelector(state => state.clink.currentClinkTitle);
+  var title = useSelector(state => state.clink.currentClinkTitle);
   const history = useHistory();
   const currentUser = useSelector(state => state.users.currentUser)
   const bookmarks = useSelector(state => state.clink.bookmarks);
@@ -32,6 +32,10 @@ const Topbar = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
   };
+
+  if (param.clinkId === "All") {
+    title = "All";
+  }
 
   if (parseInt(param.userId) === parseInt(currentUser)) {
     username = "My "
