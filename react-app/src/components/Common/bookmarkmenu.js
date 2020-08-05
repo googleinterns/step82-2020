@@ -4,7 +4,7 @@ import { editBookmark, deleteBookmark } from '../../features/clink';
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { Modal, Button, Form, Input, Menu, Dropdown } from 'antd';
+import { message, Modal, Button, Form, Input, Menu, Dropdown } from 'antd';
 
 const layout = {
   layout: 'vertical'
@@ -24,12 +24,16 @@ const BookmarkMenu = (props) => {
     setVisible(true);
   };
 
+  const onFailed = (error) => {
+    message.error(error);
+  };
+
   const onDeleteFinish = () => {
-    dispatch(deleteBookmark(currentClinkId, props.id, currentToken))
-  }
+    dispatch(deleteBookmark(currentClinkId, props.id, currentToken, onFailed))
+  };
 
   const onEditFinish = (values) => {
-    dispatch(editBookmark(values.link, values.title, values.description || " ", currentClinkId, props.id, currentToken));
+    dispatch(editBookmark(values.link, values.title, values.description || " ", currentClinkId, props.id, currentToken, onFailed));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

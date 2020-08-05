@@ -615,7 +615,7 @@ def delete_bookmark():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid Authorization. Failed to edit bookmark.'
+            'message': 'Invalid Authorization. Failed to delete bookmark.'
         }
         return response_object, 401
 
@@ -638,7 +638,7 @@ def delete_clink():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid Authorization. Failed to edit clink.'
+            'message': 'Invalid Authorization. Failed to delete clink.'
         }
         return response_object, 401
 
