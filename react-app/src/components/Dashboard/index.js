@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { checkUser } from '../../features/users';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { Layout, Spin } from 'antd';
 import Sidebar from '../Common/sidebar';
 import Topbar from '../Common/topbar';

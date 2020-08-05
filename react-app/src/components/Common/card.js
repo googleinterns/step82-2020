@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchBookmarks, clearBookmarks } from '../../features/clink';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { Collapse } from 'antd';
 import BookmarkMenu from './bookmarkmenu';
 

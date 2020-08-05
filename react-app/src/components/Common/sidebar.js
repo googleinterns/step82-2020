@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchClinks, setCurrClink, setTitle } from '../../features/clink'
-import 'antd/dist/antd.css';
-import '../../index.css';
+import { fetchClinks, setCurrClink, setTitle } from '../../features/clink';
 import { Layout, Menu } from 'antd';
 import NewButton from './newbutton';
 import { useHistory } from 'react-router-dom';

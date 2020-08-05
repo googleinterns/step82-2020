@@ -6,6 +6,8 @@ import Home from './components/Home';
 import NotFound from './components/NotFound';
 import Users from './components/Users';
 import './App.css';
+import 'antd/dist/antd.css';
+import './index.css';
 
 function App() {
   

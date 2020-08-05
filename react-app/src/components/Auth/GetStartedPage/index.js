@@ -1,7 +1,5 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
-import 'antd/dist/antd.css';
-import '../../../index.css';
 import { Tabs } from 'antd';
 import LoginPage from '../LoginPage';
 import SignUpPage from '../SignUpPage';

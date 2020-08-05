@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addReadMap } from '../../features/clink'
-import 'antd/dist/antd.css';
-import '../../index.css';
+import { addReadMap } from '../../features/clink';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../features/users';
 import { clearClinksAndBookmarks } from '../../features/clink';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { Layout, Input, Dropdown, Menu, AutoComplete } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import ClinkMenu from './clinkmenu';

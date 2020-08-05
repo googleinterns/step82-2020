@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editClink, deleteClink } from '../../features/clink';
 import { fetchAllUsers, fetchUsersWrite, shareClink, unshareClink } from '../../features/users';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button, Modal, Form, Input, Select } from 'antd';
 

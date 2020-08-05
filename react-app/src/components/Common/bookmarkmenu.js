@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editBookmark, deleteBookmark } from '../../features/clink';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Modal, Button, Form, Input, Menu, Dropdown } from 'antd';
 

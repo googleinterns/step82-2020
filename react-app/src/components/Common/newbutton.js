@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addClink, addBookmark, fetchWriteClinks } from '../../features/clink';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { PlusOutlined } from '@ant-design/icons';
 import { message, Modal, Tabs, Button, Form, Input, Select, Switch } from 'antd';
 

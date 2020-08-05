@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../../../features/users';
-import 'antd/dist/antd.css';
-import '../../../index.css';
 import { message, Form, Input, Checkbox, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 

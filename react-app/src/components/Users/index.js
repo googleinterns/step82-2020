@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { useHistory, useParams } from 'react-router-dom';
 import { checkUser, fetchUsername } from '../../features/users';
 import { Layout, Spin } from 'antd';

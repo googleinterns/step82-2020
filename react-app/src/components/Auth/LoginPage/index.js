@@ -2,8 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from '../../../features/users';
-import 'antd/dist/antd.css';
-import '../../../index.css';
 import { message, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 

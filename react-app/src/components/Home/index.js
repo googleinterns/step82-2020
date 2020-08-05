@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import 'antd/dist/antd.css';
-import '../../index.css';
 import { Button } from 'antd';
 
 const Home = () => {
