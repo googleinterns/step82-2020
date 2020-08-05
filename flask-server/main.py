@@ -644,7 +644,7 @@ def delete_clink():
 
 # write access api
 def has_write_access(clink_id, user_id):
-    access = clink_id == "All" or list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))[0]
+    access = clink_id == "All" or list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))
     return bool(access)
 
 # routing
