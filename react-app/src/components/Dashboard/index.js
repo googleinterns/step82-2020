@@ -46,7 +46,7 @@ const Dashboard = () => {
           <Card />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Clink</Footer>
+        <Footer style={{ textAlign: 'center', marginLeft: '250px' }}>Clink</Footer>
       </Layout>
     </Layout>
   );
