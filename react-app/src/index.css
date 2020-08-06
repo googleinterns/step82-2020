@@ -36,6 +36,7 @@ code {
 
 .topbar {
   height: 153px!important;
+  margin-left: 250px;
 }
 
 .topbar-searchbar-wrapper {

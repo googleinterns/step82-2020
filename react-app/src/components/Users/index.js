@@ -79,8 +79,8 @@ const Users = () => {
       <Sidebar />
       <Layout className="site-layout">
         <Topbar />
-        <Content style={{ position: 'relative', margin: '24px 16px 0', overflow: 'auto', height: '65vh' }}>
-          <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center', minHeight: '65vh' }}>
+        <Content style={{ position: 'relative', margin: '24px 16px 0', marginLeft: '266px', overflow: 'auto', height: '67vh', maxHeight: '67vh' }}>
+          <div className="site-layout-background" style={{ padding: '24px', textAlign: 'center', minHeight: '67vh' }}>
             <h1 className="user-title">Public</h1>
             {clinks.filter(clink => clink.title.toLowerCase().includes(urlParam.toLowerCase())).map(clink => (<>
               {!clink.private &&
@@ -117,7 +117,7 @@ const Users = () => {
             }
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Clink</Footer>
+        <Footer style={{ textAlign: 'center', marginLeft: '250px' }}>Clink</Footer>
       </Layout>
     </Layout>
   );
