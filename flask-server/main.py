@@ -351,6 +351,19 @@ def add_readmap(user_id):
     clink = datastore_client.get(key)
     return clink_entity_to_return(clink), 200  
 
+@app.route('/apis/unsave-clink/<string:user_id>', methods=['POST'])
+def unsave_clink(user_id):
+    query = datastore_client.query(kind='user_read_map')
+    clink = query.add_filter('clink_id', '=', int(request.json['clink'])).add_filter('user_id', '=', int(user_id))
+    result = list(clink.fetch(limit=1))[0]
+
+    key = datastore_client.key('user_read_map', result.id)
+    datastore_client.delete(key)
+    
+    return_key = datastore_client.key('clink', int(request.json['clink']))
+    return_clink = datastore_client.get(return_key)
+    return clink_entity_to_return(return_clink), 200  
+
 @app.route('/apis/fetch-clinks/<string:user_id>', methods=['GET'])
 def fetch_clinks(user_id):
     clink_ids = list(datastore_client.query(kind='user_read_map').add_filter('user_id', '=', int(user_id)).fetch())
@@ -418,6 +431,9 @@ def fetch_bookmarks(clink_id):
                 to_return.append(bookmark_entity_to_return(bookmark))              
             return jsonify(to_return), 200
         else:
+            new_query = datastore_client.query(kind='bookmark').add_filter('deleted', '=', False)
+            new_query.order = ['created']
+            all_list = list(new_query.fetch())
             bookmark_ids = list(datastore_client.query(kind='bookmark_clink_map').add_filter('clink_id', '=', int(clink_id)).fetch())
             to_return = []    
 
@@ -598,7 +614,7 @@ def delete_bookmark():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid Authorization. Failed to edit bookmark.'
+            'message': 'Invalid Authorization. Failed to delete bookmark.'
         }
         return response_object, 401
 
@@ -621,13 +637,13 @@ def delete_clink():
     else: 
         response_object = {
             'status': 'fail',
-            'message': 'Invalid Authorization. Failed to edit clink.'
+            'message': 'Invalid Authorization. Failed to delete clink.'
         }
         return response_object, 401
 
 # write access api
 def has_write_access(clink_id, user_id):
-    access = clink_id == "All" or list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))[0]
+    access = clink_id == "All" or list(datastore_client.query(kind='user_write_map').add_filter('clink_id', '=', int(clink_id)).add_filter('user_id', '=', int(user_id)).fetch(limit=1))
     return bool(access)
 
 # routing

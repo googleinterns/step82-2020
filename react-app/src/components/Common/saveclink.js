@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addReadMap } from '../../features/clink'
+import { addReadMap, unsave } from '../../features/clink'
 import 'antd/dist/antd.css';
 import '../../index.css';
 import { EllipsisOutlined } from '@ant-design/icons';
@@ -10,25 +10,37 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const SaveClinkMenu = (props) => {
 
+  const currentToken = localStorage.getItem('currentToken');
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.users.currentUser)
   const { confirm } = Modal;
 
-  const menu = (
+  var menu = (
     <Menu>
       <Menu.Item key="save" onClick={showConfirm}>
-        Save
+        {props.display === "unsave" ? 'Unsave' : 'Save'}
       </Menu.Item>
     </Menu>  
   );
+  var titleText = 'Do you want to save this clink?';
+  var contentText = 'You will have read access to this clink.';
 
+  if (props.display === "unsave") {
+    titleText = 'Do you want to unsave this clink?';
+    contentText = 'You will not have read access to this clink anymore.';
+  }
+  
   function showConfirm() {
     confirm({
-      title: 'Do you want to save this clink?',
+      title: titleText,
       icon: <ExclamationCircleOutlined />,
-      content: 'You will have read access to this clink.',
+      content: contentText,
       onOk() {
-        return dispatch(addReadMap(props.clink, currentUser));
+        if (props.display === "unsave") {
+          return dispatch(unsave(props.clink, currentUser))
+        } else {
+          return dispatch(addReadMap(currentToken, props.clink, currentUser));
+        }
       },
       onCancel() {},
     });

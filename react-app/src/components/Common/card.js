@@ -18,7 +18,7 @@ const Card = () => {
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const isCurrentUserFetched = useSelector(state => state.users.isCurrentUserFetched);
   const clinkId = useSelector(state => state.clink.currentClinkId);
-
+  const title = useSelector(state => state.clink.currentClinkTitle)
   const dispatch = useDispatch();
   const history = useHistory();
 

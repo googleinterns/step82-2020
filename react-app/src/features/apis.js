@@ -27,6 +27,7 @@ const SHARE_CLINK_URL = `${BASE_URL}/share-clink`;
 const UNSHARE_CLINK_URL = `${BASE_URL}/unshare-clink`;
 const FETCH_USERNAME_URL = `${BASE_URL}/fetch-username`;
 const ADD_READ_MAP_URL = `${BASE_URL}/add-readmap`;
+const UNSAVE_CLINK_URL = `${BASE_URL}/unsave-clink`;
 
 const signUp = (email, username, password) => axios.post(SIGNUP_URL, {
   email: email,
@@ -63,6 +64,10 @@ const addBookmark = (link, title, description, clink, token) => axios.post(ADD_B
 });
 
 const addReadMap = (clinkId, userId) => axios.post(`${ADD_READ_MAP_URL}/${userId}`, {
+  clink: clinkId
+});
+
+const unsaveClink = (clinkId, userId) => axios.post(`${UNSAVE_CLINK_URL}/${userId}`, {
   clink: clinkId
 });
 
@@ -135,7 +140,7 @@ const deleteClink = (clinkId, token) => axios.post(DELETE_CLINK_URL, {
 });
 
 export default {
-  signUp, login, logout, 
+  signUp, login, logout, unsaveClink,
   checkUser, addClink, addBookmark, 
   fetchClinks, fetchWriteClinks, fetchBookmarks,
   fetchUsername, addReadMap, fetchPublicClinks,

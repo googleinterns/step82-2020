@@ -16,12 +16,12 @@ const { Search } = Input;
 const Topbar = () => {
 
   const currentToken = localStorage.getItem('currentToken');
-  const title = useSelector(state => state.clink.currentClinkTitle);
+  var title = useSelector(state => state.clink.currentClinkTitle);
   const history = useHistory();
   const currentUser = useSelector(state => state.users.currentUser)
   const bookmarks = useSelector(state => state.clink.bookmarks);
   const clinks = useSelector(state => state.clink.clinks);
-  
+  const writeClinks = useSelector(state => state.clink.writeClinks);
   const dispatch = useDispatch();
   const param = useParams();
   const loc = useLocation();
@@ -32,6 +32,10 @@ const Topbar = () => {
     dispatch(logOut(currentToken));
     dispatch(clearClinksAndBookmarks());
   };
+
+  if (param.clinkId === "All") {
+    title = "All";
+  }
 
   if (parseInt(param.userId) === parseInt(currentUser)) {
     username = "My "
@@ -51,13 +55,16 @@ const Topbar = () => {
       </Menu.Item>
     </Menu>
   );
-
-  let menuDisplay = <ClinkMenu key={title} title={title} />;
+  
+  const filtered = writeClinks.filter(item => parseInt(item.id) === parseInt(param.clinkId));
+  let menuDisplay = <ClinkMenu key={param.id} />;
   if (title === "All" || title === "User Page") {
     menuDisplay = <div />
   } else if (param.userId) {
-    menuDisplay = <SaveClinkMenu key={title} />;
-  }
+    menuDisplay = <SaveClinkMenu clink={param.clinkId} />;
+  } else if (!param.userId && filtered.length === 0) {
+    menuDisplay = <SaveClinkMenu clink={param.clinkId} display="unsave"/>;
+  } 
 
   const [options, setOptions] = useState([]);
 

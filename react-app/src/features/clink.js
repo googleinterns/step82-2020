@@ -220,13 +220,26 @@ export const addBookmark = (link, title, description, clink, token, callbackSucc
   }
 };
 
-export const addReadMap = (clinkId, userId) => async dispatch => {
+export const addReadMap = (token, clinkId, userId) => async dispatch => {
   try {
     dispatch(addClinkStart());
-    const response = await apis.addReadMap(clinkId, userId); 
+    const response = await apis.addReadMap(clinkId, userId);
+    await apis.fetchBookmarks(token, clinkId);
     dispatch(addClinkSucceed(response.data));
   } catch (err) {
     dispatch(addClinkFailed(err.response.data.message));
+  }
+}
+
+export const unsave = (clinkId, userId) => async dispatch => {
+  try {
+    dispatch(deleteClinkStart)
+    const response = await apis.unsaveClink(clinkId, userId);
+    dispatch(deleteClinkSucceed(response.data));
+    dispatch(changeCurrClink('All'));
+    dispatch(changeTitle('All'));
+  } catch (err) {
+    dispatch(deleteClinkFailed(err.response.data.message));
   }
 }
 
@@ -270,13 +283,14 @@ export const fetchBookmarks = (token, id) => async dispatch => {
   }
 };
 
-export const editBookmark = (link, title, description, clinkId, bookmarkId, token) => async dispatch => {
+export const editBookmark = (link, title, description, clinkId, bookmarkId, token, callbackFailed) => async dispatch => {
   try {
     dispatch(editBookmarkStart());
     const response = await apis.editBookmark(link, title, description, clinkId, bookmarkId, token);
     dispatch(editBookmarkSucceed(response.data));
   } catch (err) {
     dispatch(editBookmarkFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 };
 
@@ -293,13 +307,14 @@ export const editClink = (title, clinkId, token, users) => async dispatch => {
   }
 };
 
-export const deleteBookmark = (clinkId, bookmarkId, token) => async dispatch => {
+export const deleteBookmark = (clinkId, bookmarkId, token, callbackFailed) => async dispatch => {
   try {
     dispatch(deleteBookmarkStart());
     const response = await apis.deleteBookmark(clinkId, bookmarkId, token);
     dispatch(deleteBookmarkSucceed(response.data));
   } catch (err) {
     dispatch(deleteBookmarkFailed(err.response.data.message));
+    callbackFailed(err.response.data.message);
   }
 };
 
