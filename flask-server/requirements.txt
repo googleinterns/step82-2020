@@ -8,7 +8,7 @@ click==7.1.2
 cryptography==2.9.2
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 gcloud==0.18.3
 google==2.0.3
 google-api-core==1.22.0
