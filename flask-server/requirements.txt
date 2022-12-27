@@ -36,7 +36,7 @@ PyJWT==1.7.1
 pytz==2020.1
 requests==2.24.0
 rsa==4.6
-setuptools==40.3.0
+setuptools==65.5.1
 six==1.15.0
 soupsieve==2.0.1
 urllib3==1.25.10
